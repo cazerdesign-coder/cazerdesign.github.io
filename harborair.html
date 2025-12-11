@@ -1,140 +1,469 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>*WIP* Harbor Air - Sam Cazer</title>
+    <title>HarborAir - Sam Cazer</title>
     <link rel="stylesheet" href="stylesheet.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Force left alignment for all case study content */
+        .case-study-section,
+        .case-study-section p,
+        .case-study-section h2,
+        .case-study-section h3,
+        .case-study-section ul,
+        .case-study-section li,
+        .highlight-box,
+        .highlight-box p,
+        .highlight-box h3,
+        .highlight-box ul,
+        .highlight-box li {
+            text-align: left !important;
+        }
+    </style>
+
 </head>
+
 <body>
     <nav>
-    <div class="container">
-        <div class="logo">
-            <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
-                <img src="images/logo.svg" class="logo-image">
-                <span class="logo-text">cazerdesign</span>
-            </a>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"
+                    style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
+                    <img src="images/logo.svg" class="logo-image">
+                    <span class="logo-text">cazerdesign</span>
+                </a>
+            </div>
+            <ul id="nav-menu">
+                <li><a href="index.html" class="nav-link" style="text-decoration: none; color: inherit;">Home</a></li>
+                <li><a href="index.html#work" class="nav-link" style="text-decoration: none; color: inherit;">Work</a></li>
+                <li><a href="play.html" class="nav-link" style="text-decoration: none; color: inherit;">Play</a></li>
+                <li><a href="about.html" class="nav-link" style="text-decoration: none; color: inherit;">About</a></li>
+                <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link"
+                        style="text-decoration: none; color: inherit;">Resume</a></li>
+            </ul>
         </div>
-        <ul id="nav-menu">
-            <li><a href="index.html" class="nav-link" style="text-decoration: none; color: inherit;">Home</a></li>
-            <li><a href="index.html#work" class="nav-link" style="text-decoration: none; color: inherit;">Work</a></li>
-            <li><a href="play.html" class="nav-link" style="text-decoration: none; color: inherit;">Play</a></li>
-            <li><a href="about.html" class="nav-link" style="text-decoration: none; color: inherit;">About</a></li>
-            <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link" style="text-decoration: none; color: inherit;">Resume</a></li>
-        </ul>
-    </div>
-</nav>
+    </nav>
 
     <section style="max-width: 900px; margin: 0 auto; padding: 5rem 5%;">
+        <!-- Header -->
         <div class="case-study-header">
-            <h1>*WIP* Harbor Air</h1>
-            <p style="font-size: 1.3rem; color: var(--text-light); margin-top: 1rem;">Planting seeds for better patient care</p>
+            <h1>Harbor Air</h1>
+            <p style="font-size: 1.3rem; color: var(--text-light); margin-top: 1rem;">
+                Reimagining the regional airline booking experience
+            </p>
             <div class="meta">
                 <div class="meta-item">
                     <strong>Role</strong>
-                    <span>Design Systems</span>
-                    <span>UI Design</span>
+                    <span>UX/UI Designer</span>
                 </div>
                 <div class="meta-item">
                     <strong>Timeline</strong>
-                    <span>4 months</span>
+                    <span>8 Weeks</span>
                 </div>
                 <div class="meta-item">
                     <strong>Team</strong>
-                    <span>Sam Cazer</span>
+                    <span>Solo Project</span>
                 </div>
             </div>
         </div>
 
-        <img src="images/Thumbnail.png"  class="case-study-hero">
+        <!-- Hero Image -->
+        <img src="images/Thumbnail.png" class="case-study-hero" alt="Flow Airlines Project">
 
-        <div class="case-study-section">
-            <h2>Planting the Seeds</h2>
-            <p>Harbor Air is a small regional airline located in New England. The airline was looking to create an online booking site with a modern, trustworthy experience that reflected the charm and reliability of a local business.</p>
+        <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin: 2rem 0;">
+               <a href="https://www.figma.com/design/DbUPZTlBIWxuXuOsKMe0Wp/Design?node-id=248-2800&t=PHwi89QRoAndJ7oN-1" target="_blank" class="cta-button cta-primary">View Prototype</a>
+                <a href="https://www.figma.com/design/qBJ1u28RukS8mC4kSLMHm8/Flow-System---Harbor-Air-Design-System-Final?node-id=2001-5249&t=PRSscd3AGpk20Rl0-1" target="_blank" class="cta-button cta-secondary">View Design System</a>
+            </div>
+
+        <!-- Overview -->
+        <div class="case-study-section" style="text-align: left;">
+            <h2>Streamlined Booking for New England</h2>
+            <p>
+                Regional airlines struggle with complex booking interfaces that overwhelm users. HarborAir needed a streamlined experience that makes booking quick and intuitive for New England travelers. This project encompasses both the booking flow and a comprehensive design system built for scalability and consistency.
+            </p>
         </div>
 
-        <div class="case-study-section">
-            <h2>The Goal</h2>
-            <p>Create a visually pleasing and intuitive booking platform with a cohesive and easy-to-apply design system</p>
-            
+        <!-- The Challenge -->
+        <div class="case-study-section" style="text-align: left;">
+            <h2>The Challenge</h2>
+            <p>
+                While researching for this project, I found that there were three major issues in existing airline booking experiences:
+            </p>
+
             <div class="highlight-box">
                 <h3>Key Problems</h3>
                 <ul>
-                    <li>Unintuitive with confusing navigation</li>
-                    <li>Not user friendly</li>
-                    <li>Visually outdated and overly dense with information</li>
-                    <li>Inconsistent styles with buttons and layouts</li>
+                    <li><strong>Overwhelming interfaces:</strong> Too much information presented at once creates decision paralysis and increases booking abandonment rates.</li>
+                    <li><strong>Unclear progress tracking:</strong> Users don't know how many steps remain or where they are in the booking process, leading to frustration.</li>
+                    <li><strong>Generic branding:</strong> Regional airlines lack distinctive visual identity, making it hard to build trust and brand recognition with local travelers.</li>
                 </ul>
             </div>
         </div>
 
+        <!-- Research & Discovery -->
         <div class="case-study-section">
             <h2>Research & Discovery</h2>
-            <p>I started this project by perfecorming competitive analysis of other airline design systems and booking platforms</p>
-            <p>competetive analysis</p>
+            <p>To understand how to create this booking experience, I looked at:</p>
+
+            <!-- Competitive Analysis -->
+            <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Competitive Analysis</h3>
+            <p>I analyzed major airline booking platforms including Southwest, JetBlue, and Delta to understand common patterns and pain points.</p>
+
+            <h4 style="font-size: 1.2rem; margin: 2rem 0 1rem; font-weight: 600; color: var(--earth-brown);">What Works</h4>
+            <!-- <img src="images/flow-competitive-good.jpg" alt="Successful airline booking patterns" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);"> -->
+
+            <ul>
+                <li>Clear progress indicators showing steps completed and remaining</li>
+                <li>Logical information hierarchy with primary actions emphasized</li>
+                <li>Mobile-responsive designs that adapt to different screen sizes</li>
+            </ul>
+
+            <h4 style="font-size: 1.2rem; margin: 2rem 0 1rem; font-weight: 600; color: var(--earth-brown);">What Doesn't Work</h4>
+            <!-- <img src="images/flow-competitive-bad.jpg" alt="Common airline booking pain points" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);"> -->
+
+            <ul>
+                <li>Too many options and upsells creating decision fatigue</li>
+                <li>Inconsistent button styling and unclear CTAs</li>
+                <li>Hidden fees and confusing pricing breakdowns</li>
+            </ul>
+
+            <!-- Brand Identity -->
+            <h3 style="font-size: 1.4rem; margin: 3rem 0 1rem; font-weight: 700; color: var(--soil);">New England Regional Identity</h3>
+            <p>I explored New England's visual culture, coastal landscapes, and local character to inform the design direction that would resonate with regional travelers.</p>
             <div class="image-grid">
-                <div class="image-placeholder">📊</div>
-                <div class="image-placeholder">🔍</div>
-                <div class="image-placeholder">💡</div>
+                <img src="images/NE1.jpeg" alt="New England coastal imagery" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+                <img src="images/NE2.jpeg" alt="Modern regional aesthetic" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
             </div>
-            <p>smth about figuring out flight times and paths</p>
-            <p>smth about inspiration</p>
-             <p>smth about user flow</p>
         </div>
 
+        <!-- Goals -->
+        <div class="case-study-section" style="text-align: left;">
+            <h2>Goals</h2>
+            <p>After conducting my research, I created a list of my core goals for this project:</p>
+            <div class="highlight-box">
+                <ul>
+                    <li><strong>Progressive disclosure:</strong> Break the booking process into manageable steps that don't overwhelm users</li>
+                    <li><strong>Clear wayfinding:</strong> Users should always know where they are and how many steps remain</li>
+                    <li><strong>Distinctive branding:</strong> Create a visual identity that feels modern, trustworthy, and regionally connected</li>
+                    <li><strong>Scalable system:</strong> Build a design system that can grow with the product</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Design Process -->
         <div class="case-study-section">
-            <h2>Design & Cultivation</h2>
-            <p>smth about wireframes</p>
+            <h2>Design Process</h2>
+            <p>I broke down the booking flow into six clear steps, each focused on a single decision point.</p>
+
+            <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Booking Flow Structure</h3>
+            <!-- <img src="images/flow-structure.jpg" alt="Six-step booking flow diagram" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);"> -->
+            
+            <ul>
+                <li><strong>Location:</strong> Select departure and destination cities</li>
+                <li><strong>Dates:</strong> Choose travel dates</li>
+                <li><strong>Time:</strong> Pick departure times</li>
+                <li><strong>Review:</strong> Confirm flight details</li>
+                <li><strong>Pay:</strong> Enter payment information</li>
+                <li><strong>Confirm:</strong> Receive booking confirmation</li>
+            </ul>
+
+                        <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Booking Flow Structure</h3>
+            <p> I also learned how to plan out Flight times, patterns, and codes. I did this by deciding there were three planes in total and four possible destinations.</p>
+
             <div class="image-grid">
-                <div class="image-placeholder">✏️</div>
-                <div class="image-placeholder">🎨</div>
+                <img src="images/Flights1.png" alt="New England coastal imagery" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+                <img src="images/Flights2.png" alt="Modern regional aesthetic" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
             </div>
-            <p>design iteration 2</p>
-            <div class="image-grid">
-                <div class="image-placeholder">✏️</div>
-                <div class="image-placeholder">🎨</div>
-            </div>
-            
+
         </div>
 
+        <!-- Visual Design -->
         <div class="case-study-section">
-            <h2>Final Product</h2>
-            <p>The final design...</p>
-            
-            <div class="image-placeholder" style="height: 400px; margin: 2rem 0; font-size: 6rem;">🌻</div>
-         <p>prototype video</p>
+            <h2>Visual Design Exploration</h2>
+            <p>I developed a distinctive visual language using gradients, large corner radius, and decorative elements that reference New England's coastal character.</p>
+
+            <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Landing Page</h3>
+            <p>The hero section establishes the brand with gradient typography and a clear call-to-action.</p>
+            <img src="images/1 Pick Flights.png" alt="Flow Airlines landing page" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+
+            <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Location Selection</h3>
+            <p>A split-screen layout with distinctive visual zones for departure and destination creates clear separation while the progress bar keeps users oriented.</p>
+            <img src="images/2 Pick Flights.png" alt="Location selection screen" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+
+            <!-- <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Passengers & Baggage</h3>
+            <p>Simple counter interfaces with large touch targets make selections quick and error-free.</p> -->
+            <!-- <img src="images/flow-passengers.jpg" alt="Passengers and baggage screen" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);"> -->
         </div>
 
+        <!-- Design System -->
+        <div class="case-study-section flow-section">
+            <h2 style="font-family: 'Kanit', sans-serif;">Design System</h2>
+            <p>I created a comprehensive design system with many components to ensure consistency and enable future scaling.</p>
 
-         <div class="case-study-section">
-            <h2>Design System</h2>
-            <p>The design system...</p>
+            <h3 style="font-family: 'Kanit', sans-serif;">Design Tokens</h2>
+                <img src="images/DesignTokens.png" alt="Location selection screen" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+
+
+            <h3 style="font-family: 'Kanit', sans-serif;">Figma Variables</h2>
+                <div class="image-grid">
+                    <img src="images/Variables1.png" alt="New England coastal imagery" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+                    <img src="images/Variables2.png" alt="Modern regional aesthetic" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+                    <img src="images/Variables3.png" alt="Modern regional aesthetic" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+                    <img src="images/Variables4.png" alt="Modern regional aesthetic" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+
+                </div>
+                
+
+            <!-- Color Palette -->
+            <!-- <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; font-family: 'Kanit', sans-serif;">Color Palette</h3>
+            <p>A bold gradient system combining Primary Blue, Secondary Purple, and Accent Cyan creates distinctive brand recognition.</p>
             
-            <div class="image-placeholder" style="height: 400px; margin: 2rem 0; font-size: 6rem;">🌻</div>
-         <p>prototype video</p>
-        </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin: 2rem 0;"> -->
+                <!-- Primary Blue -->
+                <!-- <div>
+                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem;">Primary Blue</h4>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <div style="background: #E3EDFF; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#E3EDFF - 50</div>
+                        <div style="background: #C7DBFF; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#C7DBFF - 100</div>
+                        <div style="background: #8FB9FF; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#8FB9FF - 200</div>
+                        <div style="background: #5797FF; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#5797FF - 300</div>
+                        <div style="background: #3067E5; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white; font-weight: 600;">#3067E5 - 400</div>
+                        <div style="background: #2654B8; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white;">#2654B8 - 500</div>
+                    </div>
+                </div> -->
 
+                <!-- Secondary Purple -->
+                <!-- <div>
+                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem;">Secondary Purple</h4>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <div style="background: #EAE3FF; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#EAE3FF - 50</div>
+                        <div style="background: #D5C7FF; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#D5C7FF - 100</div>
+                        <div style="background: #AB8FFF; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#AB8FFF - 200</div>
+                        <div style="background: #8157FF; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white;">#8157FF - 300</div>
+                        <div style="background: #522FF0; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white; font-weight: 600;">#522FF0 - 400</div>
+                        <div style="background: #4226B8; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white;">#4226B8 - 500</div>
+                    </div>
+                </div> -->
 
+                <!-- Accent Cyan -->
+                <!-- <div>
+                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem;">Accent Cyan</h4>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <div style="background: #E3FFFE; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#E3FFFE - 50</div>
+                        <div style="background: #C7FFFD; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#C7FFFD - 100</div>
+                        <div style="background: #8FFFFA; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#8FFFFA - 200</div>
+                        <div style="background: #57FFF7; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#57FFF7 - 300</div>
+                        <div style="background: #2FE0F0; padding: 1rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600;">#2FE0F0 - 400</div>
+                        <div style="background: #26B8C4; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white;">#26B8C4 - 500</div>
+                    </div>
+                </div> -->
 
-        <div class="case-study-section">
-            <h2>Impact & Growth</h2>
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-number">45%</div>
-                    <div class="stat-label">Increase in Conversions</div>
+                <!-- Error Red -->
+                <!-- <div>
+                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem;">Error Red</h4>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <div style="background: #FFE3E8; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#FFE3E8 - 50</div>
+                        <div style="background: #FFC7D3; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#FFC7D3 - 100</div>
+                        <div style="background: #FF8FA7; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#FF8FA7 - 200</div>
+                        <div style="background: #FF577B; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white;">#FF577B - 300</div>
+                        <div style="background: #F04B6B; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white; font-weight: 600;">#F04B6B - 400</div>
+                        <div style="background: #B83850; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white;">#B83850 - 500</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number">60%</div>
-                    <div class="stat-label">Faster Task Completion</div>
+            </div> -->
+
+            <!-- Typography -->
+            <!-- <h3 style="font-size: 1.4rem; margin: 3rem 0 1rem; font-weight: 700; font-family: 'Kanit', sans-serif;">Typography</h3>
+            <p>Kanit font family provides a modern, geometric feel that complements the bold visual system.</p>
+            
+            <div style="margin: 2rem 0; padding: 2rem; background: #F8F8F8; border-radius: 16px;">
+                <div style="font-family: 'Kanit', sans-serif; font-size: 3rem; font-weight: 700; margin-bottom: 1rem;">Heading 1 • 48px Bold</div>
+                <div style="font-family: 'Kanit', sans-serif; font-size: 2.25rem; font-weight: 600; margin-bottom: 1rem;">Heading 2 • 36px Semibold</div>
+                <div style="font-family: 'Kanit', sans-serif; font-size: 1.5rem; font-weight: 500; margin-bottom: 1rem;">Heading 3 • 24px Medium</div>
+                <div style="font-family: 'Kanit', sans-serif; font-size: 1rem; font-weight: 400; margin-bottom: 1rem;">Body • 16px Regular</div>
+                <div style="font-family: 'Kanit', sans-serif; font-size: 0.875rem; font-weight: 300; color: #666;">Caption • 14px Light</div>
+            </div> -->
+
+            <!-- Spacing System -->
+            <!-- <h3 style="font-size: 1.4rem; margin: 3rem 0 1rem; font-weight: 700; font-family: 'Kanit', sans-serif;">Spacing System</h3>
+            <p>Consistent spacing creates visual rhythm and hierarchy throughout the interface.</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                <div style="background: #3067E5; height: 4px; border-radius: 2px;"></div>
+                <div style="text-align: center; font-size: 0.875rem; margin-top: -0.5rem;">4px</div>
+                
+                <div style="background: #3067E5; height: 8px; border-radius: 4px;"></div>
+                <div style="text-align: center; font-size: 0.875rem; margin-top: -0.5rem;">8px</div>
+                
+                <div style="background: #3067E5; height: 16px; border-radius: 8px;"></div>
+                <div style="text-align: center; font-size: 0.875rem; margin-top: -0.5rem;">16px</div>
+                
+                <div style="background: #3067E5; height: 24px; border-radius: 12px;"></div>
+                <div style="text-align: center; font-size: 0.875rem; margin-top: -0.5rem;">24px</div>
+                
+                <div style="background: #3067E5; height: 32px; border-radius: 16px;"></div>
+                <div style="text-align: center; font-size: 0.875rem; margin-top: -0.5rem;">32px</div>
+                
+                <div style="background: #3067E5; height: 48px; border-radius: 24px;"></div>
+                <div style="text-align: center; font-size: 0.875rem; margin-top: -0.5rem;">48px</div>
+                
+                <div style="background: #3067E5; height: 64px; border-radius: 32px;"></div>
+                <div style="text-align: center; font-size: 0.875rem; margin-top: -0.5rem;">64px</div>
+            </div> -->
+
+            <!-- Border Radius -->
+            <!-- <h3 style="font-size: 1.4rem; margin: 3rem 0 1rem; font-weight: 700; font-family: 'Kanit', sans-serif;">Border Radius</h3>
+            <p>From subtle 4px rounds to the signature 120px corners that define the brand.</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 2rem; margin: 2rem 0;">
+                <div>
+                    <div style="background: linear-gradient(135deg, #3067E5, #522FF0); height: 80px; border-radius: 4px; margin-bottom: 0.5rem;"></div>
+                    <div style="text-align: center; font-size: 0.875rem;">4px</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number">4.8/5</div>
-                    <div class="stat-label">User Satisfaction Score</div>
+                <div>
+                    <div style="background: linear-gradient(135deg, #3067E5, #522FF0); height: 80px; border-radius: 8px; margin-bottom: 0.5rem;"></div>
+                    <div style="text-align: center; font-size: 0.875rem;">8px</div>
+                </div>
+                <div>
+                    <div style="background: linear-gradient(135deg, #3067E5, #522FF0); height: 80px; border-radius: 16px; margin-bottom: 0.5rem;"></div>
+                    <div style="text-align: center; font-size: 0.875rem;">16px</div>
+                </div>
+                <div>
+                    <div style="background: linear-gradient(135deg, #3067E5, #522FF0); height: 80px; border-radius: 24px; margin-bottom: 0.5rem;"></div>
+                    <div style="text-align: center; font-size: 0.875rem;">24px</div>
+                </div>
+                <div>
+                    <div style="background: linear-gradient(135deg, #3067E5, #522FF0); height: 80px; border-radius: 120px; margin-bottom: 0.5rem;"></div>
+                    <div style="text-align: center; font-size: 0.875rem; font-weight: 600;">120px Signature</div>
+                </div>
+            </div> -->
+
+            <!-- Component Library -->
+            <!-- <h3 style="font-size: 1.4rem; margin: 3rem 0 1rem; font-weight: 700; font-family: 'Kanit', sans-serif;">Component Library</h3>
+            <p>35+ reusable components designed for the booking experience.</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin: 2rem 0;"> -->
+                <!-- Primary Button -->
+                <!-- <div>
+                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem; font-size: 1rem;">Primary Button</h4>
+                    <button style="background: linear-gradient(135deg, #3067E5, #522FF0); color: white; border: none; padding: 1rem 2rem; border-radius: 120px; font-family: 'Kanit', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%;">Book Flight</button>
+                </div> -->
+
+                <!-- Secondary Button -->
+                <!-- <div>
+                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem; font-size: 1rem;">Secondary Button</h4>
+                    <button style="background: white; color: #3067E5; border: 2px solid #3067E5; padding: 1rem 2rem; border-radius: 120px; font-family: 'Kanit', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%;">Learn More</button>
+                </div> -->
+
+                <!-- Text Input -->
+                <!-- <div>
+                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem; font-size: 1rem;">Text Input</h4>
+                    <input type="text" placeholder="Enter city" style="width: 100%; padding: 1rem; border: 2px solid #3067E5; border-radius: 16px; font-family: 'Kanit', sans-serif; font-size: 1rem; box-sizing: border-box;">
+                </div> -->
+
+                <!-- Alert - Success -->
+                <!-- <div>
+                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem; font-size: 1rem;">Success Alert</h4>
+                    <div style="background: #E3FFFE; border-left: 4px solid #2FE0F0; padding: 1rem; border-radius: 8px; font-family: 'Kanit', sans-serif;">
+                        <div style="font-weight: 600; margin-bottom: 0.25rem;">Booking Confirmed</div>
+                        <div style="font-size: 0.875rem; color: #666;">Your flight is confirmed</div>
+                    </div>
+                </div> -->
+
+                <!-- Alert - Error -->
+                <!-- <div>
+                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem; font-size: 1rem;">Error Alert</h4>
+                    <div style="background: #FFE3E8; border-left: 4px solid #F04B6B; padding: 1rem; border-radius: 8px; font-family: 'Kanit', sans-serif;">
+                        <div style="font-weight: 600; margin-bottom: 0.25rem;">Payment Failed</div>
+                        <div style="font-size: 0.875rem; color: #666;">Please check your card</div>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Flight Card Component -->
+            <!-- <h3 style="font-size: 1.4rem; margin: 3rem 0 1rem; font-weight: 700; font-family: 'Kanit', sans-serif;">Flight Card Component</h3>
+            <p>The flight selection card displays all essential information in a scannable horizontal layout.</p>
+            
+            <div style="max-width: 600px; margin: 2rem auto;">
+                <div style="background: #F5F5F5; border: 2px solid #E0E0E0; border-radius: 16px; padding: 1.5rem; display: flex; align-items: center; gap: 2rem;"> -->
+                    <!-- Radio Button -->
+                    <!-- <div style="width: 24px; height: 24px; border: 2px solid #CCCCCC; border-radius: 50%; flex-shrink: 0;"></div> -->
+                    
+                    <!-- Flight Number -->
+                    <!-- <div style="flex-shrink: 0;">
+                        <div style="font-size: 0.875rem; color: #666; margin-bottom: 0.25rem;">Flight</div>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: #000; font-family: 'Kanit', sans-serif;">1432</div>
+                    </div> -->
+                    
+                    <!-- From Section -->
+                    <!-- <div style="flex: 1;">
+                        <div style="font-size: 0.875rem; color: #666; margin-bottom: 0.25rem;">From</div>
+                        <div style="font-size: 1.25rem; font-weight: 600; color: #000; margin-bottom: 0.25rem; font-family: 'Kanit', sans-serif;">city</div>
+                        <div style="font-size: 0.875rem; color: #666;">Depart 6:30 AM</div>
+                        <div style="font-size: 0.875rem; color: #666;">Board 6:10 AM</div>
+                    </div> -->
+                    
+                    <!-- To Section -->
+                    <!-- <div style="flex: 1;">
+                        <div style="font-size: 0.875rem; color: #666; margin-bottom: 0.25rem;">To</div>
+                        <div style="font-size: 1.25rem; font-weight: 600; color: #000; margin-bottom: 0.25rem; font-family: 'Kanit', sans-serif;">city</div>
+                        <div style="font-size: 0.875rem; color: #666;">Arrive 7:16 AM</div>
+                    </div>
                 </div>
             </div>
+        </div> -->
+
+        <!-- Final Design & Prototype -->
+        <div class="case-study-section" style="text-align: left;">
+            <h2>Final Design & Prototype</h2>
+            <p>
+                The final design is a progressive multi-step booking flow with clear visual hierarchy and distinctive branding. The six-step process—Location, Dates, Time, Review, Pay, Confirm—breaks down complexity into manageable decisions. Each screen features the persistent progress indicator, large touch-friendly targets, and decorative elements like cityscape illustrations that reinforce the New England regional focus.
+            </p>
+            <p>
+                The bold gradient system, signature 120px corner radius, and Kanit typography create a modern, trustworthy identity that stands out in the regional airline market. The comprehensive design system ensures consistency across all touchpoints and enables efficient scaling as the product grows.
+            </p>
+
+           
+            <!-- Video Section -->
+<div style="margin: 3rem 0;">
+    <h3 style="font-size: 1.4rem; margin-bottom: 1rem; font-weight: 700; font-family: 'Kanit', sans-serif;">Prototype Walkthrough</h3>
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 16px; box-shadow: 0 10px 30px rgba(48, 103, 229, 0.15);">
+        <video 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 16px;" 
+            controls 
+            poster="images/Prototype-Recording.mov">
+            <source src="videos/flow-prototype.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+ <!-- Links to Figma Files -->
+            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin: 2rem 0;">
+               <a href="https://www.figma.com/design/DbUPZTlBIWxuXuOsKMe0Wp/Design?node-id=248-2800&t=PHwi89QRoAndJ7oN-1" target="_blank" class="cta-button cta-primary">View Prototype</a>
+                <a href="https://www.figma.com/design/qBJ1u28RukS8mC4kSLMHm8/Flow-System---Harbor-Air-Design-System-Final?node-id=2001-5249&t=PRSscd3AGpk20Rl0-1" target="_blank" class="cta-button cta-secondary">View Design System</a>
+            </div>
+            <!-- <img src="images/flow-final-screens.jpg" alt="Final Flow Airlines screens" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);"> -->
         </div>
 
-        <div class="case-study-section" style="text-align: center; margin-top: 5rem;">
+        <!-- Takeaways -->
+        <div class="case-study-section" style="text-align: left;">
+            <h2>Final Takeaways</h2>
+            <p>This project taught me valuable lessons about creating cohesive digital experiences:</p>
+            <ul>
+                <li><strong>Progressive disclosure reduces cognitive load</strong> — Breaking complex flows into single-decision steps dramatically improves completion rates</li>
+                <li><strong>Design systems enable consistency at scale</strong> — Investing time in systematic component design pays dividends as products grow</li>
+                <li><strong>Distinctive visual identity builds trust</strong> — The signature 120px radius and gradient system created immediate brand recognition</li>
+                <li><strong>Research informs better decisions</strong> — Competitive analysis revealed patterns to follow and pitfalls to avoid</li>
+            </ul>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="case-study-section" style="margin-top: 5rem;">
             <h2>Explore More</h2>
             <p style="margin-bottom: 2rem;">Want to see what else is growing in the garden?</p>
             <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
@@ -151,11 +480,11 @@
       <p class="footer-tagline">Thanks for visiting my Design Garden</p>
       <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
       <div class="footer-links">
-        <a href="mailto:sam@cazerdesign.com">Email</a>
+        <a href="/cdn-cgi/l/email-protection#14777b7a607577605467757977756e71663a777b79">Email</a>
         <a href="https://www.linkedin.com/in/samcazer">LinkedIn</a>
       </div>
-    </div>
-  </div>
-</footer>
+      </footer>
 </body>
+
 </html>
+  
