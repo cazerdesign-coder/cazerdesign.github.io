@@ -7,8 +7,8 @@
 video {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: 12px;
+    object-fit: cover; /* or contain */
+    border-radius: 12px; /* if you want rounded corners */
 }
 
 :root {
@@ -57,7 +57,7 @@ nav {
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 1rem 5%;
+    padding: 1rem 5%; /* Fixed the typo - was "1rem 5% orem" */
     backdrop-filter: blur(20px);
     background: rgba(255, 255, 255, 0.95);
     z-index: 1000;
@@ -152,17 +152,18 @@ nav a:hover::after, nav button.nav-link:hover::after {
 
 /* Hero Section */
 .hero {
-    min-height: auto;
+    min-height: 85vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5rem 5% 3rem;
+    padding: 4rem 5% 0%; /* Remove bottom padding */
     position: relative;
 }
 
-/* Work section sits naturally right below hero */
+/* Then add this */
 #work {
-    padding-top: 2rem !important;
+     margin-top: -10% !important;
+    padding: 0 5% 5rem 5% !important;
 }
 
 .hero-content {
@@ -176,7 +177,7 @@ nav a:hover::after, nav button.nav-link:hover::after {
 }
 
 .hero-text {
-    text-align: center;
+    text-align: left;
 }
 
 .hero-text .eyebrow {
@@ -188,7 +189,6 @@ nav a:hover::after, nav button.nav-link:hover::after {
     margin-bottom: 1rem;
 }
 
-/* Hero text spacing â€” from CSS1: tighter margins */
 .hero h1 {
     font-size: clamp(3rem, 8vw, 7rem);
     font-weight: 800;
@@ -209,7 +209,7 @@ nav a:hover::after, nav button.nav-link:hover::after {
     font-size: clamp(1.3rem, 3vw, 2rem);
     font-weight: 600;
     color: var(--text);
-    margin-bottom: .5rem; /* CSS1: tighter */
+    margin-bottom: .5rem;
     line-height: 1.3;
 }
 
@@ -225,7 +225,7 @@ nav a:hover::after, nav button.nav-link:hover::after {
     font-size: clamp(0.9rem, 2vw, 1rem);
     color: var(--earth-brown);
     font-weight: 600;
-    margin-bottom: 1rem; /* CSS1: tighter (CSS2 had 2rem) */
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -265,7 +265,7 @@ nav a:hover::after, nav button.nav-link:hover::after {
 .cta-buttons {
     display: flex;
     gap: 1rem;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
 }
 
@@ -304,11 +304,12 @@ nav a:hover::after, nav button.nav-link:hover::after {
     background: var(--sand);
 }
 
-/* Main content sections â€” from CSS2: standard padding */
+/* Main content sections */
 section {
-    padding: clamp(4rem, 8vw, 7rem) 5%;
+    padding: clamp(1rem, 8vw, 7rem) 5%;
     max-width: 1400px;
     margin: 0 auto;
+    margin-top: 0;
     position: relative;
     z-index: 1;
 }
@@ -507,7 +508,7 @@ h2 {
 }
 
 .case-study-section ul li::before {
-    content: 'ðŸŒ±';
+    content: '🌱';
     position: absolute;
     left: 0;
     font-size: 1rem;
@@ -889,7 +890,6 @@ footer {
     }
 }
 
-/* User Groups Section */
 .user-groups-section {
     margin: 4rem 0;
 }
@@ -916,8 +916,9 @@ footer {
     box-shadow: 0 8px 30px rgba(123, 175, 127, 0.1);
     border: 2px solid #f2f7f3;
     transition: all 0.3s ease;
-    min-width: 0;
+    min-width: 0; /* Prevents grid blowout */
 }
+
 
 .user-group-card:hover {
     transform: translateY(-8px);
@@ -928,7 +929,7 @@ footer {
 .card-image-container {
     width: 100%;
     height: 0;
-    padding-bottom: 114.2%;
+    padding-bottom: 114.2%; /* 405.08 / 354.64 * 100 = 114.2% aspect ratio */
     border-radius: 16px;
     overflow: hidden;
     margin-bottom: 1.5rem;
@@ -994,6 +995,13 @@ footer {
     line-height: 0.5;
     font-size: 0.5rem;
 }
+
+/* .characteristics-list li::before {
+    content: '🌱';
+    position: absolute;
+    left: 0;
+    font-size: 1rem;
+} */
 
 @media (max-width: 1024px) {
     .groups-container {
