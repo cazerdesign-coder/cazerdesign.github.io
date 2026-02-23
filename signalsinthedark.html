@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signals in the Dark - Sam Cazer</title>
+    <link rel="stylesheet" href="stylesheet.css">
+    <!-- Rive Runtime -->
+    <script src="https://unpkg.com/@rive-app/canvas@2.7.0"></script>
+    <style>
+        /* Rive Canvas Styling */
+        .rive-container {
+            width: 100%;
+            max-width: 1400px;
+            aspect-ratio: 16 / 9;
+            margin: 2rem auto;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #1a1a1a;
+        }
+
+        #rive-canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"
+                    style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
+                    <img src="images/logo.svg" class="logo-image">
+                    <span class="logo-text">cazerdesign</span>
+                </a>
+            </div>
+            <ul id="nav-menu">
+                <li><a href="index.html" class="nav-link" style="text-decoration: none; color: inherit;">Home</a></li>
+                <li><a href="index.html#work" class="nav-link" style="text-decoration: none; color: inherit;">Work</a>
+                </li>
+                <li><a href="play.html" class="nav-link" style="text-decoration: none; color: inherit;">Play</a></li>
+                <li><a href="about.html" class="nav-link" style="text-decoration: none; color: inherit;">About</a></li>
+                <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link"
+                        style="text-decoration: none; color: inherit;">Resume</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section style="max-width: 900px; margin: 0 auto; padding: 5rem 5%;">
+        <div class="case-study-header">
+            <h1>Signals in the Dark</h1>
+            <p style="font-size: 1.3rem; color: var(--text-light); margin-top: 1rem;">A motion-driven interactive cryptid hunt</p>
+            <div class="meta">
+                <div class="meta-item">
+                    <strong>Role</strong>
+                    <span>UI/UX Designer</span>
+                </div>
+                <div class="meta-item">
+                    <strong>Timeline</strong>
+                    <span>3 Weeks</span>
+                </div>
+                <div class="meta-item">
+                    <strong>Team</strong>
+                    <span>1 Designer</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rive Interactive Hero -->
+        <div class="rive-container">
+            <canvas id="rive-canvas"></canvas>
+        </div>
+        <p style="text-align: center; color: #666; font-style: italic; margin-top: -1rem; margin-bottom: 3rem;">
+            🔦 Move your mouse to shine the flashlight, then click on Nessie or Bigfoot when you spot them
+        </p>
+
+        <script>
+            // Initialize Rive
+            let clickTrigger = null;
+            let click2Trigger = null;
+            let timeInput = null;
+
+            const riveInstance = new rive.Rive({
+                src: 'cryptid.riv',
+                canvas: document.getElementById('rive-canvas'),
+                autoplay: true,
+                stateMachines: 'Flashlight',
+                fit: rive.Fit.Cover,
+                alignment: rive.Alignment.Center,
+                onLoad: () => {
+                    console.log('Rive animation loaded!');
+                    riveInstance.resizeDrawingSurfaceToCanvas();
+                    
+                    // Get state machine inputs
+                    const inputs = riveInstance.stateMachineInputs('Flashlight');
+                    clickTrigger = inputs.find(i => i.name === 'Click');
+                    click2Trigger = inputs.find(i => i.name === 'Click2');
+                    timeInput = inputs.find(i => i.name === 'Time');
+                    
+                    if (timeInput) {
+                        timeInput.value = 1; // Set to night mode
+                        console.log('Set to night mode');
+                    }
+                    
+                    if (!clickTrigger || !click2Trigger) {
+                        console.error('Missing Click or Click2 inputs');
+                        return;
+                    }
+                    
+                    console.log('Click triggers loaded successfully');
+                },
+            });
+
+            // Click handling for creatures
+            const canvas = document.getElementById('rive-canvas');
+            canvas.addEventListener('pointerdown', (e) => {
+                if (!clickTrigger || !click2Trigger) return;
+                
+                console.log('Canvas clicked at offsetX:', e.offsetX, 'offsetY:', e.offsetY);
+                
+                // Try hitTest first
+                try {
+                    const hitObjects = riveInstance.hitTest('Flashlight', e.offsetX, e.offsetY);
+                    console.log('Hit objects:', hitObjects);
+                    
+                    if (hitObjects && hitObjects.length > 0) {
+                        if (hitObjects.includes('Button Click')) {
+                            click2Trigger.fire(); // Swapped
+                            console.log('🦕 Nessie clicked via hitTest!');
+                            return;
+                        } else if (hitObjects.includes('Button Click2')) {
+                            clickTrigger.fire(); // Swapped
+                            console.log('🐾 Bigfoot clicked via hitTest!');
+                            return;
+                        }
+                    }
+                } catch (err) {
+                    console.log('hitTest error:', err);
+                }
+                
+                // Fallback to simple left/right split
+                const x = e.offsetX;
+                const y = e.offsetY;
+                
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = 1920 / rect.width;
+                const scaleY = 1080 / rect.height;
+                const scaledX = x * scaleX;
+                const scaledY = y * scaleY;
+                
+                console.log(`Click at scaled x=${scaledX.toFixed(0)}, y=${scaledY.toFixed(0)}`);
+                
+                // Simple split: left half = Nessie, right half = Bigfoot
+                if (scaledX < 960) { // Left half
+                    click2Trigger.fire();
+                    console.log('🦕 Nessie clicked (left side)!');
+                } else { // Right half
+                    clickTrigger.fire();
+                    console.log('🐾 Bigfoot clicked (right side)!');
+                }
+            });
+
+            // Resize canvas when window resizes
+            window.addEventListener('resize', () => {
+                riveInstance.resizeDrawingSurfaceToCanvas();
+            });
+        </script>
+
+        <div class="case-study-section">
+            <h2>Overview</h2>
+            <p>An interactive motion project built in Rive where users explore a forest and discover cryptids with motion-based feedback. 
+                This project was meant to explore motion feedback and interactive animation using Rive and Vibe-Coding, experimenting with
+                 dynamic inputs and environmental triggers while being inspired by cryptid lore and playful discovery.</p>
+        </div>
+
+        <div class="case-study-section">
+            <h2>Goals</h2>
+
+            <div class="highlight-box">
+                <ul>
+                    <li><strong>Motion Feedback:</strong> communicate interactions clearly</li>
+                    <li><strong>Dynamic Inputs:</strong> playful discovery through environmental triggers</li>
+                    <li><strong>Interactive Animation:</strong> immersive experiences with Rive & Vibe-coding</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="case-study-section">
+            <h2>Design Process</h2>
+
+            <h3>Visual Style</h3>
+            <p> The visual direction uses a monochromatic, desaturated noir-inspired vector style, reinforcing the sense of mystery and atmosphere while keeping the interface cohesive and focused.</p>
+            
+             <div class="image-grid">
+                <img src="images/riveref1.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+                <img src="images/riveref2.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+            </div>
+
+            <p>The environment was illustrated as a fairly simple vector form along with simplistic cryptid vectors that can be discoverable within the environment while still maintaining visual cohesion.</p>
+
+             <div class="image-grid">
+                <img src="images/rivenight.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+                <img src="images/rivecryptids.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+            </div>
+
+
+            <p>I designed a daytime variation of the environment to allow for a alternative way to interact with the scene by swapping between day and night which can enhance the storytelling.</p>
+
+            <h3>Rive</h3>
+            <p>I used Rive to create motion-driven interactivity, giving each cryptid responsive animations that guide discovery and keep the experience playful. Rive enabled smooth transitions and interactive triggers that made the world feel alive.</p>
+
+            <div class="image-grid">
+                    <!-- Replace your img tag with this -->
+<video autoplay loop muted playsinline>
+    <source src="images/BigfootClick.mov" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+                    <!-- Replace your img tag with this -->
+<video autoplay loop muted playsinline>
+    <source src="images/NessieClick.mov" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+                </div>
+
+                <p>I added “hide” animations for Bigfoot and Nessie that trigger when users click on them. Each creature has two timelines: idle and hiding, allowing smooth motion between states. I also implemented a Time input, so the scene transitions between day and night based on the value, creating a dynamic and responsive environment.</p>
+                <div class="image-grid">
+                <img src="images/timeline.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+                <img src="images/timeline1.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+                <img src="images/timeline2.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+                <img src="images/timeline4.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+            </div>
+
+            <p> Each cryptid’s hide animation uses two timelines (idle + hiding) and integrates with a global Time input for environmental responsiveness.</p>
+
+            <h3>Vibe-Coding & Experimental Interaction</h3>
+             <p>In this phase, I worked iteratively with AI. Learning that effective prompting needs percice and small adjustments to lead toward more complex interactive results.</p>
+                <div class="image-grid">
+                <img src="images/riveaichat.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+                <img src="images/riveaichat2.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+                </div>
+
+                 <p>Vibe-Coding allowed me to experiment with unconventional inputs, like lighting-based day/night changes, letting user actions dynamically influence cryptid behavior and push the boundaries of interactive discovery.</p>
+
+                <img src="images/rivevibecoding.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+
+                       <a href="https://src8507.cad.rit.edu/Rive/rive.html" target="_blank" class="cta-button cta-primary">View Prototype</a>
+</div>
+
+        <div class="case-study-section">
+            <h2>Reflection</h2>
+            <p>Motion is essential for feedback and understanding interactions, even in an illustrative style. In future iterations, I'd provide clearer cues for user discovery while keeping exploration playful.</p>
+
+                            <img src="images/RiveStill.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
+
+        </div>
+
+        <div class="case-study-section" style="text-align: center; margin-top: 5rem;">
+            <h2>Explore More</h2>
+            <p style="margin-bottom: 2rem;">Want to see what else is growing in the garden?</p>
+            <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+                <a href="index.html#work" class="cta-button cta-primary">Back to Garden</a>
+                <a href="index.html#contact" class="cta-button cta-secondary">Let's Connect</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+  <div class="footer-content">
+      <img src="images/Gunther.png" alt="Design Garden Illustration" style="width: 90%; height:auto; border-radius:12px;">
+    <div class="footer-text" style="width: 90%">
+      <p class="footer-tagline">Thanks for visiting my Design Garden</p>
+      <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
+      <div class="footer-links">
+        <a href="/cdn-cgi/l/email-protection#8bf8eae6cbe8eaf1eef9efeef8e2ece5a5e8e4e6">Email</a>
+        <a href="https://www.linkedin.com/in/samcazer">LinkedIn</a>
+      </div>
+    </footer>
+    </body>
+    </html>
