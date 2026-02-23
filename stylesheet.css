@@ -150,20 +150,19 @@ nav a:hover::after, nav button.nav-link:hover::after {
     display: block;
 }
 
-/* Hero Section — from CSS1: tighter padding, no bottom padding */
+/* Hero Section */
 .hero {
-    min-height: 85vh;
+    min-height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4rem 5% 0%;
+    padding: 5rem 5% 3rem;
     position: relative;
 }
 
-/* Work section pulled up under hero — from CSS1 */
+/* Work section sits naturally right below hero */
 #work {
-    margin-top: -10% !important;
-    padding: 0 5% 5rem 5% !important;
+    padding-top: 2rem !important;
 }
 
 .hero-content {
@@ -177,7 +176,7 @@ nav a:hover::after, nav button.nav-link:hover::after {
 }
 
 .hero-text {
-    text-align: left;
+    text-align: center;
 }
 
 .hero-text .eyebrow {
@@ -266,7 +265,7 @@ nav a:hover::after, nav button.nav-link:hover::after {
 .cta-buttons {
     display: flex;
     gap: 1rem;
-    justify-content: flex-start;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
