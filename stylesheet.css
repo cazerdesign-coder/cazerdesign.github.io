@@ -188,7 +188,7 @@ nav a:hover::after, nav button.nav-link:hover::after {
     margin-bottom: 1rem;
 }
 
-/* Hero text spacing — from CSS1: tighter margins */
+/* Hero text spacing â€” from CSS1: tighter margins */
 .hero h1 {
     font-size: clamp(3rem, 8vw, 7rem);
     font-weight: 800;
@@ -304,7 +304,7 @@ nav a:hover::after, nav button.nav-link:hover::after {
     background: var(--sand);
 }
 
-/* Main content sections — from CSS2: standard padding */
+/* Main content sections â€” from CSS2: standard padding */
 section {
     padding: clamp(4rem, 8vw, 7rem) 5%;
     max-width: 1400px;
@@ -507,7 +507,7 @@ h2 {
 }
 
 .case-study-section ul li::before {
-    content: '🌱';
+    content: 'ðŸŒ±';
     position: absolute;
     left: 0;
     font-size: 1rem;
