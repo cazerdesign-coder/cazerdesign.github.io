@@ -1,289 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sam Cazer - Design Garden</title>
-    <link rel="stylesheet" href="stylesheet.css">
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sam Cazer - Design Garden</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="stylesheet.css">
+  <style>
+    /* ── HERO OVERRIDE ── */
+    * { cursor: none; }
+    .hero { position: relative; height: 100vh; display: grid; grid-template-rows: auto 1fr; padding: 0; min-height: 100vh; max-width: 100%; margin: 0; overflow: visible; }
+    .bg-rect { position: absolute; top: 0; left: 0; width: 100%; height: 92vh; border-radius: 0 0 250px 250px; background: linear-gradient(to right, #C3D4A3, #70A58B); z-index: 0; overflow: visible; transition: border-radius 0.05s linear; }
+    .hero-body { position: relative; z-index: 10; display: grid; grid-template-columns: 1fr 1fr; align-items: end; padding: 40px 64px 0 120px; height: 92vh; }
+    .hero-left { display: flex; flex-direction: column; justify-content: center; padding-bottom: 80px; }
+    .hero-right { display: flex; justify-content: center; align-items: flex-end; height: 100%; }
+
+    /* ── NAV ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 28px 64px; background: none; border: none; backdrop-filter: none; width: 100%; transition: background 0.3s, backdrop-filter 0.3s, padding 0.3s, box-shadow 0.3s; }
+    nav.scrolled { background: none; backdrop-filter: none; padding: 16px 64px; box-shadow: none; }
+    nav.scrolled ul#nav-menu { background: rgba(255,255,255,0.3); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.5); }
+    nav.scrolled ul#nav-menu a, nav.scrolled ul#nav-menu button.nav-link { color: #1a2a1a; opacity: 1; }
+    nav .container { display: contents; }
+    .logo { font-size: 1rem; font-weight: 700; color: #1a2a1a; }
+    .logo a { display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; }
+    .logo-image { height: 56px !important; max-height: 56px !important; width: auto !important; }
+    .logo-img-wrap { display: inline-block; isolation: isolate; }
+    .logo-img-wrap img { filter: brightness(0) invert(1); transition: filter 0.3s; }
+    nav.scrolled .logo-img-wrap img { filter: invert(52%) sepia(28%) saturate(500%) hue-rotate(90deg) brightness(85%); }
+    nav { isolation: auto; }
+    .logo-text { font-size: 1rem; font-weight: 700; color: #1a2a1a; }
+    nav ul#nav-menu { display: flex; gap: 36px; list-style: none; background: rgba(255,255,255,0.3); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.5); border-radius: 100px; padding: 12px 28px; align-items: center; }
+    nav ul#nav-menu a, nav ul#nav-menu button.nav-link { font-size: .78rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: #1a2a1a; text-decoration: none; opacity: .7; transition: opacity .2s; padding: 0; background: none; border: none; font-family: inherit; }
+    nav ul#nav-menu a:hover, nav ul#nav-menu button.nav-link:hover { opacity: 1; color: #1a2a1a; }
+    nav ul#nav-menu a::after, nav ul#nav-menu button.nav-link::after { display: none; }
+    nav ul#nav-menu a .letter { display: inline-block; transform-origin: bottom center; }
+    nav ul#nav-menu a:hover .letter { animation: letterFlip 0.4s ease forwards; }
+    @keyframes letterFlip { 0% { transform: translateY(0) rotateX(0deg); opacity: 1; } 40% { transform: translateY(-6px) rotateX(90deg); opacity: 0; } 41% { transform: translateY(6px) rotateX(-90deg); opacity: 0; } 100% { transform: translateY(0) rotateX(0deg); opacity: 1; } }
+
+    /* ── HEADLINE ── */
+    .hero-headline { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(4rem, 10vw, 10rem); line-height: .9; letter-spacing: -.04em; color: #1a2a1a; }
+    .hero-headline .line { display: block; opacity: 0; transform: translateY(24px); }
+    .hero-headline .line:nth-child(1) { animation: fadeUp .7s .1s forwards; }
+    .hero-headline .line:nth-child(2) { animation: fadeUp .7s .25s forwards; }
+    .hero-headline .line:nth-child(3) { animation: fadeUp .7s .4s forwards; }
+    .hero-sub { margin-top: 32px; font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; color: #1a2a1a; opacity: 0; animation: fadeUp .6s .55s forwards; }
+    .hero-sub-mobile { display: none; }
+    .hero-tagline { margin-top: 20px; font-size: .95rem; line-height: 1.7; max-width: 500px; text-align: left; color: #1a2a1a; opacity: 0; animation: fadeUp .6s .7s forwards; font-weight: 300; }
+    .hero-actions { display: flex; align-items: center; gap: 28px; margin-top: 28px; opacity: 0; animation: fadeUp .6s .85s forwards; }
+    .btn-primary { padding: 13px 30px; background: #1a2a1a; color: #ffffff; font-size: .78rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; border-radius: 100px; border: none; cursor: none; font-family: inherit; transition: background .25s, transform .2s; }
+    .btn-primary:hover { background: #2d4a2d; transform: translateY(-2px); }
+    .btn-ghost { font-size: .78rem; letter-spacing: .08em; color: #1a2a1a; text-decoration: none; opacity: .65; display: flex; align-items: center; gap: 5px; transition: opacity .2s, gap .2s; background: none; border: none; cursor: none; font-family: inherit; }
+    .btn-ghost:hover { opacity: 1; gap: 9px; }
+
+    /* ── FLOATING UI BOXES ── */
+    .ui-box { position: absolute; animation: float linear infinite; perspective: 800px; overflow: visible; }
+    .ui-box-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); overflow: visible; }
+    .ui-box:hover .ui-box-inner { transform: rotateY(180deg); }
+    .ui-box-front, .ui-box-back { position: absolute; inset: 0; border-radius: 16px; backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; align-items: center; justify-content: center; overflow: visible; border: none; box-shadow: none; }
+    .ui-box-front { background: none; backdrop-filter: none; }
+    .ui-box-front img { width: 100%; height: 100%; object-fit: contain; border-radius: 0; }
+    .ui-box-back { background: rgba(26,42,26,0.85); backdrop-filter: blur(8px); transform: rotateY(180deg); flex-direction: column; gap: 6px; padding: 14px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); }
+    .ui-box-back .back-title { font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #C3D4A3; text-align: center; }
+    .ui-box-back .back-desc { font-size: .62rem; color: rgba(255,255,255,0.6); text-align: center; line-height: 1.5; letter-spacing: .04em; }
+
+    /* ── TREE GRAPHICS ── */
+    .tree-wrap { position: absolute; bottom: 0; display: flex; align-items: flex-end; z-index: 1; overflow: visible; }
+    .tree-wrap-1 { right: 3%; }
+    .tree-wrap-2 { right: calc(3% + 120px + 12px); bottom: -50px; }
+    .tree-graphic { width: 90px; height: 220px; border-radius: 0; background: none; border: none; backdrop-filter: none; display: flex; align-items: flex-end; justify-content: center; overflow: visible; }
+    .tree-wrap-1 .tree-graphic { height: 320px; width: 120px; }
+    .tree-wrap-2 .tree-graphic { height: 440px; width: 110px; }
+    .tree-graphic img { width: 100%; height: 100%; object-fit: contain; border-radius: 0; }
+    .tree-label { font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(26,42,26,.35); text-align: center; padding: 8px; writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); }
+
+    /* ── UI BOX POSITIONS ── */
+    .ui-box-1 { width: 150px; height: 100px; top: 8%; left: 10%; animation-duration: 7s; animation-delay: 0s; }
+    .ui-box-2 { width: 120px; height: 120px; top: 18%; right: 12%; animation-duration: 9s; animation-delay: -2s; }
+    .ui-box-4 { width: 110px; height: 90px; top: 22%; left: 46%; animation-duration: 6s; animation-delay: -1s; }
+    .ui-box-5 { width: 130px; height: 100px; top: 80%; left: 46%; animation-duration: 10s; animation-delay: -3s; }
+
+    @keyframes float { 0% { transform: translateY(0px) rotate(0deg); } 25% { transform: translateY(-8px) rotate(.5deg); } 50% { transform: translateY(-4px) rotate(-.3deg); } 75% { transform: translateY(-10px) rotate(.2deg); } 100% { transform: translateY(0px) rotate(0deg); } }
+
+    /* ── PHOTO CAROUSEL ── */
+    .image-wrap { opacity: 0; display: flex; align-items: flex-end; height: 100%; z-index: 2; position: relative; }
+    .image-placeholder { width: 300px; height: 390px; border-radius: 150px 150px 0 0; position: relative; overflow: hidden; background: none; }
+    .image-placeholder img { width: 100%; height: 100%; object-fit: cover; border-radius: 148px 148px 0 0; }
+
+    .bg-grid { position: absolute; top: 0; right: 0; width: 480px; height: 280px; pointer-events: none; z-index: 1; overflow: visible; }
+    .bg-grid::before { content: ''; position: absolute; top: 0; right: 0; width: 470px; height: 280px; background-image: linear-gradient(rgba(255,255,255,.2) 4px, transparent 4px); background-size: 65px 65px; }
+    .bg-grid::after { content: ''; position: absolute; top: 0; right: 0; width: 420px; height: 300px; background-image: linear-gradient(90deg, rgba(255,255,255,.2) 4px, transparent 4px); background-size: 65px 65px; }
+
+    /* ── CUSTOM CURSOR ── */
+    .cursor { position: fixed; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
+    .cursor-circle { width: 24px; height: 24px; border-radius: 50%; background: white; transform: translate(-50%, -50%); transition: width 0.3s ease, height 0.3s ease; }
+    .cursor-dot { width: 6px; height: 6px; border-radius: 50%; background: white; transform: translate(-50%, -50%); }
+    body.cursor-hover .cursor-circle { width: 64px; height: 64px; }
+
+    /* ── HAMBURGER ── */
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; padding: 4px; z-index: 30; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #1a2a1a; border-radius: 2px; transition: all .3s; }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: #C3D4A3; z-index: 25; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 2rem; font-weight: 700; letter-spacing: -.02em; color: #1a2a1a; text-decoration: none; }
+    .mobile-menu-close { position: absolute; top: 32px; right: 28px; font-size: 1.5rem; cursor: none; color: #1a2a1a; background: none; border: none; }
+    .mobile-avatar { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.35); border: 1.5px dashed rgba(26,42,26,.25); display: flex; align-items: center; justify-content: center; font-size: .9rem; flex-shrink: 0; }
+
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* ── WORK SECTION ── */
+    #work { margin-top: 0 !important; padding: 5rem 5% !important; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      nav { padding: 20px 40px; } nav.scrolled { padding: 14px 40px; } nav ul#nav-menu { gap: 24px; padding: 10px 20px; }
+      .ui-box-1 { width: 120px; height: 80px; top: 8%; left: 8%; } .ui-box-2 { width: 100px; height: 100px; top: 18%; right: 8%; } .ui-box-4 { width: 90px; height: 75px; top: 22%; left: 42%; } .ui-box-5 { width: 110px; height: 85px; top: 80%; left: 42%; }
+      .hero-body { padding: 40px 40px 0 80px; }
+      .bg-grid::before { width: 360px; height: 220px; } .bg-grid::after { width: 320px; height: 240px; }
+      .tree-wrap-1 .tree-graphic { height: 210px; } .tree-wrap-2 .tree-graphic { height: 380px; } .tree-graphic { width: 75px; } .tree-wrap-2 { right: calc(1% + 75px + 10px); }
+    }
+    @media (max-width: 860px) { nav ul#nav-menu { gap: 16px; padding: 8px 16px; } nav ul#nav-menu a, nav ul#nav-menu button.nav-link { font-size: .7rem; letter-spacing: .06em; } }
+    @media (max-width: 768px) {
+      .bg-rect { border-radius: 0 0 120px 120px; height: 92vh; }
+      .bg-grid::before { width: 260px; height: 160px; } .bg-grid::after { width: 220px; height: 180px; }
+      .tree-wrap-1, .tree-wrap-2 { display: none; }
+      nav ul#nav-menu { display: none; } .nav-hamburger { display: flex; } nav { padding: 20px 24px; } nav.scrolled { padding: 14px 24px; }
+      .hero-body { grid-template-columns: 1fr; padding: 80px 28px 0; height: 92vh; align-items: center; }
+      .hero-left { padding-bottom: 40px; justify-content: center; } .hero-right { display: none; }
+      .hero-sub-mobile { display: flex; align-items: center; gap: 10px; margin-top: 24px; opacity: 0; animation: fadeUp .6s .55s forwards; } .hero-sub { display: none; }
+      .ui-box-1, .ui-box-2, .ui-box-4, .ui-box-5 { display: none; } .image-wrap { display: none !important; }
+      .hero-headline { font-size: clamp(2.8rem, 13vw, 4.5rem); }
+      .hero-actions { flex-direction: column; align-items: center; gap: 12px; width: 100%; } .btn-primary { width: 100%; text-align: center; justify-content: center; } .hero-tagline { font-size: .88rem; }
+    }
+    @media (max-width: 480px) { .bg-rect { border-radius: 0 0 60px 60px; } .hero-body { padding: 70px 20px 0; } .hero-headline { font-size: clamp(2.4rem, 12vw, 3.5rem); } nav { padding: 16px 20px; } nav.scrolled { padding: 12px 20px; } }
+  </style>
 </head>
 <body>
-   <nav>
-    <div class="container">
-        <div class="logo">
-            <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
-                <img src="images/logo.svg" class="logo-image">
-                <span class="logo-text">cazerdesign</span>
-            </a>
+
+  <div id="home" class="page active">
+    <div class="hero">
+      <div class="bg-rect">
+        <div class="bg-grid"></div>
+
+        <div class="ui-box ui-box-1"><div class="ui-box-inner"><div class="ui-box-front"><img src="images/UIElement3.svg" alt="UI Element 1" /></div><div class="ui-box-back"><span class="back-title">Project 1</span><span class="back-desc">Add a caption for this graphic</span></div></div></div>
+        <div class="ui-box ui-box-2"><div class="ui-box-inner"><div class="ui-box-front"><img src="images/UIElement1.svg" alt="UI Element 2" /></div><div class="ui-box-back"><span class="back-title">Project 2</span><span class="back-desc">Add a caption for this graphic</span></div></div></div>
+        <div class="ui-box ui-box-4"><div class="ui-box-inner"><div class="ui-box-front"><img src="images/UIElement5.svg" alt="UI Element 3" /></div><div class="ui-box-back"><span class="back-title">Project 4</span><span class="back-desc">Add a caption for this graphic</span></div></div></div>
+        <div class="ui-box ui-box-5"><div class="ui-box-inner"><div class="ui-box-front"><img src="images/UIElement3.svg" alt="UI Element 5" /></div><div class="ui-box-back"><span class="back-title">Project 5</span><span class="back-desc">Add a caption for this graphic</span></div></div></div>
+
+        <div class="image-wrap" style="position:absolute; bottom:0; left:50%; right:0; display:flex; justify-content:center; align-items:flex-end; height:100%;">
+          <div class="image-placeholder">
+            <img src="images/SamCazer.png" alt="Sam Cazer" />
+          </div>
         </div>
-        <ul id="nav-menu">
-            <li><a href="index.html" class="nav-link" style="text-decoration: none; color: inherit;">Home</a></li>
-            <li><a href="index.html#work" class="nav-link" style="text-decoration: none; color: inherit;">Work</a></li>
-            <li><a href="play.html" class="nav-link" style="text-decoration: none; color: inherit;">Play</a></li>
-            <li><a href="about.html" class="nav-link" style="text-decoration: none; color: inherit;">About</a></li>
-            <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link" style="text-decoration: none; color: inherit;">Resume</a></li>
-        </ul>
-    </div>
-</nav>
 
-    <!-- HOME PAGE -->
-     <div id="home" class="page active">
-        <section class="hero">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <p class="eyebrow">Welcome to my Design Garden</p>
-                    <h1>
-                        <span class="highlight">Sam Cazer</span>
-                    </h1>
-                    <p class="hero-tagline">UI/UX Designer</p>
-                    <p class="subtitle">Product designer cultivating thoughtful digital experiences that flourish through research, iteration, and care.</p>
-                    <!-- <p class="location">🌍 Based in Rochester, NY</p> -->
-                    <div class="cta-buttons">
-                        <button class="cta-button cta-primary" onclick="showPage('work')">Explore My Garden</button>
-                        <button class="cta-button cta-secondary" onclick="window.location.href='about.html'">Get in Touch</button>
-                    </div>
-                </div>
-  <img src="images/HeroImage.jpg" alt="Design Garden Illustration" style="width:110%; height:auto; border-radius:12px;">
-</div>
-            </div>
-        </section>
+        <div class="tree-wrap tree-wrap-1"><div class="tree-graphic"><img src="images/Tree 1.svg" alt="Tree 1" /></div></div>
+        <div class="tree-wrap tree-wrap-2"><div class="tree-graphic"><img src="images/Tree 2.svg" alt="Tree 2" /></div></div>
+      </div>
 
-<section id="work">
-            <!-- <h3>Cultivated Projects</h3>
-            <p class="section-intro">Each project is carefully nurtured from seed to bloom—here are some of my favorite harvests.</p> -->
-            <div class="portfolio-grid">
+      <nav>
+        <div class="container">
+          <div class="logo"><a href="index.html"><span class="logo-img-wrap"><img src="images/logo.svg" class="logo-image" alt="logo"></span></a></div>
+          <ul id="nav-menu">
+            <li><a href="index.html#work" class="nav-link">Work</a></li>
+            <li><a href="play.html" class="nav-link">Play</a></li>
+            <li><a href="about.html" class="nav-link">About</a></li>
+            <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link">Resume</a></li>
+          </ul>
+          <div class="nav-hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')"><span></span><span></span><span></span></div>
+        </div>
+      </nav>
 
-                 <div class="project-card">
-                    <a href="DQAredesign.html" style="text-decoration: none; color: inherit;">
-                    <div class="project-image">
-                        <img src="images/dqaredesign.png" alt="Cali-ID Project">
-                        </div>
-                    <div class="project-info">
-                        <h3>DQA Platform Redesign</h3>
-                        <p>Redesigning enterprise SaaS workflows</p>
-                        <div class="tags">
-                            <span class="tag">Interactive Design</span>
-                            <span class="tag">Prototyping</span>
-                            <span class="tag">UI Design</span>
-                        </div>
-                    </div>
-                </a>
-                </div>
+      <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">✕</button>
+        <a href="index.html#work">Work</a><a href="play.html">Play</a><a href="about.html">About</a>
+        <a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank">Resume</a>
+      </div>
 
-                <div class="project-card">
-                    <a href="signalsinthedark.html" style="text-decoration: none; color: inherit;">
-                    <div class="project-image">
-                        <img src="images/RiveStill.png" alt="Cali-ID Project">
-                        </div>
-                    <div class="project-info">
-                        <h3>Signals in the Dark</h3>
-                        <p>A motion-driven interactive cryptid hunt</p>
-                        <div class="tags">
-                            <span class="tag">Motion Design</span>
-                            <span class="tag">Interactive Design</span>
-                            <span class="tag">UI Design</span>
-                        </div>
-                    </div>
-                </a>
-                </div>
-
-                <!-- <div class="project-card">
-                    <a href="kinteticcalc.html" style="text-decoration: none; color: inherit;">
-                    <div class="project-image">
-                        <img src="images/CrazyCalculator.png" alt="Cali-ID Project">
-                        </div>
-                    <div class="project-info">
-                        <h3>Kinetic Calc</h3>
-                        <p>Interactive calculator with dynamic effects</p>
-                        <div class="tags">
-                            <span class="tag">3D Design</span>
-                            <span class="tag">Interactive Design</span>
-                            <span class="tag">Motion Design</span>
-                        </div>
-                    </div>
-                </a>
-                </div> -->
-
-                <!-- <div class="project-card">
-                    <a href="ecosystemsinmotion.html" style="text-decoration: none; color: inherit;">
-                    <div class="project-image">
-                        <img src="images/InvasiveSeciesMockup.png" alt="Cali-ID Project">
-                        </div>
-                    <div class="project-info">
-                        <h3>Ecosystem in Motion</h3>
-                        <p>Interactive generative ecosystem</p>
-                        <div class="tags">
-                            <span class="tag">Vibe-coding</span>
-                            <span class="tag">Interactive</span>
-                            <span class="tag">Installation</span>
-                        </div>
-                    </div>
-                </a>
-                </div> -->
-
-
-                <!-- <div class="project-card">
-                    <a href="studentlifedesign.html" style="text-decoration: none; color: inherit;">
-                    <div class="project-image">
-                        <img src="images/SAM1 (2).png" alt="Cali-ID Project">
-                        </div>
-                    <div class="project-info">
-                        <h3>Student Life Designer</h3>
-                        <p>A gamified learning experience for Rochester NY</p>
-                        <div class="tags">
-                            <span class="tag">Interactive Design</span>
-                            <span class="tag">Prototyping</span>
-                            <span class="tag">UI Design</span>
-                        </div>
-                    </div>
-                </a>
-                </div>  -->
-
-                <div class="project-card">
-                    <a href="harborair.html" style="text-decoration: none; color: inherit;">
-                        <div class="project-image">
-                            <img src="images/Flight.png" alt="Harbor Air Project">
-                        </div>
-                        <div class="project-info">
-                            <h3>Flow System</h3>
-                            <p>Airline app prototype & design system</p>
-                            <div class="tags">
-                                <span class="tag">UI Design</span>
-                                <span class="tag">Design Systems</span>
-                                <span class="tag">Web Design</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="project-card">
-                    <a href="calid.html" style="text-decoration: none; color: inherit;">
-                    <div class="project-image">
-                        <img src="images/Cali-ID.avif" alt="Cali-ID Project">
-                    </div>
-                    <div class="project-info">
-                        <h3>Cali-ID</h3>
-                        <p>California Digital ID App Design</p>
-                        <div class="tags">
-                            <span class="tag">Mobile Design</span>
-                            <span class="tag">UI Design</span>
-                            <span class="tag">Visual Identity</span>
-                        </div>
-                    </div>
-                </a>
-                </div>
-
-                <div class="project-card">
-
-                    <a href="highfalls.html" style="text-decoration: none; color: inherit;">
-                    <div class="project-image">
-                        <img src="images/highfalls.png" alt="Cali-ID Project">
-                        </div>
-                    <div class="project-info">
-                        <h3>High Falls Kiosk</h3>
-                        <p>A gamified learning experience for Rochester NY</p>
-                        <div class="tags">
-                            <span class="tag">Interactive Design</span>
-                            <span class="tag">Prototyping</span>
-                            <span class="tag">UI Design</span>
-                        </div>
-                    </div>
-                </a>
-                </div>
-
-                <div class="project-card">
-                     <a href="vignelliarchive.html" style="text-decoration: none; color: inherit;">
-                    <div class="project-image">
-                        <img src="images/VignelliArchives.webp" alt="Vignelli Archive App">
-                    </div>
-                    <div class="project-info">
-                        <h3>Vignelli Archive App</h3>
-                        <p>Creating an environment where knowledge grows and students thrive</p>
-                        <div class="tags">
-                            <span class="tag">Mobile Design</span>
-                            <span class="tag">UI Design</span>
-                            <span class="tag">Prototyping</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <footer>
-  <div class="footer-content">
-      <img src="images/SamCazerIllustration.png" alt="Design Garden Illustration" style="width: 90%; height:auto; border-radius:12px;">
-    <div class="footer-text" style="width: 90%">
-      <p class="footer-tagline">Thanks for visiting my Design Garden</p>
-      <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
-      <div class="footer-links">
-        <a href="mailto:sam@cazerdesign.com">Email</a>
-        <a href="https://www.linkedin.com/in/samcazer">LinkedIn</a>
+      <div class="hero-body">
+        <div class="hero-left">
+          <h1 class="hero-headline">
+            <span class="line">Digital</span>
+            <span class="line">Experiences</span>
+            <span class="line" style="color:#fff;">That Grow.</span>
+          </h1>
+          <p class="hero-sub">Sam Cazer &nbsp;·&nbsp; UI/UX Designer</p>
+          <div class="hero-sub-mobile">
+            <div class="mobile-avatar">☺</div>
+            <span style="font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; color:#1a2a1a; opacity:.7;">Sam Cazer &nbsp;·&nbsp; UI/UX Designer</span>
+          </div>
+          <p class="hero-tagline">UI/UX Designer cultivating thoughtful digital experiences that flourish through research, iteration, and care.</p>
+          <div class="hero-actions">
+            <a href="#work" class="btn-primary">View Work</a>
+            <a href="about.html" class="btn-ghost">Get in touch &nbsp;→</a>
+          </div>
+        </div>
+        <div class="hero-right"></div>
       </div>
     </div>
+
+    <section id="work">
+      <div class="portfolio-grid">
+        <div class="project-card"><a href="DQAredesign.html" style="text-decoration: none; color: inherit;"><div class="project-image"><img src="images/dqaredesign.png" alt="DQA Platform Redesign"></div><div class="project-info"><h3>DQA Platform Redesign</h3><p>Redesigning enterprise SaaS workflows</p><div class="tags"><span class="tag">Interactive Design</span><span class="tag">Prototyping</span><span class="tag">UI Design</span></div></div></a></div>
+        <div class="project-card"><a href="signalsinthedark.html" style="text-decoration: none; color: inherit;"><div class="project-image"><img src="images/RiveStill.png" alt="Signals in the Dark"></div><div class="project-info"><h3>Signals in the Dark</h3><p>A motion-driven interactive cryptid hunt</p><div class="tags"><span class="tag">Motion Design</span><span class="tag">Interactive Design</span><span class="tag">UI Design</span></div></div></a></div>
+        <div class="project-card"><a href="harborair.html" style="text-decoration: none; color: inherit;"><div class="project-image"><img src="images/Flight.png" alt="Harbor Air Project"></div><div class="project-info"><h3>Flow System</h3><p>Airline app prototype & design system</p><div class="tags"><span class="tag">UI Design</span><span class="tag">Design Systems</span><span class="tag">Web Design</span></div></div></a></div>
+        <div class="project-card"><a href="calid.html" style="text-decoration: none; color: inherit;"><div class="project-image"><img src="images/Cali-ID.avif" alt="Cali-ID Project"></div><div class="project-info"><h3>Cali-ID</h3><p>California Digital ID App Design</p><div class="tags"><span class="tag">Mobile Design</span><span class="tag">UI Design</span><span class="tag">Visual Identity</span></div></div></a></div>
+        <div class="project-card"><a href="highfalls.html" style="text-decoration: none; color: inherit;"><div class="project-image"><img src="images/highfalls.png" alt="High Falls Kiosk"></div><div class="project-info"><h3>High Falls Kiosk</h3><p>A gamified learning experience for Rochester NY</p><div class="tags"><span class="tag">Interactive Design</span><span class="tag">Prototyping</span><span class="tag">UI Design</span></div></div></a></div>
+        <div class="project-card" onclick="showCaseStudy('project5')"><div class="project-image"><img src="images/VignelliArchives.webp" alt="Vignelli Archive App"></div><div class="project-info"><h3>Vignelli Archive App</h3><p>Creating an environment where knowledge grows and students thrive</p><div class="tags"><span class="tag">Mobile Design</span><span class="tag">UI Design</span><span class="tag">Prototyping</span></div></div></div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-content">
+        <img src="images/SamCazerIllustration.png" alt="Design Garden Illustration" style="width: 90%; height:auto; border-radius:12px;">
+        <div class="footer-text" style="width: 90%">
+          <p class="footer-tagline">Thanks for visiting my Design Garden</p>
+          <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
+          <div class="footer-links">
+            <a href="/cdn-cgi/l/email-protection#82f1e3efc2e1e3f8e7f0e6e7f1ebe5ecace1edef">Email</a>
+            <a href="https://www.linkedin.com/in/samcazer">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
-</footer>
 
-    </div>
+  <div class="cursor cursor-circle" id="cursorCircle"></div>
+  <div class="cursor cursor-dot" id="cursorDot"></div>
 
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // ── STICKY NAV ──
+    const navEl = document.querySelector('nav');
+    window.addEventListener('scroll', () => { navEl.classList.toggle('scrolled', window.scrollY > 60); });
 
-    
-    <script>
-        // Page navigation
-        function showPage(pageId) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            // Show selected page
-            document.getElementById(pageId).classList.add('active');
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+    // ── CURSOR ──
+    const circle = document.getElementById('cursorCircle');
+    const dot = document.getElementById('cursorDot');
+    let mouseX = 0, mouseY = 0, circleX = 0, circleY = 0;
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px'; });
+    function animateCursor() { circleX += (mouseX - circleX) * 0.12; circleY += (mouseY - circleY) * 0.12; circle.style.left = circleX + 'px'; circle.style.top = circleY + 'px'; requestAnimationFrame(animateCursor); }
+    animateCursor();
+    document.querySelectorAll('a, button, .nav-hamburger, .ui-box').forEach(el => { el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover')); el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover')); });
 
-        // Case study navigation
-        function showCaseStudy(projectId) {
-            const projectMap = {
-                'project1': 'case-study-1',
-                'project2': 'case-study-2',
-                'project3': 'case-study-1', // Reusing case study 1 as template
-                'project4': 'case-study-1'  // Reusing case study 1 as template
-            };
-            
-            showPage(projectMap[projectId]);
-        }
+    // ── CURSOR TRAIL ──
+    const trail = [];
+    for (let i = 0; i < 8; i++) { const t = document.createElement('div'); t.style.cssText = `position:fixed;pointer-events:none;z-index:9998;width:${6 - i * 0.5}px;height:${6 - i * 0.5}px;border-radius:50%;background:white;mix-blend-mode:difference;transform:translate(-50%,-50%);opacity:${0.4 - i * 0.04};`; document.body.appendChild(t); trail.push({ el: t, x: 0, y: 0 }); }
+    document.addEventListener('mousemove', e => { trail[0].x = e.clientX; trail[0].y = e.clientY; });
+    function animateTrail() { for (let i = trail.length - 1; i > 0; i--) { trail[i].x += (trail[i-1].x - trail[i].x) * 0.35; trail[i].y += (trail[i-1].y - trail[i].y) * 0.35; trail[i].el.style.left = trail[i].x + 'px'; trail[i].el.style.top = trail[i].y + 'px'; } requestAnimationFrame(animateTrail); }
+    animateTrail();
 
-        // Gentle parallax effect
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero-text');
-            if (hero && scrolled < 800) {
-                hero.style.transform = `translateY(${scrolled * 0.15}px)`;
-                hero.style.opacity = 1 - (scrolled * 0.0008);
-            }
-        });
+    // fade in image on load, then JS controls opacity
+    const imageWrapEl = document.querySelector('.image-wrap');
+    if (imageWrapEl) {
+      setTimeout(() => {
+        imageWrapEl.style.transition = 'opacity 0.7s ease';
+        imageWrapEl.style.opacity = '1';
+        setTimeout(() => { imageWrapEl.style.transition = ''; }, 800);
+      }, 850);
+    }
 
-        // Subtle tilt effect on project cards
-        document.querySelectorAll('.project-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = (y - centerY) / 30;
-                const rotateY = (centerX - x) / 30;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = '';
-            });
-        });
-    </script>
+    // ── NAV LETTER FLIP ──
+    document.querySelectorAll('#nav-menu a').forEach(link => { const text = link.innerText; link.innerHTML = text.split('').map((char, i) => char === ' ' ? ' ' : `<span class="letter" style="animation-delay:${i * 40}ms">${char}</span>`).join(''); });
+
+    // ── TEXT SCRAMBLE ──
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    function scramble(el) { const original = el.dataset.original || el.innerText; el.dataset.original = original; let iteration = 0; const total = 8; clearInterval(el._scrambleInterval); el._scrambleInterval = setInterval(() => { el.innerText = original.split('').map((char, i) => { if (char === ' ') return ' '; if (i < Math.floor((iteration / total) * original.length)) return original[i]; if (!/[a-zA-Z]/.test(char)) return char; return chars[Math.floor(Math.random() * chars.length)]; }).join(''); iteration++; if (iteration >= total) { clearInterval(el._scrambleInterval); el.innerText = original; } }, 50); }
+    document.querySelectorAll('.hero-headline .line').forEach(line => { line.style.display = 'inline-block'; line.style.whiteSpace = 'nowrap'; line.addEventListener('mouseenter', () => scramble(line)); });
+
+    // ── MAGNETIC BUTTONS ──
+    document.querySelectorAll('.btn-primary, .btn-ghost').forEach(btn => { btn.addEventListener('mousemove', e => { const rect = btn.getBoundingClientRect(); const dx = (e.clientX - rect.left - rect.width / 2) * 0.3; const dy = (e.clientY - rect.top - rect.height / 2) * 0.3; btn.style.transform = `translate(${dx}px, ${dy}px)`; }); btn.addEventListener('mouseleave', () => { btn.style.transform = 'translate(0,0)'; btn.style.transition = 'transform 0.4s ease'; }); btn.addEventListener('mouseenter', () => { btn.style.transition = 'transform 0.1s ease'; }); });
+
+    // ── SCROLL ANIMATION ──
+    let ticking = false;
+
+    function applyParallax() {
+      const scrolled = window.pageYOffset;
+      if (scrolled > 900) { ticking = false; return; }
+
+      // progress 0 → 1 over first 600px of scroll
+      const progress = Math.min(scrolled / 600, 1);
+
+      // bg-rect: corners flatten from 250px → 0px as you scroll
+      const radius = Math.round(250 * (1 - progress));
+      const bgRect = document.querySelector('.bg-rect');
+      if (bgRect) {
+        bgRect.style.borderRadius = `0 0 ${radius}px ${radius}px`;
+        bgRect.style.translate = `0 ${scrolled * 0.08}px`;
+      }
+
+      // headline fades and drifts up
+      const heroLeft = document.querySelector('.hero-left');
+      if (heroLeft) {
+        heroLeft.style.translate = `0 ${scrolled * 0.3}px`;
+        heroLeft.style.opacity = Math.max(0, 1 - scrolled * 0.0025);
+      }
+
+      // photo fades out, stays in place
+      const imageWrap = document.querySelector('.image-wrap');
+      if (imageWrap) {
+        imageWrap.style.translate = `0 0`;
+        imageWrap.style.opacity = Math.max(0, 1 - scrolled * 0.004);
+      }
+
+      // trees fade out, stay in place
+      document.querySelectorAll('.tree-wrap').forEach((tree) => {
+        tree.style.translate = `0 0`;
+        tree.style.opacity = Math.max(0, 1 - scrolled * 0.004);
+      });
+
+      // ui boxes fade out
+      document.querySelectorAll('.ui-box').forEach((box) => {
+        box.style.opacity = Math.max(0, 1 - scrolled * 0.004);
+      });
+
+      // grid drifts subtly
+      const grid = document.querySelector('.bg-grid');
+      if (grid) grid.style.translate = `0 ${scrolled * 0.15}px`;
+
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) { requestAnimationFrame(applyParallax); ticking = true; }
+    });
+
+    // ── PROJECT CARD TILT ──
+    document.querySelectorAll('.project-card').forEach(card => { card.addEventListener('mousemove', (e) => { const rect = card.getBoundingClientRect(); const rotateX = (e.clientY - rect.top - rect.height / 2) / 30; const rotateY = (rect.width / 2 - (e.clientX - rect.left)) / 30; card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`; }); card.addEventListener('mouseleave', () => { card.style.transform = ''; }); });
+
+    function showCaseStudy(projectId) { const projectMap = { 'project1': 'case-study-1', 'project2': 'case-study-2', 'project3': 'case-study-1', 'project4': 'case-study-1' }; }
+  </script>
 </body>
 </html>
