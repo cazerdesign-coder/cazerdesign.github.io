@@ -1,64 +1,580 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Me - Sam Cazer</title>
-    <link rel="stylesheet" href="stylesheet.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Sam Cazer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="stylesheet.css">
+  <style>
+    * { cursor: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 64px;
+      background: none;
+      border: none;
+      backdrop-filter: none;
+      width: 100%;
+      transition: padding 0.3s;
+    }
+    nav .container { display: contents; }
+    nav ul#nav-menu {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+      background: rgba(255,255,255,0.3);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 100px;
+      padding: 12px 28px;
+      align-items: center;
+    }
+    nav ul#nav-menu a, nav ul#nav-menu button.nav-link {
+      font-size: .78rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: #1a2a1a; text-decoration: none;
+      opacity: .7; transition: opacity .2s; padding: 0;
+      background: none; border: none; font-family: inherit;
+    }
+    nav ul#nav-menu a:hover { opacity: 1; }
+    nav ul#nav-menu a::after { display: none; }
+    .logo-image { height: 56px !important; max-height: 56px !important; width: auto !important; }
+    .logo-img-wrap img { filter: invert(52%) sepia(28%) saturate(500%) hue-rotate(90deg) brightness(85%); transition: filter 0.3s; }
+    nav.scrolled { padding: 16px 64px; }
+    nav.scrolled ul#nav-menu { background: rgba(255,255,255,0.3); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.5); }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; padding: 4px; z-index: 30; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #1a2a1a; border-radius: 2px; }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: #C3D4A3; z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 2rem; font-weight: 700; color: #1a2a1a; text-decoration: none; }
+    .mobile-menu-close { position: absolute; top: 32px; right: 28px; font-size: 1.5rem; cursor: none; color: #1a2a1a; background: none; border: none; }
+
+    /* ── HERO BANNER ── */
+    .about-hero {
+      width: 100%;
+      height: 60vh;
+      min-height: 400px;
+      background: linear-gradient(to right, #C3D4A3, #70A58B);
+      border-radius: 0 0 250px 250px;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 120px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-hero-grid {
+      position: absolute;
+      top: 0; right: 0;
+      width: 420px; height: 280px;
+      pointer-events: none;
+    }
+    .about-hero-grid::before {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 420px; height: 280px;
+      background-image: linear-gradient(rgba(255,255,255,.2) 4px, transparent 4px);
+      background-size: 65px 65px;
+    }
+    .about-hero-grid::after {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 360px; height: 300px;
+      background-image: linear-gradient(90deg, rgba(255,255,255,.2) 4px, transparent 4px);
+      background-size: 65px 65px;
+    }
+
+    .about-hero-text { position: relative; z-index: 2; }
+    .about-eyebrow {
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(26,42,26,.6);
+      margin-bottom: 12px;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp .6s .1s forwards;
+    }
+    .about-title {
+      font-weight: 900;
+      font-size: clamp(4rem, 9vw, 9rem);
+      line-height: .9;
+      letter-spacing: -.04em;
+      color: #1a2a1a;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp .7s .2s forwards;
+    }
+    .about-title span { color: #fff; }
+
+    /* photo floats at bottom right of hero */
+    .about-hero-photo {
+      position: absolute;
+      bottom: 0; right: 180px;
+      width: 300px; height: 390px;
+      border-radius: 150px 150px 0 0;
+      overflow: hidden;
+      z-index: 3;
+      opacity: 0;
+      animation: fadeUp .7s .5s forwards;
+    }
+    .about-hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── CONTENT ── */
+    .about-body {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 5% 40px;
+    }
+
+    /* intro row */
+    .about-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      margin-bottom: 80px;
+    }
+
+    .about-intro-label {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #70A58B;
+      margin-bottom: 16px;
+    }
+
+    .about-intro-heading {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900;
+      letter-spacing: -.03em;
+      line-height: 1;
+      color: #1a2a1a;
+      margin-bottom: 28px;
+    }
+
+    .about-intro-text p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #5a6e5a;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+
+    /* offset aside so it aligns with the heading, not the label above it */
+    .about-intro-aside {
+      padding-top: 52px;
+    }
+
+    /* stat pills */
+    .about-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .about-stat {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+    }
+    .about-stat-num {
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      color: #1a2a1a;
+      line-height: 1;
+    }
+    .about-stat-label {
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #5a6e5a;
+    }
+
+    .about-currently {
+      background: linear-gradient(135deg, #C3D4A3, #70A58B);
+      border-radius: 20px;
+      padding: 28px 32px;
+    }
+    .about-currently h4 {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(26,42,26,.6);
+      margin-bottom: 12px;
+    }
+    .about-currently p {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #1a2a1a;
+      line-height: 1.6;
+    }
+
+    /* divider */
+    .about-divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(195,212,163,.4);
+      margin: 0 0 80px;
+    }
+
+    /* toolkit */
+    .about-toolkit { margin-bottom: 80px; }
+    .about-section-label {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #70A58B;
+      margin-bottom: 32px;
+    }
+    .toolkit-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .toolkit-item {
+      padding: 10px 20px;
+      border-radius: 100px;
+      border: 1.5px solid rgba(195,212,163,.4);
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: #1a2a1a;
+      text-align: center;
+      white-space: nowrap;
+      transition: all .25s;
+      background: white;
+    }
+    .toolkit-item:hover {
+      background: #70A58B;
+      color: white;
+      border-color: #70A58B;
+      transform: translateY(-3px);
+    }
+
+    /* beyond work */
+    .about-beyond { margin-bottom: 80px; }
+    .beyond-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .beyond-card {
+      background: white;
+      border: 1.5px solid rgba(195,212,163,.3);
+      border-radius: 20px;
+      padding: 28px 24px;
+      transition: all .3s;
+    }
+    .beyond-card:hover {
+      transform: translateY(-6px);
+      border-color: #C3D4A3;
+      box-shadow: 0 12px 40px rgba(26,42,26,.08);
+    }
+    .beyond-icon {
+      font-size: 1.8rem;
+      margin-bottom: 14px;
+    }
+    .beyond-card h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a2a1a;
+      margin-bottom: 8px;
+      letter-spacing: -.01em;
+    }
+    .beyond-card p {
+      font-size: .88rem;
+      color: #5a6e5a;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* cta */
+    .about-cta {
+      background: linear-gradient(to right, #C3D4A3, #70A58B);
+      border-radius: 24px;
+      padding: 64px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      margin-bottom: 80px;
+    }
+    .about-cta-text h3 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 900;
+      letter-spacing: -.03em;
+      line-height: 1;
+      color: #1a2a1a;
+      margin-bottom: 12px;
+    }
+    .about-cta-text p {
+      font-size: 1rem;
+      color: rgba(26,42,26,.65);
+      font-weight: 300;
+    }
+    .about-cta-actions { display: flex; gap: 16px; flex-shrink: 0; }
+    .btn-primary {
+      padding: 14px 32px;
+      background: #1a2a1a;
+      color: #fff;
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 100px;
+      transition: background .25s, transform .2s;
+      white-space: nowrap;
+    }
+    .btn-primary:hover { background: #2d4a2d; transform: translateY(-2px); }
+    .btn-ghost {
+      padding: 14px 32px;
+      background: rgba(255,255,255,.35);
+      color: #1a2a1a;
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 100px;
+      border: 1px solid rgba(255,255,255,.5);
+      transition: background .25s, transform .2s;
+      white-space: nowrap;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,.55); transform: translateY(-2px); }
+
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* ── CUSTOM CURSOR ── */
+    .cursor { position: fixed; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
+    .cursor-circle { width: 24px; height: 24px; border-radius: 50%; background: white; transform: translate(-50%, -50%); transition: width 0.3s ease, height 0.3s ease; }
+    .cursor-dot { width: 6px; height: 6px; border-radius: 50%; background: white; transform: translate(-50%, -50%); }
+    body.cursor-hover .cursor-circle { width: 64px; height: 64px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .about-hero { padding: 0 80px 64px; }
+      .about-hero-photo { right: 100px; }
+      nav { padding: 20px 40px; }
+    }
+    @media (max-width: 860px) {
+      nav ul#nav-menu { gap: 16px; padding: 8px 16px; }
+      nav ul#nav-menu a { font-size: .7rem; }
+      .about-intro { grid-template-columns: 1fr; gap: 40px; }
+      .beyond-grid { grid-template-columns: 1fr 1fr; }
+      .about-cta { flex-direction: column; padding: 48px 40px; }
+    }
+    @media (max-width: 768px) {
+      nav ul#nav-menu { display: none; }
+      .nav-hamburger { display: flex; }
+      nav { padding: 20px 24px; }
+      .about-hero { border-radius: 0 0 80px 80px; padding: 0 28px 64px; min-height: 320px; }
+      .about-hero-photo { width: 150px; height: 200px; border-radius: 75px 75px 0 0; right: 28px; }
+      .about-title { font-size: clamp(3rem, 12vw, 5rem); }
+      .beyond-grid { grid-template-columns: 1fr; }
+      .about-cta { padding: 40px 28px; }
+      .about-cta-actions { flex-direction: column; width: 100%; }
+      .btn-primary, .btn-ghost { text-align: center; }
+    }
+  </style>
 </head>
 <body>
-    <nav>
+
+  <!-- NAV -->
+  <nav>
     <div class="container">
-        <div class="logo">
-            <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
-                <img src="images/logo.svg" class="logo-image">
-                <span class="logo-text">cazerdesign</span>
-            </a>
-        </div>
-        <ul id="nav-menu">
-            <li><a href="index.html" class="nav-link" style="text-decoration: none; color: inherit;">Home</a></li>
-            <li><a href="index.html#work" class="nav-link" style="text-decoration: none; color: inherit;">Work</a></li>
-            <li><a href="play.html" class="nav-link" style="text-decoration: none; color: inherit;">Play</a></li>
-            <li><a href="about.html" class="nav-link" style="text-decoration: none; color: inherit;">About</a></li>
-            <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link" style="text-decoration: none; color: inherit;">Resume</a></li>
-        </ul>
-    </div>
-</nav>
-
-    <section style="min-height: 100vh; padding-top: 8rem;">
-        <h2>Tending the Garden</h2>
-        <p class="section-intro">Every great garden needs care, patience, and the right tools.</p>
-        <div class="about-content">
-            <div class="about-text">
-                <p>I'm Sam Cazer, a UI/UX designer studying New Media Design at RIT. I specialize in creating intuitive, scalable digital experiences that merge creativity with technology. My work explores how thoughtful design systems and emerging AI tools can make interfaces more human-centered, efficient, and engaging. Whether I'm prototyping interactive products or refining design systems, I focus on building experiences that feel seamless, accessible, and meaningful.</p>
-                <p>Besides my work, I create many crafts through crocheting, jewelry making, and illustration. I also love drinking tea!</p>
-                <h3 style="font-size: 1.6rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">My Toolkit</h3>
-                <div class="skills">
-                    <div class="skill">Figma</div>
-                    <div class="skill">Sketch</div>
-                    <div class="skill">Prototyping</div>
-                    <div class="skill">User Research</div>
-                    <div class="skill">Design Systems</div>
-                    <div class="skill">Workshops</div>
-                </div>
-            </div>
-            <img src="images/SamCazer.jpg" alt="Sam Cazer" class="about-image">
-        </div>
-    </section>
-
-   <footer>
-  <div class="footer-content">
-      <img src="images/Gunther.png" alt="Design Garden Illustration" style="width: 90%; height:auto; border-radius:12px;">
-    <div class="footer-text" style="width: 90%">
-      <p class="footer-tagline">Thanks for visiting my Design Garden</p>
-      <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
-      <div class="footer-links">
-        <a href="mailto:sam@cazerdesign.com">Email</a>
-        <a href="https://www.linkedin.com/in/samcazer">LinkedIn</a>
+      <div class="logo">
+        <a href="index.html">
+          <span class="logo-img-wrap"><img src="images/logo.svg" class="logo-image" alt="logo"></span>
+        </a>
+      </div>
+      <ul id="nav-menu">
+        <li><a href="index.html#work" class="nav-link">Work</a></li>
+        <li><a href="play.html" class="nav-link">Play</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link">Resume</a></li>
+      </ul>
+      <div class="nav-hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">
+        <span></span><span></span><span></span>
       </div>
     </div>
-  </div>
-</footer>
+  </nav>
 
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">✕</button>
+    <a href="index.html#work">Work</a>
+    <a href="play.html">Play</a>
+    <a href="about.html">About</a>
+    <a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank">Resume</a>
+  </div>
+
+  <!-- HERO BANNER -->
+  <div class="about-hero">
+    <div class="about-hero-grid"></div>
+    <div class="about-hero-text">
+      <p class="about-eyebrow">About me</p>
+      <h1 class="about-title">Tending<br><span>the Garden.</span></h1>
+    </div>
+    <div class="about-hero-photo">
+      <img src="images/SamCazer.png" alt="Sam Cazer" />
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="about-body">
+
+    <!-- INTRO ROW -->
+    <div class="about-intro">
+      <div class="about-intro-text">
+        <p class="about-intro-label">Who I am</p>
+        <h2 class="about-intro-heading">Designer.<br>Maker.<br>Gardener.</h2>
+        <p>I'm Sam Cazer, a UI/UX designer studying New Media Design at RIT. I specialize in creating intuitive, scalable digital experiences that merge creativity with technology.</p>
+        <p>My work explores how thoughtful design systems and emerging AI tools can make interfaces more human-centered, efficient, and engaging. Whether I'm prototyping interactive products or refining design systems, I focus on building experiences that feel seamless, accessible, and meaningful.</p>
+      </div>
+      <div class="about-intro-aside">
+        <div class="about-stats">
+          <div class="about-stat">
+            <span class="about-stat-num">5+</span>
+            <span class="about-stat-label">Years designing</span>
+          </div>
+          <div class="about-stat">
+            <span class="about-stat-num">10+</span>
+            <span class="about-stat-label">Projects</span>
+          </div>
+          <div class="about-stat">
+            <span class="about-stat-num">1</span>
+            <span class="about-stat-label">BFA in New Media Design</span>
+          </div>
+        </div>
+        <div class="about-currently">
+          <h4>Currently</h4>
+          <p>Finishing my BFA at RIT, graduating May 2026, open to full-time UI/UX & Product Design roles.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-divider"></div>
+
+    <!-- TOOLKIT -->
+    <div class="about-toolkit">
+      <p class="about-section-label">My Toolkit</p>
+      <div class="toolkit-grid">
+        <div class="toolkit-item">Figma</div>
+        <div class="toolkit-item">Sketch</div>
+        <div class="toolkit-item">Prototyping</div>
+        <div class="toolkit-item">User Research</div>
+        <div class="toolkit-item">Design Systems</div>
+        <div class="toolkit-item">Workshops</div>
+        <div class="toolkit-item">HTML / CSS</div>
+        <div class="toolkit-item">Motion Design</div>
+        <div class="toolkit-item">Rive</div>
+        <div class="toolkit-item">After Effects</div>
+      </div>
+    </div>
+
+    <div class="about-divider"></div>
+
+    <!-- BEYOND WORK -->
+    <div class="about-beyond">
+      <p class="about-section-label">Beyond the screen</p>
+      <div class="beyond-grid">
+        <div class="beyond-card">
+          <div class="beyond-icon">🧶</div>
+          <h4>Crocheting</h4>
+          <p>Creating handmade pieces that blend color, texture, and form, a tactile counterpart to digital design.</p>
+        </div>
+        <div class="beyond-card">
+          <div class="beyond-icon">💎</div>
+          <h4>Jewelry Making</h4>
+          <p>Designing and crafting small-scale wearable objects, exploring materiality and detail at a different scale.</p>
+        </div>
+        <div class="beyond-card">
+          <div class="beyond-icon">🍵</div>
+          <h4>Tea Enthusiast</h4>
+          <p>A dedicated tea drinker. Always open to recommendations.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="about-cta">
+      <div class="about-cta-text">
+        <h3>Let's grow<br>something together.</h3>
+        <p>Open to full-time roles, freelance projects, and collaborations.</p>
+      </div>
+      <div class="about-cta-actions">
+        <a href="mailto:sam@cazerdesign.com" class="btn-primary">Get in touch</a>
+        <a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="btn-ghost">View Resume</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <img src="images/Gunther.png" alt="Design Garden Illustration" style="width: 90%; height:auto; border-radius:12px;">
+      <div class="footer-text" style="width: 90%">
+        <p class="footer-tagline">Thanks for visiting my Design Garden</p>
+        <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
+        <div class="footer-links">
+          <a href="mailto:sam@cazerdesign.com">Email</a>
+          <a href="https://www.linkedin.com/in/samcazer">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- custom cursor -->
+  <div class="cursor cursor-circle" id="cursorCircle"></div>
+  <div class="cursor cursor-dot" id="cursorDot"></div>
+
+  <script>
+    // ── STICKY NAV ──
+    const navEl = document.querySelector('nav');
+    window.addEventListener('scroll', () => { navEl.classList.toggle('scrolled', window.scrollY > 60); });
+
+    // ── CURSOR ──
+    const circle = document.getElementById('cursorCircle');
+    const dot = document.getElementById('cursorDot');
+    let mouseX = 0, mouseY = 0, circleX = 0, circleY = 0;
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px'; });
+    function animateCursor() { circleX += (mouseX - circleX) * 0.12; circleY += (mouseY - circleY) * 0.12; circle.style.left = circleX + 'px'; circle.style.top = circleY + 'px'; requestAnimationFrame(animateCursor); }
+    animateCursor();
+    document.querySelectorAll('a, button').forEach(el => { el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover')); el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover')); });
+
+    // ── CURSOR TRAIL ──
+    const trail = [];
+    for (let i = 0; i < 8; i++) { const t = document.createElement('div'); t.style.cssText = `position:fixed;pointer-events:none;z-index:9998;width:${6 - i * 0.5}px;height:${6 - i * 0.5}px;border-radius:50%;background:white;mix-blend-mode:difference;transform:translate(-50%,-50%);opacity:${0.4 - i * 0.04};`; document.body.appendChild(t); trail.push({ el: t, x: 0, y: 0 }); }
+    document.addEventListener('mousemove', e => { trail[0].x = e.clientX; trail[0].y = e.clientY; });
+    function animateTrail() { for (let i = trail.length - 1; i > 0; i--) { trail[i].x += (trail[i-1].x - trail[i].x) * 0.35; trail[i].y += (trail[i-1].y - trail[i].y) * 0.35; trail[i].el.style.left = trail[i].x + 'px'; trail[i].el.style.top = trail[i].y + 'px'; } requestAnimationFrame(animateTrail); }
+    animateTrail();
+
+    // ── SCROLL REVEAL ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) { el.target.style.opacity = '1'; el.target.style.transform = 'translateY(0)'; }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.about-stat, .toolkit-item, .beyond-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>
