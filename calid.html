@@ -1,272 +1,363 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cali-ID - Sam Cazer</title>
-    <link rel="stylesheet" href="stylesheet.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cali-ID - Sam Cazer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="stylesheet.css">
+  <style>
+    * { cursor: none; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 28px 64px; background: none; border: none; backdrop-filter: none; width: 100%; transition: padding 0.3s; }
+    nav .container { display: contents; }
+    nav ul#nav-menu { display: flex; gap: 36px; list-style: none; background: rgba(255,255,255,0.3); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.5); border-radius: 100px; padding: 12px 28px; align-items: center; }
+    nav ul#nav-menu a { font-size: .78rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: #1a2a1a; text-decoration: none; opacity: .7; transition: opacity .2s; padding: 0; }
+    nav ul#nav-menu a:hover { opacity: 1; }
+    nav ul#nav-menu a::after { display: none; }
+    .logo-image { height: 56px !important; max-height: 56px !important; width: auto !important; }
+    .logo-img-wrap img { filter: invert(52%) sepia(28%) saturate(500%) hue-rotate(90deg) brightness(85%); transition: filter 0.3s; }
+    nav.scrolled { padding: 16px 64px; }
+    nav.scrolled ul#nav-menu { background: rgba(255,255,255,0.3); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.5); }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; padding: 4px; z-index: 30; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #1a2a1a; border-radius: 2px; }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: #C3D4A3; z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 2rem; font-weight: 700; color: #1a2a1a; text-decoration: none; }
+    .mobile-menu-close { position: absolute; top: 32px; right: 28px; font-size: 1.5rem; cursor: none; color: #1a2a1a; background: none; border: none; }
+
+    .cs-hero { width: 100%; min-height: 42vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 120px 80px 60px 120px; gap: 64px; }
+    .cs-hero-text { position: relative; z-index: 2; }
+    .cs-eyebrow { font-size: .78rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: #70A58B; margin-bottom: 16px; opacity: 0; transform: translateY(16px); animation: fadeUp .6s .1s forwards; }
+    .cs-title { font-weight: 900; font-size: clamp(3.5rem, 6vw, 6.5rem); line-height: .9; letter-spacing: -.04em; color: #1a2a1a; opacity: 0; transform: translateY(24px); animation: fadeUp .7s .2s forwards; margin-bottom: 24px; }
+    .cs-title span { color: #70A58B; }
+    .cs-subtitle { font-size: 1rem; font-weight: 300; line-height: 1.7; color: #5a6e5a; max-width: 420px; opacity: 0; transform: translateY(16px); animation: fadeUp .6s .35s forwards; }
+    .cs-hero-image { opacity: 0; transform: translateY(20px); animation: fadeUp .8s .4s forwards; }
+    .cs-hero-image img { width: 100%; height: auto; border-radius: 20px; box-shadow: 0 24px 60px rgba(26,42,26,.12); border: 1.5px solid rgba(195,212,163,.3); }
+
+    .cs-meta-bar { max-width: 900px; margin: 0 auto; padding: 28px 5% 40px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-bottom: 1px solid rgba(195,212,163,.4); }
+    .cs-meta-item { padding: 0 24px; border-left: 1px solid rgba(195,212,163,.4); }
+    .cs-meta-item:first-child { border-left: none; padding-left: 0; }
+    .cs-meta-label { font-size: .68rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #70A58B; margin-bottom: 8px; }
+    .cs-meta-value { font-size: .95rem; font-weight: 500; color: #1a2a1a; line-height: 1.5; }
+
+    .cs-body { max-width: 900px; margin: 0 auto; padding: 64px 5% 80px; }
+    .cs-section { margin-bottom: 72px; }
+    .cs-section-label { font-size: .68rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #70A58B; margin-bottom: 16px; }
+    .cs-section h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; letter-spacing: -.03em; color: #1a2a1a; margin-bottom: 20px; line-height: 1.1; }
+    .cs-section p { font-size: 1rem; line-height: 1.8; color: #5a6e5a; font-weight: 300; margin-bottom: 16px; }
+    .cs-section p strong { font-weight: 600; color: #1a2a1a; }
+
+    .cs-goals { background: rgba(195,212,163,.12); border-left: 3px solid #70A58B; border-radius: 0 16px 16px 0; padding: 28px 32px; margin: 32px 0; }
+    .cs-goals h3 { font-size: .78rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: #70A58B; margin-bottom: 16px; }
+    .cs-goals ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .cs-goals ul li { font-size: .95rem; color: #1a2a1a; font-weight: 400; padding-left: 20px; position: relative; line-height: 1.5; }
+    .cs-goals ul li::before { content: '→'; position: absolute; left: 0; color: #70A58B; font-size: .85rem; }
+
+    .cs-divider { width: 100%; height: 1px; background: rgba(195,212,163,.35); margin: 56px 0; }
+
+    .cs-subsection { display: flex; align-items: center; gap: 16px; margin: 48px 0 20px; }
+    .cs-subsection-num { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #C3D4A3, #70A58B); display: flex; align-items: center; justify-content: center; font-size: .78rem; font-weight: 900; color: #1a2a1a; flex-shrink: 0; }
+    .cs-subsection h3 { font-size: 1.3rem; font-weight: 800; letter-spacing: -.02em; color: #1a2a1a; }
+
+    .cs-image-full { margin: 28px 0; }
+    .cs-image-full img { width: 100%; height: auto; border-radius: 16px; border: 1.5px solid rgba(195,212,163,.3); box-shadow: 0 8px 30px rgba(26,42,26,.07); display: block; }
+    .cs-image-caption { font-size: .82rem; color: #5a6e5a; font-weight: 300; line-height: 1.5; font-style: italic; margin-top: 12px; }
+
+    .cs-image-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0; }
+    .cs-image-grid img { width: 100%; height: auto; border-radius: 16px; border: 1.5px solid rgba(195,212,163,.3); box-shadow: 0 8px 30px rgba(26,42,26,.07); display: block; }
+    .cs-image-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 28px 0; }
+    .cs-image-grid-3 img { width: 100%; height: auto; border-radius: 16px; border: 1.5px solid rgba(195,212,163,.3); box-shadow: 0 8px 30px rgba(26,42,26,.07); display: block; }
+
+    /* comparison labels */
+    .cs-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 28px 0; }
+    .cs-image-block { display: flex; flex-direction: column; gap: 12px; }
+    .cs-image-label { display: inline-flex; align-items: center; gap: 8px; font-size: .68rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; padding: 6px 14px; border-radius: 100px; width: fit-content; }
+    .label-style1 { background: rgba(26,42,26,.08); color: #1a2a1a; }
+    .label-style2 { background: #1a2a1a; color: #C3D4A3; }
+    .cs-image-block img { width: 100%; height: auto; border-radius: 16px; border: 1.5px solid rgba(195,212,163,.3); box-shadow: 0 8px 30px rgba(26,42,26,.07); display: block; }
+
+    /* vimeo embed */
+    .cs-video-embed { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 16px; box-shadow: 0 8px 30px rgba(26,42,26,.07); border: 1.5px solid rgba(195,212,163,.3); margin: 28px 0; }
+    .cs-video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+    .cs-reflection { background: linear-gradient(135deg, #C3D4A3, #70A58B); border-radius: 24px; padding: 48px; margin-top: 72px; }
+    .cs-reflection h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; letter-spacing: -.03em; color: #1a2a1a; margin-bottom: 20px; }
+    .cs-reflection p { font-size: 1rem; line-height: 1.8; color: rgba(26,42,26,.75); font-weight: 300; margin-bottom: 16px; }
+    .cs-reflection p:last-child { margin-bottom: 0; }
+    .cs-nav-bottom { padding: 80px 0 20px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    .cursor { position: fixed; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
+    .cursor-circle { width: 24px; height: 24px; border-radius: 50%; background: white; transform: translate(-50%, -50%); transition: width 0.3s ease, height 0.3s ease; }
+    .cursor-dot { width: 6px; height: 6px; border-radius: 50%; background: white; transform: translate(-50%, -50%); }
+    body.cursor-hover .cursor-circle { width: 64px; height: 64px; }
+
+    @media (max-width: 1024px) { .cs-hero { padding: 120px 60px 60px 80px; gap: 40px; } nav { padding: 20px 40px; } }
+    @media (max-width: 768px) {
+      nav ul#nav-menu { display: none; } .nav-hamburger { display: flex; } nav { padding: 20px 24px; }
+      .cs-hero { grid-template-columns: 1fr; padding: 120px 28px 60px; gap: 40px; }
+      .cs-title { font-size: clamp(3rem, 12vw, 5rem); }
+      .cs-meta-bar { grid-template-columns: 1fr 1fr; gap: 24px; }
+      .cs-meta-item { border-left: none; padding-left: 0; }
+      .cs-image-grid { grid-template-columns: 1fr; }
+      .cs-image-grid-3 { grid-template-columns: 1fr; }
+      .cs-comparison { grid-template-columns: 1fr; }
+      .cs-reflection { padding: 32px; }
+    }
+    @media (max-width: 480px) { .cs-meta-bar { grid-template-columns: 1fr; } }
+  </style>
 </head>
-
 <body>
-    <nav>
-        <div class="container">
-            <div class="logo">
-                <a href="index.html"
-                    style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
-                    <img src="images/logo.svg" class="logo-image">
-                    <span class="logo-text">cazerdesign</span>
-                </a>
-            </div>
-            <ul id="nav-menu">
-                <li><a href="index.html" class="nav-link" style="text-decoration: none; color: inherit;">Home</a></li>
-                <li><a href="index.html#work" class="nav-link" style="text-decoration: none; color: inherit;">Work</a></li>
-                <li><a href="play.html" class="nav-link" style="text-decoration: none; color: inherit;">Play</a></li>
-                <li><a href="about.html" class="nav-link" style="text-decoration: none; color: inherit;">About</a></li>
-                <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link"
-                        style="text-decoration: none; color: inherit;">Resume</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <section style="max-width: 900px; margin: 0 auto; padding: 5rem 5%;">
-        <!-- Header -->
-        <div class="case-study-header">
-            <h1>Cali-ID</h1>
-            <p style="font-size: 1.3rem; color: var(--text-light); margin-top: 1rem;">
-                Reimagining California's digital identity for the modern age
-            </p>
-            <div class="meta">
-                <div class="meta-item">
-                    <strong>Role</strong>
-                    <span>Product Designer</span>
-                </div>
-                <div class="meta-item">
-                    <strong>Timeline</strong>
-                    <span>6 Weeks</span>
-                </div>
-                <div class="meta-item">
-                    <strong>Team</strong>
-                    <span>1 Designer</span>
-                </div>
-            </div>
-        </div>
+  <nav>
+    <div class="container">
+      <div class="logo">
+        <a href="index.html"><span class="logo-img-wrap"><img src="images/logo.svg" class="logo-image" alt="logo"></span></a>
+      </div>
+      <ul id="nav-menu">
+        <li><a href="index.html#work" class="nav-link">Work</a></li>
+        <li><a href="play.html" class="nav-link">Play</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link">Resume</a></li>
+      </ul>
+      <div class="nav-hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
 
-        <!-- Hero Image -->
-        <img src="images/Cali-ID.avif" class="case-study-hero" alt="Cali-ID Project">
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">✕</button>
+    <a href="index.html#work">Work</a><a href="play.html">Play</a><a href="about.html">About</a>
+    <a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank">Resume</a>
+  </div>
 
-        <!-- Overview -->
-        <div class="case-study-section">
-            <h2>Digital Identification</h2>
-            <p>
-                As our lives increasingly move into the digital realm, physical wallets, credit cards, driver's licenses,
-                even state IDs, feel a little outdated. What if you could carry your California ID in your pocket, fully
-                secure, and instantly accessible? That's where Cali-ID comes in.
-            </p>
-        </div>
+  <div class="cs-hero">
+    <div class="cs-hero-text">
+      <p class="cs-eyebrow">Case Study · Mobile Design</p>
+      <h1 class="cs-title">Cali-<span>ID.</span></h1>
+      <p class="cs-subtitle">Reimagining California's digital identity for the modern age.</p>
+    </div>
+    <div class="cs-hero-image"><img src="images/Cali-ID.avif" alt="Cali-ID Project" /></div>
+  </div>
 
-        <!-- The Challenge -->
-        <div class="case-study-section">
-            <h2>The Challenge</h2>
-            <p>
-                While researching for this project, I found that there were three major issues in the designs for existing state IDs.
-            </p>
+  <div class="cs-meta-bar">
+    <div class="cs-meta-item"><p class="cs-meta-label">Role</p><p class="cs-meta-value">Product Designer</p></div>
+    <div class="cs-meta-item"><p class="cs-meta-label">Timeline</p><p class="cs-meta-value">6 Weeks</p></div>
+    <div class="cs-meta-item"><p class="cs-meta-label">Team</p><p class="cs-meta-value">Solo Project</p></div>
+    <div class="cs-meta-item"><p class="cs-meta-label">Tools</p><p class="cs-meta-value">Figma</p></div>
+  </div>
 
-            <div class="highlight-box">
-                <h3>Key Problems</h3>
-                <ul>
-                    <li><strong>Lack of visual identity:</strong> Most state IDs fail to reflect California's unique cultural identity. They're generic, bland, and don't feel "Californian."</li>
-                    <li><strong>Poor information hierarchy:</strong> Important details, name, date of birth, expiration, get lost. The layout doesn't guide your eye, so the ID isn't scannable or easy to consume.</li>
-                    <li><strong>Security concerns:</strong> Sensitive data is too easily exposed; there's no strong visual approach to concealing or revealing information securely.</li>
-                </ul>
-            </div>
-        </div>
+  <div class="cs-body">
 
-        <!-- Research & Discovery -->
-        <div class="case-study-section">
-            <h2>Research & Discovery</h2>
-            <p>To understand how to create this digital ID for California, I looked at:</p>
+    <div class="cs-section">
+      <p class="cs-section-label">01 · Overview</p>
+      <h2>Digital Identification</h2>
+      <p>As our lives increasingly move into the digital realm, physical wallets, credit cards, driver's licenses, even state IDs, feel a little outdated. What if you could carry your California ID in your pocket, fully secure, and instantly accessible? That's where Cali-ID comes in.</p>
+    </div>
 
-            <!-- Existing State IDs -->
-            <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Existing State IDs</h3>
-            <p>I referenced and researched numerous different existing physical and digital IDs, including California's physical ID, New York's physical ID, and CA digital DMV Wallet.</p>
+    <div class="cs-divider"></div>
 
-            <!-- California Physical ID -->
-            <h4 style="font-size: 1.2rem; margin: 2rem 0 1rem; font-weight: 600; color: var(--earth-brown);">California Physical ID</h4>
-            <img src="images/CaliforniaID.jpg" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-            <ul>
-                <li>Visually busy with too much information and an unclear type hierarchy</li>
-                <li>Sensitive information is too easily accessible</li>
-                <li>Symbols on the ID, such as organ donor and real-ID, are inconsistent with other IDs</li>
-            </ul>
-
-            <!-- New York ID - Commented out for later use -->
-            <!-- <h4 style="font-size: 1.2rem; margin: 2rem 0 1rem; font-weight: 600; color: var(--earth-brown);">New York Physical ID</h4>
-            <div class="image-grid">
-                <div class="image-placeholder">📊</div>
-                <div class="image-placeholder">🔍</div>
-            </div>
-            <ul>
-                <li>Visually busy with too much information and an unclear type hierarchy</li>
-                <li>Sensitive information is too easily accessible</li>
-                <li>Symbols on the ID, such as organ donor and real-ID, are inconsistent to other IDs</li>
-            </ul> -->
-
-            <!-- CA Digital DMV Wallet -->
-            <h4 style="font-size: 1.2rem; margin: 2rem 0 1rem; font-weight: 600; color: var(--earth-brown);">CA Digital DMV Wallet</h4>
-             <img src="images/CA-DMV-Wallet-Screens.jpg" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-            <ul>
-                <li>Does not visualize California's identity or branding</li>
-                <li>Onboarding page has good options for signing up and gives users signifiers of what they can do right from the start</li>
-            </ul>
-
-            <!-- Brand and Identity -->
-            <h3 style="font-size: 1.4rem; margin: 3rem 0 1rem; font-weight: 700; color: var(--soil);">The Brand and Identity of California</h3>
-            <p>I explored California's visual culture, landscape, architecture, and lifestyle to inform the design direction.</p>
-            <div class="image-grid">
-                <img src="images/modernhouse.jpg" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-                <img src="images/buildings.jpg" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-                <img src="images/Flag_of_California.svg.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-            </div>
-        </div>
-
-        <!-- Ideation -->
-        <div class="case-study-section">
-            <h2>Ideation and Early Concepts</h2>
-            <p>Having gathered more information about California's cultural identity, I created two moodboards for two different stylistic directions.</p>
-
-            <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Style 1: Minimal and Geometric</h3>
-            <p>Inspired by the modern geometric architecture used by many residents in California.</p>
-            <img src="images/Style 1.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-            <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Style 2: Organic and Playful</h3>
-            <p>Inspired by the colorful, playful nature of California and its residents.</p>
-            <img src="images/Style 2.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-        </div>
-
-        <!-- Goals -->
-        <div class="case-study-section">
-            <h2>Goals</h2>
-            <p>After conducting my research, I created a list of my core goals for this project:</p>
-            <div class="highlight-box">
-                <ul>
-                    <li><strong>Security:</strong> Sensitive info should only be shown when needed</li>
-                    <li><strong>Scannable and clear:</strong> Use hierarchy, typography, and layout to communicate information effectively</li>
-                    <li><strong>California's personality:</strong> Utilize visual elements to create a design that has warmth and personality</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Wireframes -->
-        <div class="case-study-section">
-            <h2>Wireframes</h2>
-            <p>I sketched out initial concepts to explore layout options and information architecture.</p>
-        <img src="images/wireframes.avif" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-        </div>
-
-        <!-- Design Iteration 1 -->
-        <div class="case-study-section">
-            <h2>Design Iteration 1</h2>
-            <p>I developed both visual directions into high-fidelity mockups to compare their effectiveness.</p>
-
-            <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Style 1: Minimal and Geometric</h3>
-            <img src="images/Iteration 1.avif" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-            <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Style 2: Organic and Playful</h3>
-            <img src="images/Iteration 1 2.avif" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-        </div>
-
-        <!-- Design Iteration 2 -->
-        <div class="case-study-section">
-            <h2>Design Iteration 2</h2>
-            <p>
-                For this design iteration, I chose to continue with only Style 2. Style 1 felt more intense and closer to propaganda, 
-                while Style 2 felt free, playful, fun, and warm, which feels closer aligned to California's identity.
-            </p>
-            <img src="images/Iteration 2.avif" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-        </div>
-
-        <!-- Final Design -->
-        <div class="case-study-section">
-            <h2>Final Design & Prototype</h2>
-            <p>
-                The final design embraces California's vibrant personality through organic shapes, warm colors, and clear information hierarchy. 
-                The interface prioritizes security by revealing sensitive information only when needed, while maintaining an approachable and friendly aesthetic.
-            </p>
-            <div style="padding: 56.25% 0 0 0; position: relative; margin: 2rem 0; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-    <iframe src="https://player.vimeo.com/video/1056682973?badge=0&autopause=0&player_id=0&app_id=58479" 
-            frameborder="0" 
-            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
-            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
-            title="Cali-ID Prototype">
-    </iframe>
-</div>
-<script src="https://player.vimeo.com/api/player.js"></script>
-            <img src="images/Final Frames.avif" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-        </div>
-
-        <!-- Takeaways -->
-        <div class="case-study-section">
-            <h2>Final Takeaways</h2>
-            <p>This project taught me valuable lessons about balancing functionality with personality in digital identity design:</p>
-            <ul>
-                <li><strong>The importance of simplicity, clarity, hierarchy, and grids</strong> in creating scannable, accessible interfaces</li>
-                <li><strong>Consistency in visual identity</strong> helps build trust and recognition</li>
-                <li><strong>Iterate, iterate, iterate</strong>, exploring multiple directions led to a stronger final solution</li>
-            </ul>
-        </div>
-
-        <!-- Impact & Growth - Commented out for later use -->
-        <!-- <div class="case-study-section">
-            <h2>Impact & Growth</h2>
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-number">45%</div>
-                    <div class="stat-label">Increase in Conversions</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">60%</div>
-                    <div class="stat-label">Faster Task Completion</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">4.8/5</div>
-                    <div class="stat-label">User Satisfaction Score</div>
-                </div>
-            </div>
-        </div> -->
-
-        <!-- CTA Section -->
-        <div class="case-study-section" style="text-align: center; margin-top: 5rem;">
-            <h2>Explore More</h2>
-            <p style="margin-bottom: 2rem;">Want to see what else is growing in the garden?</p>
-            <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
-                <a href="index.html#work" class="cta-button cta-primary">Back to Garden</a>
-                <a href="index.html#contact" class="cta-button cta-secondary">Let's Connect</a>
-            </div>
-        </div>
-    </section>
-
-   <footer>
-  <div class="footer-content">
-      <img src="images/Gunther.png" alt="Design Garden Illustration" style="width: 90%; height:auto; border-radius:12px;">
-    <div class="footer-text" style="width: 90%">
-      <p class="footer-tagline">Thanks for visiting my Design Garden</p>
-      <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
-      <div class="footer-links">
-        <a href="mailto:sam@cazerdesign.com">Email</a>
-        <a href="https://www.linkedin.com/in/samcazer">LinkedIn</a>
+    <div class="cs-section">
+      <p class="cs-section-label">02 · The Challenge</p>
+      <h2>What needed to change?</h2>
+      <p>While researching for this project I found three major issues in the designs for existing state IDs.</p>
+      <div class="cs-goals">
+        <h3>Key Problems</h3>
+        <ul>
+          <li><strong>Lack of visual identity:</strong> Most state IDs fail to reflect California's unique cultural identity. They're generic, bland, and don't feel Californian.</li>
+          <li><strong>Poor information hierarchy:</strong> Important details like name, date of birth, and expiration get lost. The layout doesn't guide your eye.</li>
+          <li><strong>Security concerns:</strong> Sensitive data is too easily exposed with no strong visual approach to concealing or revealing information securely.</li>
+        </ul>
       </div>
     </div>
-  </div>
-</footer>
-</body>
 
+    <div class="cs-divider"></div>
+
+    <div class="cs-section">
+      <p class="cs-section-label">03 · Research</p>
+      <h2>Understanding the space</h2>
+
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">1</div>
+        <h3>Existing State IDs</h3>
+      </div>
+
+      <p>I referenced and researched numerous different existing physical and digital IDs, including California's physical ID, New York's physical ID, and the CA Digital DMV Wallet.</p>
+
+      <div class="cs-image-full">
+        <img src="images/CaliforniaID.jpg" alt="California Physical ID" />
+        <p class="cs-image-caption">California's current physical ID. Visually busy, unclear type hierarchy, and sensitive information too easily accessible.</p>
+      </div>
+
+      <div class="cs-image-full">
+        <img src="images/CA-DMV-Wallet-Screens.jpg" alt="CA Digital DMV Wallet" />
+        <p class="cs-image-caption">The CA Digital DMV Wallet. The onboarding is decent but it does nothing to visualize California's identity or branding.</p>
+      </div>
+
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">2</div>
+        <h3>The Brand and Identity of California</h3>
+      </div>
+
+      <p>I explored California's visual culture, landscape, architecture, and lifestyle to inform the design direction.</p>
+
+      <div class="cs-image-grid-3">
+        <img src="images/modernhouse.jpg" alt="California modern architecture" />
+        <img src="images/buildings.jpg" alt="California buildings" />
+        <img src="images/Flag_of_California.svg.png" alt="California flag" />
+      </div>
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <div class="cs-section">
+      <p class="cs-section-label">04 · Goals</p>
+      <h2>What I set out to do</h2>
+      <p>After conducting research, I defined three core goals for the project:</p>
+      <div class="cs-goals">
+        <h3>Project Goals</h3>
+        <ul>
+          <li><strong>Security:</strong> Sensitive info should only be shown when needed</li>
+          <li><strong>Scannable and clear:</strong> Use hierarchy, typography, and layout to communicate information effectively</li>
+          <li><strong>California's personality:</strong> Utilize visual elements to create a design that has warmth and personality</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <div class="cs-section">
+      <p class="cs-section-label">05 · Design Process</p>
+      <h2>Building the design</h2>
+
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">1</div>
+        <h3>Ideation and Moodboards</h3>
+      </div>
+
+      <p>Having gathered more information about California's cultural identity, I created two moodboards for two different stylistic directions.</p>
+
+      <div class="cs-comparison">
+        <div class="cs-image-block">
+          <span class="cs-image-label label-style1">Style 1 · Minimal and Geometric</span>
+          <img src="images/Style 1.png" alt="Minimal and geometric moodboard" />
+          <p class="cs-image-caption">Inspired by the modern geometric architecture used by many residents in California.</p>
+        </div>
+        <div class="cs-image-block">
+          <span class="cs-image-label label-style2">Style 2 · Organic and Playful</span>
+          <img src="images/Style 2.png" alt="Organic and playful moodboard" />
+          <p class="cs-image-caption">Inspired by the colorful, playful nature of California and its residents.</p>
+        </div>
+      </div>
+
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">2</div>
+        <h3>Wireframes</h3>
+      </div>
+
+      <p>I sketched out initial concepts to explore layout options and information architecture.</p>
+      <div class="cs-image-full">
+        <img src="images/wireframes.avif" alt="Wireframes" />
+      </div>
+
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">3</div>
+        <h3>Iteration 1</h3>
+      </div>
+
+      <p>I developed both visual directions into high-fidelity mockups to compare their effectiveness.</p>
+
+      <div class="cs-comparison">
+        <div class="cs-image-block">
+          <span class="cs-image-label label-style1">Style 1 · Minimal</span>
+          <img src="images/Iteration 1.avif" alt="Iteration 1 Style 1" />
+        </div>
+        <div class="cs-image-block">
+          <span class="cs-image-label label-style2">Style 2 · Playful</span>
+          <img src="images/Iteration 1 2.avif" alt="Iteration 1 Style 2" />
+        </div>
+      </div>
+
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">4</div>
+        <h3>Iteration 2</h3>
+      </div>
+
+      <p>For this iteration I chose to continue with only Style 2. Style 1 felt more intense and closer to propaganda, while Style 2 felt free, playful, fun, and warm, which feels much more aligned with California's identity.</p>
+
+      <div class="cs-image-full">
+        <img src="images/Iteration 2.avif" alt="Iteration 2" />
+        <p class="cs-image-caption">Second iteration focusing on the organic, playful direction.</p>
+      </div>
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <div class="cs-section">
+      <p class="cs-section-label">06 · Final Design</p>
+      <h2>The finished product</h2>
+      <p>The final design embraces California's vibrant personality through organic shapes, warm colors, and clear information hierarchy. The interface prioritizes security by revealing sensitive information only when needed, while maintaining an approachable and friendly aesthetic.</p>
+
+      <div class="cs-video-embed">
+        <iframe src="https://player.vimeo.com/video/1056682973?badge=0&autopause=0&player_id=0&app_id=58479"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+          title="Cali-ID Prototype">
+        </iframe>
+      </div>
+
+      <div class="cs-image-full">
+        <img src="images/Final Frames.avif" alt="Final design frames" />
+        <p class="cs-image-caption">Final screens across key flows.</p>
+      </div>
+    </div>
+
+    <div class="cs-reflection">
+      <p class="cs-section-label" style="color: rgba(26,42,26,.5); margin-bottom: 12px;">07 · Reflection</p>
+      <h2>What I took away</h2>
+      <p>This project taught me a lot about balancing functionality with personality. State IDs have a lot of required information and real security considerations, so the challenge was making all of that feel approachable and distinctly Californian rather than just clinical.</p>
+      <p>Exploring two completely different directions early on was really valuable. It forced me to make a clear choice and commit to it with intention rather than just picking whatever felt comfortable first. The iterative process made the final design a lot stronger.</p>
+      <p>The big takeaways: simplicity, clear hierarchy, and consistent visual identity aren't just aesthetic choices. They're what makes something actually usable.</p>
+    </div>
+
+    <div class="cs-nav-bottom">
+      <a href="index.html#work" class="cta-button cta-primary">Back to Work</a>
+      <a href="about.html" class="cta-button cta-secondary">Get in Touch</a>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <img src="images/Gunther.png" alt="Design Garden Illustration" style="width: 90%; height:auto; border-radius:12px;">
+      <div class="footer-text" style="width: 90%">
+        <p class="footer-tagline">Thanks for visiting my Design Garden</p>
+        <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
+        <div class="footer-links">
+          <a href="mailto:cazerdesign@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/samcazer026">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cursor cursor-circle" id="cursorCircle"></div>
+  <div class="cursor cursor-dot" id="cursorDot"></div>
+  <script src="https://player.vimeo.com/api/player.js"></script>
+  <script>
+    const navEl = document.querySelector('nav');
+    window.addEventListener('scroll', () => { navEl.classList.toggle('scrolled', window.scrollY > 60); });
+    const circle = document.getElementById('cursorCircle');
+    const dot = document.getElementById('cursorDot');
+    let mouseX = 0, mouseY = 0, circleX = 0, circleY = 0;
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px'; });
+    function animateCursor() { circleX += (mouseX - circleX) * 0.12; circleY += (mouseY - circleY) * 0.12; circle.style.left = circleX + 'px'; circle.style.top = circleY + 'px'; requestAnimationFrame(animateCursor); }
+    animateCursor();
+    document.querySelectorAll('a, button').forEach(el => { el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover')); el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover')); });
+    const trail = [];
+    for (let i = 0; i < 8; i++) { const t = document.createElement('div'); t.style.cssText = `position:fixed;pointer-events:none;z-index:9998;width:${6 - i * 0.5}px;height:${6 - i * 0.5}px;border-radius:50%;background:white;mix-blend-mode:difference;transform:translate(-50%,-50%);opacity:${0.4 - i * 0.04};`; document.body.appendChild(t); trail.push({ el: t, x: 0, y: 0 }); }
+    document.addEventListener('mousemove', e => { trail[0].x = e.clientX; trail[0].y = e.clientY; });
+    function animateTrail() { for (let i = trail.length - 1; i > 0; i--) { trail[i].x += (trail[i-1].x - trail[i].x) * 0.35; trail[i].y += (trail[i-1].y - trail[i].y) * 0.35; trail[i].el.style.left = trail[i].x + 'px'; trail[i].el.style.top = trail[i].y + 'px'; } requestAnimationFrame(animateTrail); }
+    animateTrail();
+  </script>
+</body>
 </html>
