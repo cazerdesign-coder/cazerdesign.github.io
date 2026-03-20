@@ -1,481 +1,590 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HarborAir - Sam Cazer</title>
-    <link rel="stylesheet" href="stylesheet.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Force left alignment for all case study content */
-        .case-study-section,
-        .case-study-section p,
-        .case-study-section h2,
-        .case-study-section h3,
-        .case-study-section ul,
-        .case-study-section li,
-        .highlight-box,
-        .highlight-box p,
-        .highlight-box h3,
-        .highlight-box ul,
-        .highlight-box li {
-            text-align: left !important;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flow System - Sam Cazer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="stylesheet.css">
+  <style>
+    * { cursor: none; }
 
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 64px;
+      background: none;
+      border: none;
+      backdrop-filter: none;
+      width: 100%;
+      transition: padding 0.3s;
+    }
+    nav .container { display: contents; }
+    nav ul#nav-menu {
+      display: flex; gap: 36px; list-style: none;
+      background: rgba(255,255,255,0.3); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.5); border-radius: 100px;
+      padding: 12px 28px; align-items: center;
+    }
+    nav ul#nav-menu a {
+      font-size: .78rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: #1a2a1a; text-decoration: none;
+      opacity: .7; transition: opacity .2s; padding: 0;
+    }
+    nav ul#nav-menu a:hover { opacity: 1; }
+    nav ul#nav-menu a::after { display: none; }
+    .logo-image { height: 56px !important; max-height: 56px !important; width: auto !important; }
+    .logo-img-wrap img { filter: invert(52%) sepia(28%) saturate(500%) hue-rotate(90deg) brightness(85%); transition: filter 0.3s; }
+    nav.scrolled { padding: 16px 64px; }
+    nav.scrolled ul#nav-menu { background: rgba(255,255,255,0.3); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.5); }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; padding: 4px; z-index: 30; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #1a2a1a; border-radius: 2px; }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: #C3D4A3; z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 2rem; font-weight: 700; color: #1a2a1a; text-decoration: none; }
+    .mobile-menu-close { position: absolute; top: 32px; right: 28px; font-size: 1.5rem; cursor: none; color: #1a2a1a; background: none; border: none; }
+
+    /* ── HERO ── */
+    .cs-hero {
+      width: 100%;
+      min-height: 42vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 120px 80px 60px 120px;
+      gap: 64px;
+      position: relative;
+    }
+    .cs-hero-text { position: relative; z-index: 2; }
+    .cs-eyebrow {
+      font-size: .78rem; font-weight: 500; letter-spacing: .2em;
+      text-transform: uppercase; color: #70A58B; margin-bottom: 16px;
+      opacity: 0; transform: translateY(16px); animation: fadeUp .6s .1s forwards;
+    }
+    .cs-title {
+      font-weight: 900; font-size: clamp(3.5rem, 6vw, 6.5rem);
+      line-height: .9; letter-spacing: -.04em; color: #1a2a1a;
+      opacity: 0; transform: translateY(24px); animation: fadeUp .7s .2s forwards;
+      margin-bottom: 24px;
+    }
+    .cs-title span { color: #70A58B; }
+    .cs-subtitle {
+      font-size: 1rem; font-weight: 300; line-height: 1.7;
+      color: #5a6e5a; max-width: 420px;
+      opacity: 0; transform: translateY(16px); animation: fadeUp .6s .35s forwards;
+    }
+    .cs-hero-image {
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp .8s .4s forwards;
+    }
+    .cs-hero-image img {
+      width: 100%; height: auto;
+      border-radius: 20px;
+      box-shadow: 0 24px 60px rgba(26,42,26,.12);
+      border: 1.5px solid rgba(195,212,163,.3);
+    }
+
+    /* ── META BAR ── */
+    .cs-meta-bar {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 28px 5% 40px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-bottom: 1px solid rgba(195,212,163,.4);
+    }
+    .cs-meta-item { padding: 0 24px; border-left: 1px solid rgba(195,212,163,.4); }
+    .cs-meta-item:first-child { border-left: none; padding-left: 0; }
+    .cs-meta-label { font-size: .68rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #70A58B; margin-bottom: 8px; }
+    .cs-meta-value { font-size: .95rem; font-weight: 500; color: #1a2a1a; line-height: 1.5; }
+
+    /* ── CONTENT ── */
+    .cs-body { max-width: 900px; margin: 0 auto; padding: 64px 5% 80px; }
+    .cs-section { margin-bottom: 72px; }
+    .cs-section-label { font-size: .68rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #70A58B; margin-bottom: 16px; }
+    .cs-section h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; letter-spacing: -.03em; color: #1a2a1a; margin-bottom: 20px; line-height: 1.1; }
+    .cs-section p { font-size: 1rem; line-height: 1.8; color: #5a6e5a; font-weight: 300; margin-bottom: 16px; }
+    .cs-section p strong { font-weight: 600; color: #1a2a1a; }
+
+    /* goals box */
+    .cs-goals {
+      background: rgba(195,212,163,.12);
+      border-left: 3px solid #70A58B;
+      border-radius: 0 16px 16px 0;
+      padding: 28px 32px;
+      margin: 32px 0;
+    }
+    .cs-goals h3 { font-size: .78rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: #70A58B; margin-bottom: 16px; }
+    .cs-goals ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .cs-goals ul li { font-size: .95rem; color: #1a2a1a; font-weight: 400; padding-left: 20px; position: relative; line-height: 1.5; }
+    .cs-goals ul li::before { content: '→'; position: absolute; left: 0; color: #70A58B; font-size: .85rem; }
+
+    /* divider */
+    .cs-divider { width: 100%; height: 1px; background: rgba(195,212,163,.35); margin: 56px 0; }
+
+    /* subsection heading */
+    .cs-subsection { display: flex; align-items: center; gap: 16px; margin: 48px 0 24px; }
+    .cs-subsection-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, #C3D4A3, #70A58B);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 900; color: #1a2a1a; flex-shrink: 0;
+    }
+    .cs-subsection h3 { font-size: 1.3rem; font-weight: 800; letter-spacing: -.02em; color: #1a2a1a; }
+
+    /* images */
+    .cs-image-full { margin: 28px 0; }
+    .cs-image-full img, .cs-image-full video {
+      width: 100%; height: auto;
+      border-radius: 16px;
+      border: 1.5px solid rgba(195,212,163,.3);
+      box-shadow: 0 8px 30px rgba(26,42,26,.07);
+      display: block;
+    }
+    .cs-image-caption { font-size: .82rem; color: #5a6e5a; font-weight: 300; line-height: 1.5; font-style: italic; margin-top: 12px; }
+
+    .cs-image-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 28px 0;
+    }
+    .cs-image-grid img {
+      width: 100%; height: auto;
+      border-radius: 16px;
+      border: 1.5px solid rgba(195,212,163,.3);
+      box-shadow: 0 8px 30px rgba(26,42,26,.07);
+      display: block;
+    }
+
+    .cs-image-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 28px 0;
+    }
+    .cs-image-grid-4 img {
+      width: 100%; height: auto;
+      border-radius: 12px;
+      border: 1.5px solid rgba(195,212,163,.3);
+      box-shadow: 0 4px 16px rgba(26,42,26,.06);
+      display: block;
+    }
+
+    /* flow steps */
+    .cs-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 28px 0;
+    }
+    .cs-step {
+      background: white;
+      border: 1.5px solid rgba(195,212,163,.3);
+      border-radius: 14px;
+      padding: 18px 20px;
+    }
+    .cs-step-num {
+      font-size: .68rem; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; color: #70A58B; margin-bottom: 8px;
+    }
+    .cs-step h4 { font-size: .95rem; font-weight: 700; color: #1a2a1a; margin-bottom: 4px; }
+    .cs-step p { font-size: .82rem; color: #5a6e5a; line-height: 1.5; margin: 0; font-weight: 300; }
+
+    /* prototype links */
+    .cs-links { display: flex; gap: 14px; flex-wrap: wrap; margin: 28px 0; }
+
+    /* video embed */
+    .cs-video {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(26,42,26,.07);
+      border: 1.5px solid rgba(195,212,163,.3);
+      margin: 28px 0;
+    }
+    .cs-video video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border-radius: 16px;
+    }
+
+    /* reflection */
+    .cs-reflection {
+      background: linear-gradient(135deg, #C3D4A3, #70A58B);
+      border-radius: 24px;
+      padding: 48px;
+      margin-top: 72px;
+    }
+    .cs-reflection h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; letter-spacing: -.03em; color: #1a2a1a; margin-bottom: 20px; }
+    .cs-reflection p { font-size: 1rem; line-height: 1.8; color: rgba(26,42,26,.75); font-weight: 300; margin-bottom: 16px; }
+    .cs-reflection p:last-child { margin-bottom: 0; }
+
+    /* bottom nav */
+    .cs-nav-bottom { padding: 80px 0 20px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* ── CUSTOM CURSOR ── */
+    .cursor { position: fixed; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
+    .cursor-circle { width: 24px; height: 24px; border-radius: 50%; background: white; transform: translate(-50%, -50%); transition: width 0.3s ease, height 0.3s ease; }
+    .cursor-dot { width: 6px; height: 6px; border-radius: 50%; background: white; transform: translate(-50%, -50%); }
+    body.cursor-hover .cursor-circle { width: 64px; height: 64px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) { .cs-hero { padding: 120px 60px 60px 80px; gap: 40px; } nav { padding: 20px 40px; } }
+    @media (max-width: 768px) {
+      nav ul#nav-menu { display: none; } .nav-hamburger { display: flex; } nav { padding: 20px 24px; }
+      .cs-hero { grid-template-columns: 1fr; padding: 120px 28px 60px; min-height: auto; gap: 40px; }
+      .cs-title { font-size: clamp(3rem, 12vw, 5rem); }
+      .cs-meta-bar { grid-template-columns: 1fr 1fr; gap: 24px; }
+      .cs-meta-item { border-left: none; padding-left: 0; }
+      .cs-image-grid { grid-template-columns: 1fr; }
+      .cs-image-grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .cs-steps { grid-template-columns: 1fr 1fr; }
+      .cs-reflection { padding: 32px; }
+    }
+    @media (max-width: 480px) {
+      .cs-meta-bar { grid-template-columns: 1fr; }
+      .cs-steps { grid-template-columns: 1fr; }
+      .cs-image-grid-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
 </head>
-
 <body>
-    <nav>
-        <div class="container">
-            <div class="logo">
-                <a href="index.html"
-                    style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
-                    <img src="images/logo.svg" class="logo-image">
-                    <span class="logo-text">cazerdesign</span>
-                </a>
-            </div>
-            <ul id="nav-menu">
-                <li><a href="index.html" class="nav-link" style="text-decoration: none; color: inherit;">Home</a></li>
-                <li><a href="index.html#work" class="nav-link" style="text-decoration: none; color: inherit;">Work</a></li>
-                <li><a href="play.html" class="nav-link" style="text-decoration: none; color: inherit;">Play</a></li>
-                <li><a href="about.html" class="nav-link" style="text-decoration: none; color: inherit;">About</a></li>
-                <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link"
-                        style="text-decoration: none; color: inherit;">Resume</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <section style="max-width: 900px; margin: 0 auto; padding: 5rem 5%;">
-        <!-- Header -->
-        <div class="case-study-header">
-            <h1>Harbor Air</h1>
-            <p style="font-size: 1.3rem; color: var(--text-light); margin-top: 1rem;">
-                Reimagining the regional airline booking experience
-            </p>
-            <div class="meta">
-                <div class="meta-item">
-                    <strong>Role</strong>
-                    <span>UX/UI Designer</span>
-                </div>
-                <div class="meta-item">
-                    <strong>Timeline</strong>
-                    <span>8 Weeks</span>
-                </div>
-                <div class="meta-item">
-                    <strong>Team</strong>
-                    <span>Solo Project</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Hero Image -->
-        <img src="images/Thumbnail.png" class="case-study-hero" alt="Flow Airlines Project">
-
-        <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin: 2rem 0;">
-               <a href="https://www.figma.com/design/DbUPZTlBIWxuXuOsKMe0Wp/Design?node-id=248-2800&t=PHwi89QRoAndJ7oN-1" target="_blank" class="cta-button cta-primary">View Prototype</a>
-                <a href="https://www.figma.com/design/qBJ1u28RukS8mC4kSLMHm8/Flow-System---Harbor-Air-Design-System-Final?node-id=2001-5249&t=PRSscd3AGpk20Rl0-1" target="_blank" class="cta-button cta-secondary">View Design System</a>
-            </div>
-
-        <!-- Overview -->
-        <div class="case-study-section" style="text-align: left;">
-            <h2>Streamlined Booking for New England</h2>
-            <p>
-                Regional airlines struggle with complex booking interfaces that overwhelm users. HarborAir needed a streamlined experience that makes booking quick and intuitive for New England travelers. This project encompasses both the booking flow and a comprehensive design system built for scalability and consistency.
-            </p>
-        </div>
-
-        <!-- The Challenge -->
-        <div class="case-study-section" style="text-align: left;">
-            <h2>The Challenge</h2>
-            <p>
-                While researching for this project, I found that there were three major issues in existing airline booking experiences:
-            </p>
-
-            <div class="highlight-box">
-                <h3>Key Problems</h3>
-                <ul>
-                    <li><strong>Overwhelming interfaces:</strong> Too much information presented at once creates decision paralysis and increases booking abandonment rates.</li>
-                    <li><strong>Unclear progress tracking:</strong> Users don't know how many steps remain or where they are in the booking process, leading to frustration.</li>
-                    <li><strong>Generic branding:</strong> Regional airlines lack distinctive visual identity, making it hard to build trust and brand recognition with local travelers.</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Research & Discovery -->
-        <div class="case-study-section">
-            <h2>Research & Discovery</h2>
-            <p>To understand how to create this booking experience, I looked at:</p>
-
-            <!-- Competitive Analysis -->
-            <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Competitive Analysis</h3>
-            <p>I analyzed major airline booking platforms including Southwest, JetBlue, and Delta to understand common patterns and pain points.</p>
-
-            <h4 style="font-size: 1.2rem; margin: 2rem 0 1rem; font-weight: 600; color: var(--earth-brown);">What Works</h4>
-            <!-- <img src="images/flow-competitive-good.jpg" alt="Successful airline booking patterns" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);"> -->
-
-            <ul>
-                <li>Clear progress indicators showing steps completed and remaining</li>
-                <li>Logical information hierarchy with primary actions emphasized</li>
-                <li>Mobile-responsive designs that adapt to different screen sizes</li>
-            </ul>
-
-            <h4 style="font-size: 1.2rem; margin: 2rem 0 1rem; font-weight: 600; color: var(--earth-brown);">What Doesn't Work</h4>
-            <!-- <img src="images/flow-competitive-bad.jpg" alt="Common airline booking pain points" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);"> -->
-
-            <ul>
-                <li>Too many options and upsells creating decision fatigue</li>
-                <li>Inconsistent button styling and unclear CTAs</li>
-                <li>Hidden fees and confusing pricing breakdowns</li>
-            </ul>
-
-            <!-- Brand Identity -->
-            <h3 style="font-size: 1.4rem; margin: 3rem 0 1rem; font-weight: 700; color: var(--soil);">New England Regional Identity</h3>
-            <p>I explored New England's visual culture, coastal landscapes, and local character to inform the design direction that would resonate with regional travelers.</p>
-            <div class="image-grid">
-                <img src="images/NE1.jpeg" alt="New England coastal imagery" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-                <img src="images/NE2.jpeg" alt="Modern regional aesthetic" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-            </div>
-        </div>
-
-        <!-- Goals -->
-        <div class="case-study-section" style="text-align: left;">
-            <h2>Goals</h2>
-            <p>After conducting my research, I created a list of my core goals for this project:</p>
-            <div class="highlight-box">
-                <ul>
-                    <li><strong>Progressive disclosure:</strong> Break the booking process into manageable steps that don't overwhelm users</li>
-                    <li><strong>Clear wayfinding:</strong> Users should always know where they are and how many steps remain</li>
-                    <li><strong>Distinctive branding:</strong> Create a visual identity that feels modern, trustworthy, and regionally connected</li>
-                    <li><strong>Scalable system:</strong> Build a design system that can grow with the product</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Design Process -->
-        <div class="case-study-section">
-            <h2>Design Process</h2>
-            <p>I broke down the booking flow into six clear steps, each focused on a single decision point.</p>
-
-            <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Booking Flow Structure</h3>
-            <!-- <img src="images/flow-structure.jpg" alt="Six-step booking flow diagram" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);"> -->
-            
-            <ul>
-                <li><strong>Location:</strong> Select departure and destination cities</li>
-                <li><strong>Dates:</strong> Choose travel dates</li>
-                <li><strong>Time:</strong> Pick departure times</li>
-                <li><strong>Review:</strong> Confirm flight details</li>
-                <li><strong>Pay:</strong> Enter payment information</li>
-                <li><strong>Confirm:</strong> Receive booking confirmation</li>
-            </ul>
-
-                        <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Booking Flow Structure</h3>
-            <p> I also learned how to plan out Flight times, patterns, and codes. I did this by deciding there were three planes in total and four possible destinations.</p>
-
-            <div class="image-grid">
-                <img src="images/Flights1.png" alt="New England coastal imagery" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-                <img src="images/Flights2.png" alt="Modern regional aesthetic" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-            </div>
-
-        </div>
-
-        <!-- Visual Design -->
-        <div class="case-study-section">
-            <h2>Visual Design Exploration</h2>
-            <p>I developed a distinctive visual language using gradients, large corner radius, and decorative elements that reference New England's coastal character.</p>
-
-            <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Landing Page</h3>
-            <p>The hero section establishes the brand with gradient typography and a clear call-to-action.</p>
-            <img src="images/1 Pick Flights.png" alt="Flow Airlines landing page" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-            <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Location Selection</h3>
-            <p>A split-screen layout with distinctive visual zones for departure and destination creates clear separation while the progress bar keeps users oriented.</p>
-            <img src="images/2 Pick Flights.png" alt="Location selection screen" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-            <!-- <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; color: var(--soil);">Passengers & Baggage</h3>
-            <p>Simple counter interfaces with large touch targets make selections quick and error-free.</p> -->
-            <!-- <img src="images/flow-passengers.jpg" alt="Passengers and baggage screen" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);"> -->
-        </div>
-
-        <!-- Design System -->
-        <div class="case-study-section flow-section">
-            <h2 style="font-family: 'Kanit', sans-serif;">Design System</h2>
-            <p>I created a comprehensive design system with many components to ensure consistency and enable future scaling.</p>
-
-            <h3 style="font-family: 'Kanit', sans-serif;">Design Tokens</h2>
-                <img src="images/DesignTokens.png" alt="Location selection screen" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-
-            <h3 style="font-family: 'Kanit', sans-serif;">Figma Variables</h2>
-                <div class="image-grid">
-                    <img src="images/Variables1.png" alt="New England coastal imagery" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-                    <img src="images/Variables2.png" alt="Modern regional aesthetic" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-                    <img src="images/Variables3.png" alt="Modern regional aesthetic" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-                    <img src="images/Variables4.png" alt="Modern regional aesthetic" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-                </div>
-                
-
-            <!-- Color Palette -->
-            <!-- <h3 style="font-size: 1.4rem; margin: 2.5rem 0 1rem; font-weight: 700; font-family: 'Kanit', sans-serif;">Color Palette</h3>
-            <p>A bold gradient system combining Primary Blue, Secondary Purple, and Accent Cyan creates distinctive brand recognition.</p>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin: 2rem 0;"> -->
-                <!-- Primary Blue -->
-                <!-- <div>
-                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem;">Primary Blue</h4>
-                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <div style="background: #E3EDFF; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#E3EDFF - 50</div>
-                        <div style="background: #C7DBFF; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#C7DBFF - 100</div>
-                        <div style="background: #8FB9FF; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#8FB9FF - 200</div>
-                        <div style="background: #5797FF; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#5797FF - 300</div>
-                        <div style="background: #3067E5; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white; font-weight: 600;">#3067E5 - 400</div>
-                        <div style="background: #2654B8; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white;">#2654B8 - 500</div>
-                    </div>
-                </div> -->
-
-                <!-- Secondary Purple -->
-                <!-- <div>
-                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem;">Secondary Purple</h4>
-                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <div style="background: #EAE3FF; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#EAE3FF - 50</div>
-                        <div style="background: #D5C7FF; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#D5C7FF - 100</div>
-                        <div style="background: #AB8FFF; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#AB8FFF - 200</div>
-                        <div style="background: #8157FF; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white;">#8157FF - 300</div>
-                        <div style="background: #522FF0; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white; font-weight: 600;">#522FF0 - 400</div>
-                        <div style="background: #4226B8; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white;">#4226B8 - 500</div>
-                    </div>
-                </div> -->
-
-                <!-- Accent Cyan -->
-                <!-- <div>
-                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem;">Accent Cyan</h4>
-                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <div style="background: #E3FFFE; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#E3FFFE - 50</div>
-                        <div style="background: #C7FFFD; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#C7FFFD - 100</div>
-                        <div style="background: #8FFFFA; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#8FFFFA - 200</div>
-                        <div style="background: #57FFF7; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#57FFF7 - 300</div>
-                        <div style="background: #2FE0F0; padding: 1rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600;">#2FE0F0 - 400</div>
-                        <div style="background: #26B8C4; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white;">#26B8C4 - 500</div>
-                    </div>
-                </div> -->
-
-                <!-- Error Red -->
-                <!-- <div>
-                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem;">Error Red</h4>
-                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <div style="background: #FFE3E8; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#FFE3E8 - 50</div>
-                        <div style="background: #FFC7D3; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#FFC7D3 - 100</div>
-                        <div style="background: #FF8FA7; padding: 1rem; border-radius: 8px; font-size: 0.875rem;">#FF8FA7 - 200</div>
-                        <div style="background: #FF577B; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white;">#FF577B - 300</div>
-                        <div style="background: #F04B6B; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white; font-weight: 600;">#F04B6B - 400</div>
-                        <div style="background: #B83850; padding: 1rem; border-radius: 8px; font-size: 0.875rem; color: white;">#B83850 - 500</div>
-                    </div>
-                </div>
-            </div> -->
-
-            <!-- Typography -->
-            <!-- <h3 style="font-size: 1.4rem; margin: 3rem 0 1rem; font-weight: 700; font-family: 'Kanit', sans-serif;">Typography</h3>
-            <p>Kanit font family provides a modern, geometric feel that complements the bold visual system.</p>
-            
-            <div style="margin: 2rem 0; padding: 2rem; background: #F8F8F8; border-radius: 16px;">
-                <div style="font-family: 'Kanit', sans-serif; font-size: 3rem; font-weight: 700; margin-bottom: 1rem;">Heading 1 • 48px Bold</div>
-                <div style="font-family: 'Kanit', sans-serif; font-size: 2.25rem; font-weight: 600; margin-bottom: 1rem;">Heading 2 • 36px Semibold</div>
-                <div style="font-family: 'Kanit', sans-serif; font-size: 1.5rem; font-weight: 500; margin-bottom: 1rem;">Heading 3 • 24px Medium</div>
-                <div style="font-family: 'Kanit', sans-serif; font-size: 1rem; font-weight: 400; margin-bottom: 1rem;">Body • 16px Regular</div>
-                <div style="font-family: 'Kanit', sans-serif; font-size: 0.875rem; font-weight: 300; color: #666;">Caption • 14px Light</div>
-            </div> -->
-
-            <!-- Spacing System -->
-            <!-- <h3 style="font-size: 1.4rem; margin: 3rem 0 1rem; font-weight: 700; font-family: 'Kanit', sans-serif;">Spacing System</h3>
-            <p>Consistent spacing creates visual rhythm and hierarchy throughout the interface.</p>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 2rem 0;">
-                <div style="background: #3067E5; height: 4px; border-radius: 2px;"></div>
-                <div style="text-align: center; font-size: 0.875rem; margin-top: -0.5rem;">4px</div>
-                
-                <div style="background: #3067E5; height: 8px; border-radius: 4px;"></div>
-                <div style="text-align: center; font-size: 0.875rem; margin-top: -0.5rem;">8px</div>
-                
-                <div style="background: #3067E5; height: 16px; border-radius: 8px;"></div>
-                <div style="text-align: center; font-size: 0.875rem; margin-top: -0.5rem;">16px</div>
-                
-                <div style="background: #3067E5; height: 24px; border-radius: 12px;"></div>
-                <div style="text-align: center; font-size: 0.875rem; margin-top: -0.5rem;">24px</div>
-                
-                <div style="background: #3067E5; height: 32px; border-radius: 16px;"></div>
-                <div style="text-align: center; font-size: 0.875rem; margin-top: -0.5rem;">32px</div>
-                
-                <div style="background: #3067E5; height: 48px; border-radius: 24px;"></div>
-                <div style="text-align: center; font-size: 0.875rem; margin-top: -0.5rem;">48px</div>
-                
-                <div style="background: #3067E5; height: 64px; border-radius: 32px;"></div>
-                <div style="text-align: center; font-size: 0.875rem; margin-top: -0.5rem;">64px</div>
-            </div> -->
-
-            <!-- Border Radius -->
-            <!-- <h3 style="font-size: 1.4rem; margin: 3rem 0 1rem; font-weight: 700; font-family: 'Kanit', sans-serif;">Border Radius</h3>
-            <p>From subtle 4px rounds to the signature 120px corners that define the brand.</p>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 2rem; margin: 2rem 0;">
-                <div>
-                    <div style="background: linear-gradient(135deg, #3067E5, #522FF0); height: 80px; border-radius: 4px; margin-bottom: 0.5rem;"></div>
-                    <div style="text-align: center; font-size: 0.875rem;">4px</div>
-                </div>
-                <div>
-                    <div style="background: linear-gradient(135deg, #3067E5, #522FF0); height: 80px; border-radius: 8px; margin-bottom: 0.5rem;"></div>
-                    <div style="text-align: center; font-size: 0.875rem;">8px</div>
-                </div>
-                <div>
-                    <div style="background: linear-gradient(135deg, #3067E5, #522FF0); height: 80px; border-radius: 16px; margin-bottom: 0.5rem;"></div>
-                    <div style="text-align: center; font-size: 0.875rem;">16px</div>
-                </div>
-                <div>
-                    <div style="background: linear-gradient(135deg, #3067E5, #522FF0); height: 80px; border-radius: 24px; margin-bottom: 0.5rem;"></div>
-                    <div style="text-align: center; font-size: 0.875rem;">24px</div>
-                </div>
-                <div>
-                    <div style="background: linear-gradient(135deg, #3067E5, #522FF0); height: 80px; border-radius: 120px; margin-bottom: 0.5rem;"></div>
-                    <div style="text-align: center; font-size: 0.875rem; font-weight: 600;">120px Signature</div>
-                </div>
-            </div> -->
-
-            <!-- Component Library -->
-            <!-- <h3 style="font-size: 1.4rem; margin: 3rem 0 1rem; font-weight: 700; font-family: 'Kanit', sans-serif;">Component Library</h3>
-            <p>35+ reusable components designed for the booking experience.</p>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin: 2rem 0;"> -->
-                <!-- Primary Button -->
-                <!-- <div>
-                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem; font-size: 1rem;">Primary Button</h4>
-                    <button style="background: linear-gradient(135deg, #3067E5, #522FF0); color: white; border: none; padding: 1rem 2rem; border-radius: 120px; font-family: 'Kanit', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%;">Book Flight</button>
-                </div> -->
-
-                <!-- Secondary Button -->
-                <!-- <div>
-                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem; font-size: 1rem;">Secondary Button</h4>
-                    <button style="background: white; color: #3067E5; border: 2px solid #3067E5; padding: 1rem 2rem; border-radius: 120px; font-family: 'Kanit', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%;">Learn More</button>
-                </div> -->
-
-                <!-- Text Input -->
-                <!-- <div>
-                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem; font-size: 1rem;">Text Input</h4>
-                    <input type="text" placeholder="Enter city" style="width: 100%; padding: 1rem; border: 2px solid #3067E5; border-radius: 16px; font-family: 'Kanit', sans-serif; font-size: 1rem; box-sizing: border-box;">
-                </div> -->
-
-                <!-- Alert - Success -->
-                <!-- <div>
-                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem; font-size: 1rem;">Success Alert</h4>
-                    <div style="background: #E3FFFE; border-left: 4px solid #2FE0F0; padding: 1rem; border-radius: 8px; font-family: 'Kanit', sans-serif;">
-                        <div style="font-weight: 600; margin-bottom: 0.25rem;">Booking Confirmed</div>
-                        <div style="font-size: 0.875rem; color: #666;">Your flight is confirmed</div>
-                    </div>
-                </div> -->
-
-                <!-- Alert - Error -->
-                <!-- <div>
-                    <h4 style="font-family: 'Kanit', sans-serif; margin-bottom: 1rem; font-size: 1rem;">Error Alert</h4>
-                    <div style="background: #FFE3E8; border-left: 4px solid #F04B6B; padding: 1rem; border-radius: 8px; font-family: 'Kanit', sans-serif;">
-                        <div style="font-weight: 600; margin-bottom: 0.25rem;">Payment Failed</div>
-                        <div style="font-size: 0.875rem; color: #666;">Please check your card</div>
-                    </div>
-                </div>
-            </div> -->
-
-            <!-- Flight Card Component -->
-            <!-- <h3 style="font-size: 1.4rem; margin: 3rem 0 1rem; font-weight: 700; font-family: 'Kanit', sans-serif;">Flight Card Component</h3>
-            <p>The flight selection card displays all essential information in a scannable horizontal layout.</p>
-            
-            <div style="max-width: 600px; margin: 2rem auto;">
-                <div style="background: #F5F5F5; border: 2px solid #E0E0E0; border-radius: 16px; padding: 1.5rem; display: flex; align-items: center; gap: 2rem;"> -->
-                    <!-- Radio Button -->
-                    <!-- <div style="width: 24px; height: 24px; border: 2px solid #CCCCCC; border-radius: 50%; flex-shrink: 0;"></div> -->
-                    
-                    <!-- Flight Number -->
-                    <!-- <div style="flex-shrink: 0;">
-                        <div style="font-size: 0.875rem; color: #666; margin-bottom: 0.25rem;">Flight</div>
-                        <div style="font-size: 1.5rem; font-weight: 700; color: #000; font-family: 'Kanit', sans-serif;">1432</div>
-                    </div> -->
-                    
-                    <!-- From Section -->
-                    <!-- <div style="flex: 1;">
-                        <div style="font-size: 0.875rem; color: #666; margin-bottom: 0.25rem;">From</div>
-                        <div style="font-size: 1.25rem; font-weight: 600; color: #000; margin-bottom: 0.25rem; font-family: 'Kanit', sans-serif;">city</div>
-                        <div style="font-size: 0.875rem; color: #666;">Depart 6:30 AM</div>
-                        <div style="font-size: 0.875rem; color: #666;">Board 6:10 AM</div>
-                    </div> -->
-                    
-                    <!-- To Section -->
-                    <!-- <div style="flex: 1;">
-                        <div style="font-size: 0.875rem; color: #666; margin-bottom: 0.25rem;">To</div>
-                        <div style="font-size: 1.25rem; font-weight: 600; color: #000; margin-bottom: 0.25rem; font-family: 'Kanit', sans-serif;">city</div>
-                        <div style="font-size: 0.875rem; color: #666;">Arrive 7:16 AM</div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-        <!-- Final Design & Prototype -->
-        <div class="case-study-section" style="text-align: left;">
-            <h2>Final Design & Prototype</h2>
-            <p>
-                The final design is a progressive multi-step booking flow with clear visual hierarchy and distinctive branding. The six-step process—Location, Dates, Time, Review, Pay, Confirm—breaks down complexity into manageable decisions. Each screen features the persistent progress indicator, large touch-friendly targets, and decorative elements like cityscape illustrations that reinforce the New England regional focus.
-            </p>
-            <p>
-                The bold gradient system, signature 120px corner radius, and Kanit typography create a modern, trustworthy identity that stands out in the regional airline market. The comprehensive design system ensures consistency across all touchpoints and enables efficient scaling as the product grows.
-            </p>
-
-           
-            <!-- Video Section -->
-   <div style="padding: 56.25% 0 0 0; position: relative; margin: 2rem 0; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-    <iframe src="https://player.vimeo.com/video/1145509954?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Harbor Air Prototype"></iframe>
-</div>
- <!-- Links to Figma Files -->
-            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin: 2rem 0;">
-               <a href="https://www.figma.com/design/DbUPZTlBIWxuXuOsKMe0Wp/Design?node-id=248-2800&t=PHwi89QRoAndJ7oN-1" target="_blank" class="cta-button cta-primary">View Prototype</a>
-                <a href="https://www.figma.com/design/qBJ1u28RukS8mC4kSLMHm8/Flow-System---Harbor-Air-Design-System-Final?node-id=2001-5249&t=PRSscd3AGpk20Rl0-1" target="_blank" class="cta-button cta-secondary">View Design System</a>
-            </div>
-            <!-- <img src="images/flow-final-screens.jpg" alt="Final Flow Airlines screens" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);"> -->
-        </div>
-
-        <!-- Takeaways -->
-        <div class="case-study-section" style="text-align: left;">
-            <h2>Final Takeaways</h2>
-            <p>This project taught me valuable lessons about creating cohesive digital experiences:</p>
-            <ul>
-                <li><strong>Progressive disclosure reduces cognitive load</strong> — Breaking complex flows into single-decision steps dramatically improves completion rates</li>
-                <li><strong>Design systems enable consistency at scale</strong> — Investing time in systematic component design pays dividends as products grow</li>
-                <li><strong>Distinctive visual identity builds trust</strong> — The signature 120px radius and gradient system created immediate brand recognition</li>
-                <li><strong>Research informs better decisions</strong> — Competitive analysis revealed patterns to follow and pitfalls to avoid</li>
-            </ul>
-        </div>
-
-        <!-- CTA Section -->
-        <div class="case-study-section" style="margin-top: 5rem;">
-            <h2>Explore More</h2>
-            <p style="margin-bottom: 2rem;">Want to see what else is growing in the garden?</p>
-            <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
-                <a href="index.html#work" class="cta-button cta-primary">Back to Garden</a>
-                <a href="index.html#contact" class="cta-button cta-secondary">Let's Connect</a>
-            </div>
-        </div>
-    </section>
-
-   <footer>
-  <div class="footer-content">
-      <img src="images/Gunther.png" alt="Design Garden Illustration" style="width: 90%; height:auto; border-radius:12px;">
-    <div class="footer-text" style="width: 90%">
-      <p class="footer-tagline">Thanks for visiting my Design Garden</p>
-      <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
-      <div class="footer-links">
-        <a href="/cdn-cgi/l/email-protection#14777b7a607577605467757977756e71663a777b79">Email</a>
-        <a href="https://www.linkedin.com/in/samcazer">LinkedIn</a>
+  <!-- NAV -->
+  <nav>
+    <div class="container">
+      <div class="logo">
+        <a href="index.html">
+          <span class="logo-img-wrap"><img src="images/logo.svg" class="logo-image" alt="logo"></span>
+        </a>
       </div>
-      </footer>
-</body>
+      <ul id="nav-menu">
+        <li><a href="index.html#work" class="nav-link">Work</a></li>
+        <li><a href="play.html" class="nav-link">Play</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link">Resume</a></li>
+      </ul>
+      <div class="nav-hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
 
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">✕</button>
+    <a href="index.html#work">Work</a>
+    <a href="play.html">Play</a>
+    <a href="about.html">About</a>
+    <a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank">Resume</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="cs-hero">
+    <div class="cs-hero-text">
+      <p class="cs-eyebrow">Case Study · App Design</p>
+      <h1 class="cs-title">Flow<br><span>System.</span></h1>
+      <p class="cs-subtitle">Reimagining the regional airline booking experience for New England travelers.</p>
+    </div>
+    <div class="cs-hero-image">
+      <img src="images/Thumbnail.png" alt="Flow System - Harbor Air" />
+    </div>
+  </div>
+
+  <!-- META BAR -->
+  <div class="cs-meta-bar">
+    <div class="cs-meta-item">
+      <p class="cs-meta-label">Role</p>
+      <p class="cs-meta-value">UX/UI Designer</p>
+    </div>
+    <div class="cs-meta-item">
+      <p class="cs-meta-label">Timeline</p>
+      <p class="cs-meta-value">8 Weeks</p>
+    </div>
+    <div class="cs-meta-item">
+      <p class="cs-meta-label">Team</p>
+      <p class="cs-meta-value">Solo Project</p>
+    </div>
+    <div class="cs-meta-item">
+      <p class="cs-meta-label">Tools</p>
+      <p class="cs-meta-value">Figma</p>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="cs-body">
+
+    <!-- OVERVIEW -->
+    <div class="cs-section">
+      <p class="cs-section-label">01 · Overview</p>
+      <h2>What is this project?</h2>
+      <p>Regional airlines often struggle with booking interfaces that are overwhelming and hard to navigate. HarborAir needed a streamlined booking experience that makes the process quick and intuitive for New England travelers. This project covers both the booking flow itself and a comprehensive design system built for consistency and scalability.</p>
+
+      <div class="cs-links">
+        <a href="https://www.figma.com/design/DbUPZTlBIWxuXuOsKMe0Wp/Design?node-id=248-2800&t=PHwi89QRoAndJ7oN-1" target="_blank" class="cta-button cta-primary">View Prototype</a>
+        <a href="https://www.figma.com/design/qBJ1u28RukS8mC4kSLMHm8/Flow-System---Harbor-Air-Design-System-Final?node-id=2001-5249&t=PRSscd3AGpk20Rl0-1" target="_blank" class="cta-button cta-secondary">View Design System</a>
+      </div>
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <!-- CHALLENGE -->
+    <div class="cs-section">
+      <p class="cs-section-label">02 · The Challenge</p>
+      <h2>What needed to change?</h2>
+      <p>While researching for this project I found three major issues that show up in existing airline booking experiences:</p>
+
+      <div class="cs-goals">
+        <h3>Key Problems</h3>
+        <ul>
+          <li><strong>Overwhelming interfaces:</strong> Too much information at once creates decision paralysis and increases booking abandonment</li>
+          <li><strong>Unclear progress tracking:</strong> Users don't know how many steps remain, which leads to frustration</li>
+          <li><strong>Generic branding:</strong> Regional airlines lack a distinctive visual identity, making it hard to build trust with local travelers</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <!-- RESEARCH -->
+    <div class="cs-section">
+      <p class="cs-section-label">03 · Research</p>
+      <h2>Understanding the space</h2>
+
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">1</div>
+        <h3>Competitive Analysis</h3>
+      </div>
+
+      <p>I analyzed major airline booking platforms including Southwest, JetBlue, and Delta to understand common patterns and pain points.</p>
+
+      <div class="cs-goals">
+        <h3>What works</h3>
+        <ul>
+          <li>Clear progress indicators showing steps completed and remaining</li>
+          <li>Logical information hierarchy with primary actions emphasized</li>
+          <li>Mobile-responsive designs that adapt to different screen sizes</li>
+        </ul>
+      </div>
+
+      <div class="cs-goals" style="margin-top: 16px; border-left-color: rgba(195,212,163,.5); background: rgba(195,212,163,.06);">
+        <h3 style="color: #5a6e5a;">What doesn't work</h3>
+        <ul>
+          <li>Too many options and upsells creating decision fatigue</li>
+          <li>Inconsistent button styling and unclear calls to action</li>
+          <li>Hidden fees and confusing pricing breakdowns</li>
+        </ul>
+      </div>
+
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">2</div>
+        <h3>New England Regional Identity</h3>
+      </div>
+
+      <p>I explored New England's visual culture, coastal landscapes, and local character to inform a design direction that would actually resonate with regional travelers.</p>
+
+      <div class="cs-image-grid">
+        <img src="images/NE1.jpeg" alt="New England coastal imagery" />
+        <img src="images/NE2.jpeg" alt="Modern regional aesthetic" />
+      </div>
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <!-- GOALS -->
+    <div class="cs-section">
+      <p class="cs-section-label">04 · Goals</p>
+      <h2>What I set out to do</h2>
+      <p>After conducting research, I defined four core goals for the project:</p>
+
+      <div class="cs-goals">
+        <h3>Project Goals</h3>
+        <ul>
+          <li><strong>Progressive disclosure:</strong> Break the booking process into manageable steps that don't overwhelm users</li>
+          <li><strong>Clear wayfinding:</strong> Users should always know where they are and how many steps remain</li>
+          <li><strong>Distinctive branding:</strong> Create a visual identity that feels modern, trustworthy, and regionally connected</li>
+          <li><strong>Scalable system:</strong> Build a design system that can grow with the product</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <!-- DESIGN PROCESS -->
+    <div class="cs-section">
+      <p class="cs-section-label">05 · Design Process</p>
+      <h2>Building the experience</h2>
+
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">1</div>
+        <h3>Booking Flow Structure</h3>
+      </div>
+
+      <p>I broke the booking flow down into six clear steps, each focused on a single decision point. The goal was to reduce cognitive load by never asking users to think about more than one thing at a time.</p>
+
+      <div class="cs-steps">
+        <div class="cs-step">
+          <p class="cs-step-num">Step 01</p>
+          <h4>Location</h4>
+          <p>Select departure and destination cities</p>
+        </div>
+        <div class="cs-step">
+          <p class="cs-step-num">Step 02</p>
+          <h4>Dates</h4>
+          <p>Choose travel dates</p>
+        </div>
+        <div class="cs-step">
+          <p class="cs-step-num">Step 03</p>
+          <h4>Time</h4>
+          <p>Pick departure times</p>
+        </div>
+        <div class="cs-step">
+          <p class="cs-step-num">Step 04</p>
+          <h4>Review</h4>
+          <p>Confirm flight details</p>
+        </div>
+        <div class="cs-step">
+          <p class="cs-step-num">Step 05</p>
+          <h4>Pay</h4>
+          <p>Enter payment information</p>
+        </div>
+        <div class="cs-step">
+          <p class="cs-step-num">Step 06</p>
+          <h4>Confirm</h4>
+          <p>Receive booking confirmation</p>
+        </div>
+      </div>
+
+      <p>Part of this process also involved planning out actual flight times, patterns, and codes. I decided there were three planes in total and four possible destinations to keep the system realistic and testable.</p>
+
+      <div class="cs-image-grid">
+        <img src="images/Flights1.png" alt="Flight schedule planning" />
+        <img src="images/Flights2.png" alt="Flight codes and patterns" />
+      </div>
+
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">2</div>
+        <h3>Visual Design</h3>
+      </div>
+
+      <p>I developed a visual language using gradients, large corner radii, and decorative elements that reference New England's coastal character. The goal was a design that felt regional and distinctive without being gimmicky.</p>
+
+      <div class="cs-image-full">
+        <img src="images/1 Pick Flights.png" alt="Flow Airlines landing page" />
+        <p class="cs-image-caption">The landing page establishes the brand with gradient typography and a clear call to action.</p>
+      </div>
+
+      <div class="cs-image-full">
+        <img src="images/2 Pick Flights.png" alt="Location selection screen" />
+        <p class="cs-image-caption">A split-screen layout with distinct visual zones for departure and destination. The progress bar keeps users oriented throughout.</p>
+      </div>
+
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">3</div>
+        <h3>Design System</h3>
+      </div>
+
+      <p>I built a comprehensive design system to ensure consistency across the product and make future scaling easier. This included design tokens, Figma variables, and a full component library.</p>
+
+      <div class="cs-image-full">
+        <img src="images/DesignTokens.png" alt="Design tokens" />
+        <p class="cs-image-caption">Design tokens defining the core visual language.</p>
+      </div>
+
+      <p>I organized everything using Figma variables to make the system adaptable and easy for developers to work with.</p>
+
+      <div class="cs-image-grid-4">
+        <img src="images/Variables1.png" alt="Figma variables 1" />
+        <img src="images/Variables2.png" alt="Figma variables 2" />
+        <img src="images/Variables3.png" alt="Figma variables 3" />
+        <img src="images/Variables4.png" alt="Figma variables 4" />
+      </div>
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <!-- FINAL DESIGN -->
+    <div class="cs-section">
+      <p class="cs-section-label">06 · Final Design</p>
+      <h2>The finished product</h2>
+      <p>The final design is a progressive multi-step booking flow with clear visual hierarchy and distinctive branding. Each screen features a persistent progress indicator, large touch-friendly targets, and cityscape illustrations that reinforce the New England regional identity.</p>
+      <p>The bold gradient system, signature 120px corner radius, and Kanit typography create a modern identity that stands out in the regional airline market.</p>
+
+      <div class="cs-video">
+        <video controls>
+          <source src="images/Prototype-Recording.mov" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="cs-links">
+        <a href="https://www.figma.com/design/DbUPZTlBIWxuXuOsKMe0Wp/Design?node-id=248-2800&t=PHwi89QRoAndJ7oN-1" target="_blank" class="cta-button cta-primary">View Figma</a>
+        <a href="https://www.figma.com/design/qBJ1u28RukS8mC4kSLMHm8/Flow-System---Harbor-Air-Design-System-Final?node-id=2001-5249&t=PRSscd3AGpk20Rl0-1" target="_blank" class="cta-button cta-secondary">View Design System</a>
+      </div>
+    </div>
+
+    <!-- REFLECTION -->
+    <div class="cs-reflection">
+      <p class="cs-section-label" style="color: rgba(26,42,26,.5); margin-bottom: 12px;">07 · Reflection</p>
+      <h2>What I took away</h2>
+      <p>This project taught me a lot about breaking down complex flows into something that feels simple for the user. The six-step structure sounds obvious in hindsight, but getting there required really thinking carefully about what each step needed to accomplish and nothing more.</p>
+      <p>Building a full design system alongside the product was also a really valuable experience. It forced me to think systematically rather than just solving individual screen problems, and made the whole project feel more cohesive because of it.</p>
+      <p>Competitive analysis was more useful than I expected going in. Looking at what other airlines were doing well and what was frustrating gave me a concrete starting point instead of designing in a vacuum.</p>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="cs-nav-bottom">
+      <a href="index.html#work" class="cta-button cta-primary">Back to Work</a>
+      <a href="about.html" class="cta-button cta-secondary">Get in Touch</a>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <img src="images/Gunther.png" alt="Design Garden Illustration" style="width: 90%; height:auto; border-radius:12px;">
+      <div class="footer-text" style="width: 90%">
+        <p class="footer-tagline">Thanks for visiting my Design Garden</p>
+        <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
+        <div class="footer-links">
+          <a href="mailto:cazerdesign@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/samcazer026">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cursor cursor-circle" id="cursorCircle"></div>
+  <div class="cursor cursor-dot" id="cursorDot"></div>
+
+  <script>
+    const navEl = document.querySelector('nav');
+    window.addEventListener('scroll', () => { navEl.classList.toggle('scrolled', window.scrollY > 60); });
+
+    const circle = document.getElementById('cursorCircle');
+    const dot = document.getElementById('cursorDot');
+    let mouseX = 0, mouseY = 0, circleX = 0, circleY = 0;
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px'; });
+    function animateCursor() { circleX += (mouseX - circleX) * 0.12; circleY += (mouseY - circleY) * 0.12; circle.style.left = circleX + 'px'; circle.style.top = circleY + 'px'; requestAnimationFrame(animateCursor); }
+    animateCursor();
+    document.querySelectorAll('a, button').forEach(el => { el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover')); el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover')); });
+
+    const trail = [];
+    for (let i = 0; i < 8; i++) { const t = document.createElement('div'); t.style.cssText = `position:fixed;pointer-events:none;z-index:9998;width:${6 - i * 0.5}px;height:${6 - i * 0.5}px;border-radius:50%;background:white;mix-blend-mode:difference;transform:translate(-50%,-50%);opacity:${0.4 - i * 0.04};`; document.body.appendChild(t); trail.push({ el: t, x: 0, y: 0 }); }
+    document.addEventListener('mousemove', e => { trail[0].x = e.clientX; trail[0].y = e.clientY; });
+    function animateTrail() { for (let i = trail.length - 1; i > 0; i--) { trail[i].x += (trail[i-1].x - trail[i].x) * 0.35; trail[i].y += (trail[i-1].y - trail[i].y) * 0.35; trail[i].el.style.left = trail[i].x + 'px'; trail[i].el.style.top = trail[i].y + 'px'; } requestAnimationFrame(animateTrail); }
+    animateTrail();
+  </script>
+</body>
 </html>
-  
