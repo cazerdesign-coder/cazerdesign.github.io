@@ -110,6 +110,59 @@
     /* ── WORK SECTION ── */
     #work { margin-top: 0 !important; padding: 5rem 5% !important; }
 
+    /* ── LARGE SCREENS ── */
+    @media (min-width: 1400px) {
+      .hero-body { padding: 40px 80px 0 160px; }
+      nav { padding: 36px 80px; }
+
+      /* bigger photo */
+      .image-placeholder { width: 360px; height: 470px; border-radius: 180px 180px 0 0; }
+      .image-placeholder img { border-radius: 178px 178px 0 0; }
+
+      /* bigger trees */
+      .tree-wrap-1 .tree-graphic { height: 400px; width: 150px; }
+      .tree-wrap-2 .tree-graphic { height: 560px; width: 140px; }
+      .tree-wrap-1 { right: 4%; }
+      .tree-wrap-2 { right: calc(4% + 150px + 16px); bottom: -60px; }
+
+      /* bigger UI boxes */
+      .ui-box-1 { width: 190px; height: 130px; top: 8%; left: 9%; }
+      .ui-box-2 { width: 160px; height: 155px; top: 16%; right: 14%; }
+      .ui-box-4 { width: 145px; height: 115px; top: 20%; left: 46%; }
+      .ui-box-5 { width: 165px; height: 130px; top: 78%; left: 46%; }
+
+      /* bigger grid */
+      .bg-grid { width: 600px; height: 360px; }
+      .bg-grid::before { width: 580px; height: 360px; background-size: 80px 80px; }
+      .bg-grid::after { width: 520px; height: 380px; background-size: 80px 80px; }
+    }
+
+    @media (min-width: 1800px) {
+      .hero-body { padding: 40px 120px 0 220px; }
+      nav { padding: 40px 120px; }
+
+      /* even bigger photo */
+      .image-placeholder { width: 420px; height: 550px; border-radius: 210px 210px 0 0; }
+      .image-placeholder img { border-radius: 208px 208px 0 0; }
+
+      /* even bigger trees */
+      .tree-wrap-1 .tree-graphic { height: 480px; width: 180px; }
+      .tree-wrap-2 .tree-graphic { height: 660px; width: 165px; }
+      .tree-wrap-1 { right: 5%; }
+      .tree-wrap-2 { right: calc(5% + 180px + 20px); bottom: -70px; }
+
+      /* even bigger UI boxes */
+      .ui-box-1 { width: 230px; height: 155px; }
+      .ui-box-2 { width: 195px; height: 190px; }
+      .ui-box-4 { width: 175px; height: 140px; }
+      .ui-box-5 { width: 200px; height: 155px; }
+
+      /* even bigger grid */
+      .bg-grid { width: 720px; height: 440px; }
+      .bg-grid::before { width: 700px; height: 440px; background-size: 90px 90px; }
+      .bg-grid::after { width: 620px; height: 460px; background-size: 90px 90px; }
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
       nav { padding: 20px 40px; } nav.scrolled { padding: 14px 40px; } nav ul#nav-menu { gap: 24px; padding: 10px 20px; }
@@ -144,7 +197,7 @@
         <div class="ui-box ui-box-1"><div class="ui-box-inner"><div class="ui-box-front"><img src="images/UIElement3.svg" alt="UI Element 1" /></div><div class="ui-box-back"><span class="back-title">Project 1</span><span class="back-desc">Add a caption for this graphic</span></div></div></div>
         <div class="ui-box ui-box-2"><div class="ui-box-inner"><div class="ui-box-front"><img src="images/UIElement1.svg" alt="UI Element 2" /></div><div class="ui-box-back"><span class="back-title">Project 2</span><span class="back-desc">Add a caption for this graphic</span></div></div></div>
         <div class="ui-box ui-box-4"><div class="ui-box-inner"><div class="ui-box-front"><img src="images/UIElement5.svg" alt="UI Element 3" /></div><div class="ui-box-back"><span class="back-title">Project 4</span><span class="back-desc">Add a caption for this graphic</span></div></div></div>
-        <div class="ui-box ui-box-5"><div class="ui-box-inner"><div class="ui-box-front"><img src="images/UIElement2.svg" alt="UI Element 5" /></div><div class="ui-box-back"><span class="back-title">Project 5</span><span class="back-desc">Add a caption for this graphic</span></div></div></div>
+        <div class="ui-box ui-box-5"><div class="ui-box-inner"><div class="ui-box-front"><img src="images/UIElement3.svg" alt="UI Element 5" /></div><div class="ui-box-back"><span class="back-title">Project 5</span><span class="back-desc">Add a caption for this graphic</span></div></div></div>
 
         <div class="image-wrap" style="position:absolute; bottom:0; left:50%; right:0; display:flex; justify-content:center; align-items:flex-end; height:100%;">
           <div class="image-placeholder">
@@ -206,6 +259,11 @@
         <div class="project-card"><a href="highfalls.html" style="text-decoration: none; color: inherit;"><div class="project-image"><img src="images/highfalls.png" alt="High Falls Kiosk"></div><div class="project-info"><h3>High Falls Kiosk</h3><p>A gamified learning experience for Rochester NY</p><div class="tags"><span class="tag">Interactive Design</span><span class="tag">Prototyping</span><span class="tag">UI Design</span></div></div></a></div>
         <div class="project-card" onclick="showCaseStudy('project5')"><div class="project-image"><img src="images/VignelliArchives.webp" alt="Vignelli Archive App"></div><div class="project-info"><h3>Vignelli Archive App</h3><p>Creating an environment where knowledge grows and students thrive</p><div class="tags"><span class="tag">Mobile Design</span><span class="tag">UI Design</span><span class="tag">Prototyping</span></div></div></div>
       </div>
+
+      <div style="text-align: center; padding: 4rem 0 1rem;">
+        <p style="font-size: .88rem; color: #5a6e5a; font-weight: 300; margin-bottom: 20px; letter-spacing: .02em;">Looking for more?</p>
+        <a href="play.html" class="btn-primary" style="display: inline-flex; align-items: center; gap: 10px;">Visit the Playground &nbsp;→</a>
+      </div>
     </section>
 
     <footer>
@@ -215,7 +273,7 @@
           <p class="footer-tagline">Thanks for visiting my Design Garden</p>
           <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
           <div class="footer-links">
-            <a href="/cdn-cgi/l/email-protection#82f1e3efc2e1e3f8e7f0e6e7f1ebe5ecace1edef">Email</a>
+            <a href="mailto:cazerdesign@gmail.com">Email</a>
             <a href="https://www.linkedin.com/in/samcazer">LinkedIn</a>
           </div>
         </div>
@@ -226,7 +284,7 @@
   <div class="cursor cursor-circle" id="cursorCircle"></div>
   <div class="cursor cursor-dot" id="cursorDot"></div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     // ── STICKY NAV ──
     const navEl = document.querySelector('nav');
     window.addEventListener('scroll', () => { navEl.classList.toggle('scrolled', window.scrollY > 60); });
@@ -265,8 +323,6 @@
     function scramble(el) { const original = el.dataset.original || el.innerText; el.dataset.original = original; let iteration = 0; const total = 8; clearInterval(el._scrambleInterval); el._scrambleInterval = setInterval(() => { el.innerText = original.split('').map((char, i) => { if (char === ' ') return ' '; if (i < Math.floor((iteration / total) * original.length)) return original[i]; if (!/[a-zA-Z]/.test(char)) return char; return chars[Math.floor(Math.random() * chars.length)]; }).join(''); iteration++; if (iteration >= total) { clearInterval(el._scrambleInterval); el.innerText = original; } }, 50); }
     document.querySelectorAll('.hero-headline .line').forEach(line => { line.style.display = 'inline-block'; line.style.whiteSpace = 'nowrap'; line.addEventListener('mouseenter', () => scramble(line)); });
 
-    // ── MAGNETIC BUTTONS ──
-    document.querySelectorAll('.btn-primary, .btn-ghost').forEach(btn => { btn.addEventListener('mousemove', e => { const rect = btn.getBoundingClientRect(); const dx = (e.clientX - rect.left - rect.width / 2) * 0.3; const dy = (e.clientY - rect.top - rect.height / 2) * 0.3; btn.style.transform = `translate(${dx}px, ${dy}px)`; }); btn.addEventListener('mouseleave', () => { btn.style.transform = 'translate(0,0)'; btn.style.transition = 'transform 0.4s ease'; }); btn.addEventListener('mouseenter', () => { btn.style.transition = 'transform 0.1s ease'; }); });
 
     // ── SCROLL ANIMATION ──
     let ticking = false;
