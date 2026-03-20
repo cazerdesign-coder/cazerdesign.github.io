@@ -1,282 +1,525 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signals in the Dark - Sam Cazer</title>
-    <link rel="stylesheet" href="stylesheet.css">
-    <!-- Rive Runtime -->
-    <script src="https://unpkg.com/@rive-app/canvas@2.7.0"></script>
-    <style>
-        /* Rive Canvas Styling */
-        .rive-container {
-            width: 100%;
-            max-width: 1400px;
-            aspect-ratio: 16 / 9;
-            margin: 2rem auto;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #1a1a1a;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signals in the Dark - Sam Cazer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="stylesheet.css">
+  <script src="https://unpkg.com/@rive-app/canvas@2.7.0"></script>
+  <style>
+    * { cursor: none; }
 
-        #rive-canvas {
-            width: 100%;
-            height: 100%;
-        }
-    </style>
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 64px;
+      background: none;
+      border: none;
+      backdrop-filter: none;
+      width: 100%;
+      transition: padding 0.3s;
+    }
+    nav .container { display: contents; }
+    nav ul#nav-menu {
+      display: flex; gap: 36px; list-style: none;
+      background: rgba(255,255,255,0.3); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.5); border-radius: 100px;
+      padding: 12px 28px; align-items: center;
+    }
+    nav ul#nav-menu a {
+      font-size: .78rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: #1a2a1a; text-decoration: none;
+      opacity: .7; transition: opacity .2s; padding: 0;
+    }
+    nav ul#nav-menu a:hover { opacity: 1; }
+    nav ul#nav-menu a::after { display: none; }
+    .logo-image { height: 56px !important; max-height: 56px !important; width: auto !important; }
+    .logo-img-wrap img { filter: invert(52%) sepia(28%) saturate(500%) hue-rotate(90deg) brightness(85%); transition: filter 0.3s; }
+    nav.scrolled { padding: 16px 64px; }
+    nav.scrolled ul#nav-menu { background: rgba(255,255,255,0.3); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.5); }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; padding: 4px; z-index: 30; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #1a2a1a; border-radius: 2px; }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: #C3D4A3; z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 2rem; font-weight: 700; color: #1a2a1a; text-decoration: none; }
+    .mobile-menu-close { position: absolute; top: 32px; right: 28px; font-size: 1.5rem; cursor: none; color: #1a2a1a; background: none; border: none; }
+
+    /* ── HERO BANNER ── */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ── HERO ── */
+    .cs-hero {
+      width: 100%;
+      min-height: 42vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 120px 80px 60px 120px;
+      gap: 64px;
+      position: relative;
+    }
+    .cs-hero-text { position: relative; z-index: 2; }
+    .cs-eyebrow { font-size: .78rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: #70A58B; margin-bottom: 12px; opacity: 0; transform: translateY(16px); animation: fadeUp .6s .1s forwards; }
+    .cs-title { font-weight: 900; font-size: clamp(3.5rem, 6vw, 6.5rem); line-height: .9; letter-spacing: -.04em; color: #1a2a1a; opacity: 0; transform: translateY(24px); animation: fadeUp .7s .2s forwards; margin-bottom: 24px; }
+    .cs-title span { color: #70A58B; }
+    .cs-subtitle { font-size: 1rem; font-weight: 300; line-height: 1.7; color: #5a6e5a; max-width: 420px; opacity: 0; transform: translateY(16px); animation: fadeUp .6s .35s forwards; }
+    .cs-hint { margin-top: 12px; font-size: .78rem; color: #5a6e5a; font-style: italic; opacity: 0; animation: fadeUp .6s .5s forwards; }
+
+    /* Rive canvas in hero */
+    .cs-hero-rive {
+      border-radius: 16px; overflow: hidden;
+      aspect-ratio: 16 / 9;
+      background: #1a1a1a;
+      box-shadow: 0 24px 60px rgba(26,42,26,.12);
+      border: 1.5px solid rgba(195,212,163,.3);
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp .8s .4s forwards;
+    }
+    #rive-canvas { width: 100%; height: 100%; display: block; }
+    .cs-meta-bar {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 28px 5% 40px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-bottom: 1px solid rgba(195,212,163,.4);
+    }
+    .cs-meta-item { padding: 0 24px; border-left: 1px solid rgba(195,212,163,.4); }
+    .cs-meta-item:first-child { border-left: none; padding-left: 0; }
+    .cs-meta-label { font-size: .68rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #70A58B; margin-bottom: 8px; }
+    .cs-meta-value { font-size: .95rem; font-weight: 500; color: #1a2a1a; line-height: 1.5; }
+
+    /* ── CONTENT ── */
+    .cs-body { max-width: 900px; margin: 0 auto; padding: 64px 5% 80px; }
+    .cs-section { margin-bottom: 72px; }
+    .cs-section-label { font-size: .68rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #70A58B; margin-bottom: 16px; }
+    .cs-section h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; letter-spacing: -.03em; color: #1a2a1a; margin-bottom: 20px; line-height: 1.1; }
+    .cs-section p { font-size: 1rem; line-height: 1.8; color: #5a6e5a; font-weight: 300; margin-bottom: 16px; }
+    .cs-section p strong { font-weight: 600; color: #1a2a1a; }
+
+    /* goals box */
+    .cs-goals {
+      background: rgba(195,212,163,.12);
+      border-left: 3px solid #70A58B;
+      border-radius: 0 16px 16px 0;
+      padding: 28px 32px;
+      margin: 32px 0;
+    }
+    .cs-goals h3 { font-size: .78rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: #70A58B; margin-bottom: 16px; }
+    .cs-goals ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .cs-goals ul li { font-size: .95rem; color: #1a2a1a; font-weight: 400; padding-left: 20px; position: relative; line-height: 1.5; }
+    .cs-goals ul li::before { content: '→'; position: absolute; left: 0; color: #70A58B; font-size: .85rem; }
+
+    /* divider */
+    .cs-divider { width: 100%; height: 1px; background: rgba(195,212,163,.35); margin: 56px 0; }
+
+    /* subsection heading */
+    .cs-subsection { display: flex; align-items: center; gap: 16px; margin: 48px 0 20px; }
+    .cs-subsection-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, #C3D4A3, #70A58B);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 900; color: #1a2a1a; flex-shrink: 0;
+    }
+    .cs-subsection h3 { font-size: 1.3rem; font-weight: 800; letter-spacing: -.02em; color: #1a2a1a; }
+
+    /* images */
+    .cs-image-full { margin: 28px 0; }
+    .cs-image-full img, .cs-image-full video {
+      width: 100%; height: auto;
+      border-radius: 16px;
+      border: 1.5px solid rgba(195,212,163,.3);
+      box-shadow: 0 8px 30px rgba(26,42,26,.07);
+      display: block;
+    }
+    .cs-image-caption { font-size: .82rem; color: #5a6e5a; font-weight: 300; line-height: 1.5; font-style: italic; margin-top: 10px; }
+
+    .cs-image-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 28px 0;
+    }
+    .cs-image-grid img, .cs-image-grid video {
+      width: 100%; height: auto;
+      border-radius: 16px;
+      border: 1.5px solid rgba(195,212,163,.3);
+      box-shadow: 0 8px 30px rgba(26,42,26,.07);
+      display: block;
+    }
+
+    .cs-image-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 28px 0;
+    }
+    .cs-image-grid-3 img {
+      width: 100%; height: auto;
+      border-radius: 16px;
+      border: 1.5px solid rgba(195,212,163,.3);
+      box-shadow: 0 8px 30px rgba(26,42,26,.07);
+      display: block;
+    }
+
+    /* prototype button */
+    .cs-prototype-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: #1a2a1a;
+      color: #C3D4A3;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 100px;
+      transition: background .25s, transform .2s;
+      margin-top: 24px;
+    }
+    .cs-prototype-link:hover { background: #2d4a2d; transform: translateY(-2px); }
+    .cs-prototype-link::before { content: '↗'; }
+
+    /* reflection */
+    .cs-reflection {
+      background: linear-gradient(135deg, #C3D4A3, #70A58B);
+      border-radius: 24px;
+      padding: 48px;
+      margin-top: 72px;
+    }
+    .cs-reflection h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; letter-spacing: -.03em; color: #1a2a1a; margin-bottom: 20px; }
+    .cs-reflection p { font-size: 1rem; line-height: 1.8; color: rgba(26,42,26,.75); font-weight: 300; margin-bottom: 16px; }
+    .cs-reflection .cs-section-label { color: rgba(26,42,26,.5); }
+
+    /* bottom nav */
+    .cs-nav-bottom { padding: 80px 0 20px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* ── CUSTOM CURSOR ── */
+    .cursor { position: fixed; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
+    .cursor-circle { width: 24px; height: 24px; border-radius: 50%; background: white; transform: translate(-50%, -50%); transition: width 0.3s ease, height 0.3s ease; }
+    .cursor-dot { width: 6px; height: 6px; border-radius: 50%; background: white; transform: translate(-50%, -50%); }
+    body.cursor-hover .cursor-circle { width: 64px; height: 64px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) { .cs-hero { padding: 120px 60px 60px 80px; gap: 40px; } nav { padding: 20px 40px; } }
+    @media (max-width: 768px) {
+      nav ul#nav-menu { display: none; } .nav-hamburger { display: flex; } nav { padding: 20px 24px; }
+      .cs-hero { grid-template-columns: 1fr; padding: 120px 28px 60px; min-height: auto; gap: 40px; }
+      .cs-title { font-size: clamp(3rem, 12vw, 5rem); }
+      .cs-meta-bar { grid-template-columns: 1fr 1fr; gap: 24px; }
+      .cs-meta-item { border-left: none; padding-left: 0; }
+      .cs-image-grid { grid-template-columns: 1fr; }
+      .cs-image-grid-3 { grid-template-columns: 1fr 1fr; }
+      .cs-reflection { padding: 32px; }
+    }
+    @media (max-width: 480px) {
+      .cs-meta-bar { grid-template-columns: 1fr; }
+      .cs-image-grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
-
 <body>
-    <nav>
-        <div class="container">
-            <div class="logo">
-                <a href="index.html"
-                    style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
-                    <img src="images/logo.svg" class="logo-image">
-                    <span class="logo-text">cazerdesign</span>
-                </a>
-            </div>
-            <ul id="nav-menu">
-                <li><a href="index.html" class="nav-link" style="text-decoration: none; color: inherit;">Home</a></li>
-                <li><a href="index.html#work" class="nav-link" style="text-decoration: none; color: inherit;">Work</a>
-                </li>
-                <li><a href="play.html" class="nav-link" style="text-decoration: none; color: inherit;">Play</a></li>
-                <li><a href="about.html" class="nav-link" style="text-decoration: none; color: inherit;">About</a></li>
-                <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link"
-                        style="text-decoration: none; color: inherit;">Resume</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <section style="max-width: 900px; margin: 0 auto; padding: 5rem 5%;">
-        <div class="case-study-header">
-            <h1>Signals in the Dark</h1>
-            <p style="font-size: 1.3rem; color: var(--text-light); margin-top: 1rem;">A motion-driven interactive cryptid hunt</p>
-            <div class="meta">
-                <div class="meta-item">
-                    <strong>Role</strong>
-                    <span>UI/UX Designer</span>
-                </div>
-                <div class="meta-item">
-                    <strong>Timeline</strong>
-                    <span>3 Weeks</span>
-                </div>
-                <div class="meta-item">
-                    <strong>Team</strong>
-                    <span>1 Designer</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Rive Interactive Hero -->
-        <div class="rive-container">
-            <canvas id="rive-canvas"></canvas>
-        </div>
-        <p style="text-align: center; color: #666; font-style: italic; margin-top: -1rem; margin-bottom: 3rem;">
-            🔦 Move your mouse to shine the flashlight, then click on Nessie or Bigfoot when you spot them
-        </p>
-
-        <script>
-            // Initialize Rive
-            let clickTrigger = null;
-            let click2Trigger = null;
-            let timeInput = null;
-
-            const riveInstance = new rive.Rive({
-                src: 'cryptid.riv',
-                canvas: document.getElementById('rive-canvas'),
-                autoplay: true,
-                stateMachines: 'Flashlight',
-                fit: rive.Fit.Cover,
-                alignment: rive.Alignment.Center,
-                onLoad: () => {
-                    console.log('Rive animation loaded!');
-                    riveInstance.resizeDrawingSurfaceToCanvas();
-                    
-                    // Get state machine inputs
-                    const inputs = riveInstance.stateMachineInputs('Flashlight');
-                    clickTrigger = inputs.find(i => i.name === 'Click');
-                    click2Trigger = inputs.find(i => i.name === 'Click2');
-                    timeInput = inputs.find(i => i.name === 'Time');
-                    
-                    if (timeInput) {
-                        timeInput.value = 1; // Set to night mode
-                        console.log('Set to night mode');
-                    }
-                    
-                    if (!clickTrigger || !click2Trigger) {
-                        console.error('Missing Click or Click2 inputs');
-                        return;
-                    }
-                    
-                    console.log('Click triggers loaded successfully');
-                },
-            });
-
-            // Click handling for creatures
-            const canvas = document.getElementById('rive-canvas');
-            canvas.addEventListener('pointerdown', (e) => {
-                if (!clickTrigger || !click2Trigger) return;
-                
-                console.log('Canvas clicked at offsetX:', e.offsetX, 'offsetY:', e.offsetY);
-                
-                // Try hitTest first
-                try {
-                    const hitObjects = riveInstance.hitTest('Flashlight', e.offsetX, e.offsetY);
-                    console.log('Hit objects:', hitObjects);
-                    
-                    if (hitObjects && hitObjects.length > 0) {
-                        if (hitObjects.includes('Button Click')) {
-                            click2Trigger.fire(); // Swapped
-                            console.log('🦕 Nessie clicked via hitTest!');
-                            return;
-                        } else if (hitObjects.includes('Button Click2')) {
-                            clickTrigger.fire(); // Swapped
-                            console.log('🐾 Bigfoot clicked via hitTest!');
-                            return;
-                        }
-                    }
-                } catch (err) {
-                    console.log('hitTest error:', err);
-                }
-                
-                // Fallback to simple left/right split
-                const x = e.offsetX;
-                const y = e.offsetY;
-                
-                const rect = canvas.getBoundingClientRect();
-                const scaleX = 1920 / rect.width;
-                const scaleY = 1080 / rect.height;
-                const scaledX = x * scaleX;
-                const scaledY = y * scaleY;
-                
-                console.log(`Click at scaled x=${scaledX.toFixed(0)}, y=${scaledY.toFixed(0)}`);
-                
-                // Simple split: left half = Nessie, right half = Bigfoot
-                if (scaledX < 960) { // Left half
-                    click2Trigger.fire();
-                    console.log('🦕 Nessie clicked (left side)!');
-                } else { // Right half
-                    clickTrigger.fire();
-                    console.log('🐾 Bigfoot clicked (right side)!');
-                }
-            });
-
-            // Resize canvas when window resizes
-            window.addEventListener('resize', () => {
-                riveInstance.resizeDrawingSurfaceToCanvas();
-            });
-        </script>
-
-        <div class="case-study-section">
-            <h2>Overview</h2>
-            <p>An interactive motion project built in Rive where users explore a forest and discover cryptids with motion-based feedback. 
-                This project was meant to explore motion feedback and interactive animation using Rive and Vibe-Coding, experimenting with
-                 dynamic inputs and environmental triggers while being inspired by cryptid lore and playful discovery.</p>
-        </div>
-
-        <div class="case-study-section">
-            <h2>Goals</h2>
-
-            <div class="highlight-box">
-                <ul>
-                    <li><strong>Motion Feedback:</strong> communicate interactions clearly</li>
-                    <li><strong>Dynamic Inputs:</strong> playful discovery through environmental triggers</li>
-                    <li><strong>Interactive Animation:</strong> immersive experiences with Rive & Vibe-coding</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="case-study-section">
-            <h2>Design Process</h2>
-
-            <h3>Visual Style</h3>
-            <p> The visual direction uses a monochromatic, desaturated noir-inspired vector style, reinforcing the sense of mystery and atmosphere while keeping the interface cohesive and focused.</p>
-            
-             <div class="image-grid">
-                <img src="images/riveref1.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-                <img src="images/riveref2.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-            </div>
-
-            <p>The environment was illustrated as a fairly simple vector form along with simplistic cryptid vectors that can be discoverable within the environment while still maintaining visual cohesion.</p>
-
-             <div class="image-grid">
-                <img src="images/rivenight.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-                <img src="images/rivecryptids.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-            </div>
-
-
-            <p>I designed a daytime variation of the environment to allow for a alternative way to interact with the scene by swapping between day and night which can enhance the storytelling.</p>
-
-            <h3>Rive</h3>
-            <p>I used Rive to create motion-driven interactivity, giving each cryptid responsive animations that guide discovery and keep the experience playful. Rive enabled smooth transitions and interactive triggers that made the world feel alive.</p>
-
-            <div class="image-grid">
-                    <!-- Replace your img tag with this -->
-<video autoplay loop muted playsinline>
-    <source src="images/BigfootClick.mov" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
-                    <!-- Replace your img tag with this -->
-<video autoplay loop muted playsinline>
-    <source src="images/NessieClick.mov" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
-                </div>
-
-                <p>I added “hide” animations for Bigfoot and Nessie that trigger when users click on them. Each creature has two timelines: idle and hiding, allowing smooth motion between states. I also implemented a Time input, so the scene transitions between day and night based on the value, creating a dynamic and responsive environment.</p>
-                <div class="image-grid">
-                <img src="images/timeline.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-                <img src="images/timeline1.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-                <img src="images/timeline2.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-                <img src="images/timeline4.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-            </div>
-
-            <p> Each cryptid’s hide animation uses two timelines (idle + hiding) and integrates with a global Time input for environmental responsiveness.</p>
-
-            <h3>Vibe-Coding & Experimental Interaction</h3>
-             <p>In this phase, I worked iteratively with AI. Learning that effective prompting needs percice and small adjustments to lead toward more complex interactive results.</p>
-                <div class="image-grid">
-                <img src="images/riveaichat.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-                <img src="images/riveaichat2.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-                </div>
-
-                 <p>Vibe-Coding allowed me to experiment with unconventional inputs, like lighting-based day/night changes, letting user actions dynamically influence cryptid behavior and push the boundaries of interactive discovery.</p>
-
-                <img src="images/rivevibecoding.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-                       <a href="https://src8507.cad.rit.edu/Rive/rive.html" target="_blank" class="cta-button cta-primary">View Prototype</a>
-</div>
-
-        <div class="case-study-section">
-            <h2>Reflection</h2>
-            <p>Motion is essential for feedback and understanding interactions, even in an illustrative style. In future iterations, I'd provide clearer cues for user discovery while keeping exploration playful.</p>
-
-                            <img src="images/RiveStill.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-        </div>
-
-        <div class="case-study-section" style="text-align: center; margin-top: 5rem;">
-            <h2>Explore More</h2>
-            <p style="margin-bottom: 2rem;">Want to see what else is growing in the garden?</p>
-            <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
-                <a href="index.html#work" class="cta-button cta-primary">Back to Garden</a>
-                <a href="index.html#contact" class="cta-button cta-secondary">Let's Connect</a>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-  <div class="footer-content">
-      <img src="images/Gunther.png" alt="Design Garden Illustration" style="width: 90%; height:auto; border-radius:12px;">
-    <div class="footer-text" style="width: 90%">
-      <p class="footer-tagline">Thanks for visiting my Design Garden</p>
-      <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
-      <div class="footer-links">
-        <a href="/cdn-cgi/l/email-protection#8bf8eae6cbe8eaf1eef9efeef8e2ece5a5e8e4e6">Email</a>
-        <a href="https://www.linkedin.com/in/samcazer">LinkedIn</a>
+  <!-- NAV -->
+  <nav>
+    <div class="container">
+      <div class="logo">
+        <a href="index.html">
+          <span class="logo-img-wrap"><img src="images/logo.svg" class="logo-image" alt="logo"></span>
+        </a>
       </div>
-    </footer>
-    </body>
-    </html>
+      <ul id="nav-menu">
+        <li><a href="index.html#work" class="nav-link">Work</a></li>
+        <li><a href="play.html" class="nav-link">Play</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link">Resume</a></li>
+      </ul>
+      <div class="nav-hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">✕</button>
+    <a href="index.html#work">Work</a>
+    <a href="play.html">Play</a>
+    <a href="about.html">About</a>
+    <a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank">Resume</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="cs-hero">
+    <div class="cs-hero-text">
+      <p class="cs-eyebrow">Case Study · Motion & Interaction</p>
+      <h1 class="cs-title">Signals in<br><span>the Dark.</span></h1>
+      <p class="cs-subtitle">A motion-driven interactive cryptid hunt built in Rive</p>
+      <p class="cs-hint">🔦 Move your mouse to shine the flashlight, click on Nessie or Bigfoot when you spot them</p>
+    </div>
+    <div class="cs-hero-rive">
+      <canvas id="rive-canvas"></canvas>
+    </div>
+  </div>
+
+  <!-- META BAR -->
+  <div class="cs-meta-bar">
+    <div class="cs-meta-item">
+      <p class="cs-meta-label">Role</p>
+      <p class="cs-meta-value">Motion Designer</p>
+    </div>
+    <div class="cs-meta-item">
+      <p class="cs-meta-label">Timeline</p>
+      <p class="cs-meta-value">3 Weeks</p>
+    </div>
+    <div class="cs-meta-item">
+      <p class="cs-meta-label">Team</p>
+      <p class="cs-meta-value">Solo Project</p>
+    </div>
+    <div class="cs-meta-item">
+      <p class="cs-meta-label">Tools</p>
+      <p class="cs-meta-value">Rive, Vibe-Coding</p>
+    </div>
+  </div>
+
+  <script>
+    let clickTrigger = null;
+    let click2Trigger = null;
+    let timeInput = null;
+
+    const riveInstance = new rive.Rive({
+      src: 'cryptid.riv',
+      canvas: document.getElementById('rive-canvas'),
+      autoplay: true,
+      stateMachines: 'Flashlight',
+      fit: rive.Fit.Cover,
+      alignment: rive.Alignment.Center,
+      onLoad: () => {
+        riveInstance.resizeDrawingSurfaceToCanvas();
+        const inputs = riveInstance.stateMachineInputs('Flashlight');
+        clickTrigger = inputs.find(i => i.name === 'Click');
+        click2Trigger = inputs.find(i => i.name === 'Click2');
+        timeInput = inputs.find(i => i.name === 'Time');
+        if (timeInput) timeInput.value = 1;
+      },
+    });
+
+    const canvas = document.getElementById('rive-canvas');
+    canvas.addEventListener('pointerdown', (e) => {
+      if (!clickTrigger || !click2Trigger) return;
+      try {
+        const hitObjects = riveInstance.hitTest('Flashlight', e.offsetX, e.offsetY);
+        if (hitObjects && hitObjects.length > 0) {
+          if (hitObjects.includes('Button Click')) { click2Trigger.fire(); return; }
+          else if (hitObjects.includes('Button Click2')) { clickTrigger.fire(); return; }
+        }
+      } catch (err) {}
+      const rect = canvas.getBoundingClientRect();
+      const scaledX = e.offsetX * (1920 / rect.width);
+      if (scaledX < 960) { click2Trigger.fire(); } else { clickTrigger.fire(); }
+    });
+
+    window.addEventListener('resize', () => { riveInstance.resizeDrawingSurfaceToCanvas(); });
+  </script>
+
+  <!-- BODY -->
+  <div class="cs-body">
+
+    <!-- OVERVIEW -->
+    <div class="cs-section">
+      <p class="cs-section-label">01 · Overview</p>
+      <h2>What is this project?</h2>
+      <p>An interactive motion project built in Rive where users explore a forest and discover cryptids with motion-based feedback. This project was meant to explore motion feedback and interactive animation using Rive and Vibe-Coding, experimenting with dynamic inputs and environmental triggers while being inspired by cryptid lore and playful discovery.</p>
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <!-- GOALS -->
+    <div class="cs-section">
+      <p class="cs-section-label">02 · Goals</p>
+      <h2>What I set out to do</h2>
+      <div class="cs-goals">
+        <h3>Project Goals</h3>
+        <ul>
+          <li><strong>Motion Feedback:</strong> Communicate interactions clearly through animation</li>
+          <li><strong>Dynamic Inputs:</strong> Enable playful discovery through environmental triggers</li>
+          <li><strong>Interactive Animation:</strong> Build immersive experiences with Rive and Vibe-Coding</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <!-- DESIGN PROCESS -->
+    <div class="cs-section">
+      <p class="cs-section-label">03 · Design Process</p>
+      <h2>Building the experience</h2>
+
+      <!-- Visual Style -->
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">1</div>
+        <h3>Visual Style</h3>
+      </div>
+      <p>The visual direction uses a monochromatic, desaturated noir-inspired vector style, reinforcing the sense of mystery and atmosphere while keeping the interface cohesive and focused.</p>
+
+      <div class="cs-image-grid">
+        <img src="images/riveref1.png" alt="Style reference 1" />
+        <img src="images/riveref2.png" alt="Style reference 2" />
+      </div>
+
+      <p>The environment was illustrated as a fairly simple vector form along with simplistic cryptid vectors that can be discovered within the environment while still maintaining visual cohesion.</p>
+
+      <div class="cs-image-grid">
+        <img src="images/rivenight.png" alt="Night environment" />
+        <img src="images/rivecryptids.png" alt="Cryptid designs" />
+      </div>
+
+      <p>I also designed a daytime variation of the environment to allow for an alternative way to interact with the scene by swapping between day and night to enhance the storytelling.</p>
+
+      <!-- Rive -->
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">2</div>
+        <h3>Rive Animation</h3>
+      </div>
+      <p>I used Rive to create motion-driven interactivity, giving each cryptid responsive animations that guide discovery and keep the experience playful. Rive enabled smooth transitions and interactive triggers that made the world feel alive.</p>
+
+      <div class="cs-image-grid">
+        <video autoplay loop muted playsinline>
+          <source src="images/BigfootClick.mov" type="video/mp4">
+        </video>
+        <video autoplay loop muted playsinline>
+          <source src="images/NessieClick.mov" type="video/mp4">
+        </video>
+      </div>
+      <p class="cs-image-caption">Bigfoot and Nessie hide animations triggered on click.</p>
+
+      <p>I added hide animations for Bigfoot and Nessie that trigger when users click on them. Each creature has two timelines (idle and hiding), allowing smooth motion between states. A Time input controls the day/night transition, creating a dynamic and responsive environment.</p>
+
+      <div class="cs-image-grid-3">
+        <img src="images/timeline.png" alt="Timeline overview" />
+        <img src="images/timeline1.png" alt="Timeline detail 1" />
+        <img src="images/timeline2.png" alt="Timeline detail 2" />
+      </div>
+      <div class="cs-image-full" style="margin-top: 16px;">
+        <img src="images/timeline4.png" alt="Timeline detail 3" />
+        <p class="cs-image-caption">Each cryptid's hide animation uses two timelines (idle + hiding) and integrates with a global Time input for environmental responsiveness.</p>
+      </div>
+
+      <!-- Vibe-Coding -->
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">3</div>
+        <h3>Vibe-Coding</h3>
+      </div>
+      <p>In this phase, I worked iteratively with AI, learning that effective prompting needs precise and small adjustments to lead toward more complex interactive results.</p>
+
+      <div class="cs-image-grid">
+        <img src="images/riveaichat.png" alt="AI chat session 1" />
+        <img src="images/riveaichat2.png" alt="AI chat session 2" />
+      </div>
+
+      <p>Vibe-Coding allowed me to experiment with unconventional inputs like lighting-based day/night changes, letting user actions dynamically influence cryptid behavior and push the boundaries of interactive discovery.</p>
+
+      <div class="cs-image-full">
+        <img src="images/rivevibecoding.png" alt="Vibe coding process" />
+      </div>
+
+      <a href="https://src8507.cad.rit.edu/Rive/rive.html" target="_blank" class="cs-prototype-link">View Full Prototype</a>
+    </div>
+
+    <!-- REFLECTION -->
+    <div class="cs-reflection">
+      <p class="cs-section-label" style="color: rgba(195,212,163,.5); margin-bottom: 12px;">04 · Reflection</p>
+      <h2>What I learned</h2>
+      <p>Motion is essential for feedback and understanding interactions, even in an illustrative style. In future iterations, I'd provide clearer cues for user discovery while keeping exploration playful.</p>
+      <div class="cs-image-full" style="margin-top: 32px;">
+        <img src="images/RiveStill.png" alt="Final still" />
+      </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="cs-nav-bottom">
+      <a href="index.html#work" class="cta-button cta-primary">Back to Work</a>
+      <a href="about.html" class="cta-button cta-secondary">Get in Touch</a>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <img src="images/Gunther.png" alt="Design Garden Illustration" style="width: 90%; height:auto; border-radius:12px;">
+      <div class="footer-text" style="width: 90%">
+        <p class="footer-tagline">Thanks for visiting my Design Garden</p>
+        <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
+        <div class="footer-links">
+          <a href="mailto:sam@cazerdesign.com">Email</a>
+          <a href="https://www.linkedin.com/in/samcazer">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cursor cursor-circle" id="cursorCircle"></div>
+  <div class="cursor cursor-dot" id="cursorDot"></div>
+
+  <script>
+    const navEl = document.querySelector('nav');
+    window.addEventListener('scroll', () => { navEl.classList.toggle('scrolled', window.scrollY > 60); });
+
+    const circle = document.getElementById('cursorCircle');
+    const dot = document.getElementById('cursorDot');
+    let mouseX = 0, mouseY = 0, circleX = 0, circleY = 0;
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px'; });
+    function animateCursor() { circleX += (mouseX - circleX) * 0.12; circleY += (mouseY - circleY) * 0.12; circle.style.left = circleX + 'px'; circle.style.top = circleY + 'px'; requestAnimationFrame(animateCursor); }
+    animateCursor();
+    document.querySelectorAll('a, button').forEach(el => { el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover')); el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover')); });
+
+    const trail = [];
+    for (let i = 0; i < 8; i++) { const t = document.createElement('div'); t.style.cssText = `position:fixed;pointer-events:none;z-index:9998;width:${6 - i * 0.5}px;height:${6 - i * 0.5}px;border-radius:50%;background:white;mix-blend-mode:difference;transform:translate(-50%,-50%);opacity:${0.4 - i * 0.04};`; document.body.appendChild(t); trail.push({ el: t, x: 0, y: 0 }); }
+    document.addEventListener('mousemove', e => { trail[0].x = e.clientX; trail[0].y = e.clientY; });
+    function animateTrail() { for (let i = trail.length - 1; i > 0; i--) { trail[i].x += (trail[i-1].x - trail[i].x) * 0.35; trail[i].y += (trail[i-1].y - trail[i].y) * 0.35; trail[i].el.style.left = trail[i].x + 'px'; trail[i].el.style.top = trail[i].y + 'px'; } requestAnimationFrame(animateTrail); }
+    animateTrail();
+  </script>
+</body>
+</html>
