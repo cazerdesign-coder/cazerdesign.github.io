@@ -1,182 +1,511 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DQA Redesign - Sam Cazer</title>
-    <link rel="stylesheet" href="stylesheet.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DQA Redesign - Sam Cazer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="stylesheet.css">
+  <style>
+    * { cursor: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 64px;
+      background: none;
+      border: none;
+      backdrop-filter: none;
+      width: 100%;
+      transition: padding 0.3s;
+    }
+    nav .container { display: contents; }
+    nav ul#nav-menu {
+      display: flex; gap: 36px; list-style: none;
+      background: rgba(255,255,255,0.3); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.5); border-radius: 100px;
+      padding: 12px 28px; align-items: center;
+    }
+    nav ul#nav-menu a {
+      font-size: .78rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: #1a2a1a; text-decoration: none;
+      opacity: .7; transition: opacity .2s; padding: 0;
+    }
+    nav ul#nav-menu a:hover { opacity: 1; }
+    nav ul#nav-menu a::after { display: none; }
+    .logo-image { height: 56px !important; max-height: 56px !important; width: auto !important; }
+    .logo-img-wrap img { filter: invert(52%) sepia(28%) saturate(500%) hue-rotate(90deg) brightness(85%); transition: filter 0.3s; }
+    nav.scrolled { padding: 16px 64px; }
+    nav.scrolled ul#nav-menu { background: rgba(255,255,255,0.3); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.5); }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; padding: 4px; z-index: 30; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #1a2a1a; border-radius: 2px; }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: #C3D4A3; z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 2rem; font-weight: 700; color: #1a2a1a; text-decoration: none; }
+    .mobile-menu-close { position: absolute; top: 32px; right: 28px; font-size: 1.5rem; cursor: none; color: #1a2a1a; background: none; border: none; }
+
+    /* ── HERO BANNER ── */
+    .cs-hero {
+      width: 100%;
+      min-height: 42vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 100px 80px 60px 120px;
+      gap: 64px;
+      position: relative;
+    }
+
+    .cs-hero-text { position: relative; z-index: 2; }
+    .cs-eyebrow {
+      font-size: .78rem; font-weight: 500; letter-spacing: .2em;
+      text-transform: uppercase; color: #70A58B; margin-bottom: 16px;
+      opacity: 0; transform: translateY(16px); animation: fadeUp .6s .1s forwards;
+    }
+    .cs-title {
+      font-weight: 900; font-size: clamp(3.5rem, 6vw, 6.5rem);
+      line-height: .9; letter-spacing: -.04em; color: #1a2a1a;
+      opacity: 0; transform: translateY(24px); animation: fadeUp .7s .2s forwards;
+      margin-bottom: 24px;
+    }
+    .cs-title span { color: #70A58B; }
+    .cs-subtitle {
+      font-size: 1rem; font-weight: 300; line-height: 1.7;
+      color: #5a6e5a; letter-spacing: .01em; max-width: 420px;
+      opacity: 0; transform: translateY(16px); animation: fadeUp .6s .35s forwards;
+    }
+
+    .cs-hero-image {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp .8s .4s forwards;
+    }
+    .cs-hero-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 24px 60px rgba(26,42,26,.12);
+      border: 1.5px solid rgba(195,212,163,.3);
+    }
+
+    /* ── META BAR ── */
+    .cs-meta-bar {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 28px 5% 40px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-bottom: 1px solid rgba(195,212,163,.4);
+    }
+    .cs-meta-item {
+      padding: 0 24px;
+      border-left: 1px solid rgba(195,212,163,.4);
+    }
+    .cs-meta-item:first-child { border-left: none; padding-left: 0; }
+    .cs-meta-label {
+      font-size: .68rem; font-weight: 600; letter-spacing: .18em;
+      text-transform: uppercase; color: #70A58B; margin-bottom: 8px;
+    }
+    .cs-meta-value {
+      font-size: .95rem; font-weight: 500; color: #1a2a1a; line-height: 1.5;
+    }
+
+    /* ── CONTENT ── */
+    .cs-body {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 64px 5% 80px;
+    }
+
+    /* section block */
+    .cs-section { margin-bottom: 72px; }
+
+    .cs-section-label {
+      font-size: .68rem; font-weight: 600; letter-spacing: .2em;
+      text-transform: uppercase; color: #70A58B; margin-bottom: 16px;
+    }
+
+    .cs-section h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 900; letter-spacing: -.03em;
+      color: #1a2a1a; margin-bottom: 20px; line-height: 1.1;
+    }
+
+    .cs-section p {
+      font-size: 1rem; line-height: 1.8;
+      color: #5a6e5a; font-weight: 300;
+      margin-bottom: 16px;
+    }
+
+    .cs-section p strong { font-weight: 600; color: #1a2a1a; }
+
+    /* goals box */
+    .cs-goals {
+      background: rgba(195,212,163,.12);
+      border-left: 3px solid #70A58B;
+      border-radius: 0 16px 16px 0;
+      padding: 28px 32px;
+      margin: 32px 0;
+    }
+    .cs-goals h3 {
+      font-size: .78rem; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; color: #70A58B; margin-bottom: 16px;
+    }
+    .cs-goals ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .cs-goals ul li {
+      font-size: .95rem; color: #1a2a1a; font-weight: 400;
+      padding-left: 20px; position: relative; line-height: 1.5;
+    }
+    .cs-goals ul li::before {
+      content: '→'; position: absolute; left: 0;
+      color: #70A58B; font-size: .85rem;
+    }
+
+    /* divider */
+    .cs-divider {
+      width: 100%; height: 1px;
+      background: rgba(195,212,163,.35);
+      margin: 56px 0;
+    }
+
+    /* ── IMAGE COMPARISON ── */
+    .cs-comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 32px 0;
+    }
+
+    .cs-comparison.single {
+      grid-template-columns: 1fr;
+    }
+
+    .cs-image-block { display: flex; flex-direction: column; gap: 12px; }
+
+    .cs-image-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      width: fit-content;
+    }
+
+    .label-before {
+      background: rgba(26,42,26,.08);
+      color: #1a2a1a;
+    }
+    .label-before::before { content: '●'; font-size: .5rem; color: #999; }
+
+    .label-after {
+      background: #1a2a1a;
+      color: #C3D4A3;
+    }
+    .label-after::before { content: '●'; font-size: .5rem; color: #C3D4A3; }
+
+    .cs-image-block img {
+      width: 100%; height: auto;
+      border-radius: 16px;
+      border: 1.5px solid rgba(195,212,163,.3);
+      box-shadow: 0 8px 30px rgba(26,42,26,.07);
+      display: block;
+    }
+
+    .cs-image-caption {
+      font-size: .82rem; color: #5a6e5a;
+      font-weight: 300; line-height: 1.5;
+      font-style: italic;
+    }
+
+    /* full width image */
+    .cs-image-full { margin: 32px 0; }
+    .cs-image-full img {
+      width: 100%; height: auto;
+      border-radius: 16px;
+      border: 1.5px solid rgba(195,212,163,.3);
+      box-shadow: 0 8px 30px rgba(26,42,26,.07);
+      display: block;
+    }
+
+    /* subsection heading */
+    .cs-subsection {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 48px 0 24px;
+    }
+    .cs-subsection-num {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #C3D4A3, #70A58B);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 900; color: #1a2a1a;
+      flex-shrink: 0;
+    }
+    .cs-subsection h3 {
+      font-size: 1.3rem; font-weight: 800;
+      letter-spacing: -.02em; color: #1a2a1a;
+    }
+
+    /* reflection */
+    .cs-reflection {
+      background: linear-gradient(135deg, #C3D4A3, #70A58B);
+      border-radius: 24px;
+      padding: 48px;
+      margin-top: 72px;
+    }
+    .cs-reflection h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 900; letter-spacing: -.03em;
+      color: #1a2a1a; margin-bottom: 20px;
+    }
+    .cs-reflection p {
+      font-size: 1rem; line-height: 1.8;
+      color: rgba(26,42,26,.75); font-weight: 300;
+    }
+
+    /* bottom nav */
+    .cs-nav-bottom {
+      text-align: center;
+      padding: 80px 0 20px;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* ── CUSTOM CURSOR ── */
+    .cursor { position: fixed; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
+    .cursor-circle { width: 24px; height: 24px; border-radius: 50%; background: white; transform: translate(-50%, -50%); transition: width 0.3s ease, height 0.3s ease; }
+    .cursor-dot { width: 6px; height: 6px; border-radius: 50%; background: white; transform: translate(-50%, -50%); }
+    body.cursor-hover .cursor-circle { width: 64px; height: 64px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) { .cs-hero { padding: 120px 60px 60px 80px; gap: 40px; } nav { padding: 20px 40px; } }
+    @media (max-width: 768px) {
+      nav ul#nav-menu { display: none; } .nav-hamburger { display: flex; } nav { padding: 20px 24px; }
+      .cs-hero { grid-template-columns: 1fr; padding: 120px 28px 60px; min-height: auto; gap: 40px; }
+      .cs-title { font-size: clamp(3rem, 12vw, 5rem); }
+      .cs-meta-bar { grid-template-columns: 1fr 1fr; gap: 24px; }
+      .cs-meta-item { border-left: none; padding-left: 0; }
+      .cs-comparison { grid-template-columns: 1fr; }
+      .cs-reflection { padding: 32px; }
+    }
+    @media (max-width: 480px) { .cs-meta-bar { grid-template-columns: 1fr; } }
+  </style>
 </head>
-
 <body>
-    <nav>
-        <div class="container">
-            <div class="logo">
-                <a href="index.html"
-                    style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
-                    <img src="images/logo.svg" class="logo-image">
-                    <span class="logo-text">cazerdesign</span>
-                </a>
-            </div>
-            <ul id="nav-menu">
-                <li><a href="index.html" class="nav-link" style="text-decoration: none; color: inherit;">Home</a></li>
-                <li><a href="index.html#work" class="nav-link" style="text-decoration: none; color: inherit;">Work</a>
-                </li>
-                <li><a href="play.html" class="nav-link" style="text-decoration: none; color: inherit;">Play</a></li>
-                <li><a href="about.html" class="nav-link" style="text-decoration: none; color: inherit;">About</a></li>
-                <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link"
-                        style="text-decoration: none; color: inherit;">Resume</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <section style="max-width: 900px; margin: 0 auto; padding: 5rem 5%;">
-        <div class="case-study-header">
-            <h1>DQA Redesign</h1>
-            <p style="font-size: 1.3rem; color: var(--text-light); margin-top: 1rem;">Planting seeds for better patient
-                care</p>
-            <div class="meta">
-                <div class="meta-item">
-                    <strong>Role</strong>
-                    <span>UI/UX Designer</span>
-                </div>
-                <div class="meta-item">
-                    <strong>Timeline</strong>
-                    <span>June-August</span>
-                </div>
-                <div class="meta-item">
-                    <strong>Team</strong>
-                    <span>1 Designer</span>
-                    <span>2 Devs</span>
-                </div>
-            </div>
-        </div>
-
-        <img src="images/dqaredesign.png" class="case-study-hero" alt="Cali-ID Project">
-
-        <div class="case-study-section">
-            <h2>Overview</h2>
-            <p>Osprey Software requested a redesign for key DQA workflows, to improve efficiency, clarity, and usability across both customer-facing and employee-facing ends of interfaces.</p>
-        </div>
-
-        <div class="case-study-section">
-            <h2>The Challenge</h2>
-            <p>Data Quality Analyst (DQA) is an AI-powered SaaS platform that automates document review for the life science industry, assisting teams in managing and validating large volumes of regulatory documentation. </p> 
-
-           <p>This project gave me hands-on experience with working directly with developers in a real product environment. I learned a significant amount about preparing clean design documentation for developer handoff and designer developer collaboration.</p>
-
-            <div class="highlight-box">
-                <h3>Project Goals</h3>
-                <ul>
-                    <li>Improve information hierarchy and reduce cognitive load</li>
-                    <li>Increase workflow efficiency and clarity</li>
-                    <li>- Maintain consistency with DQA’s existing design system.</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- <div class="case-study-section">
-            <h2>Research & Discovery</h2>
-            <h3>Understanding Our Users</h3>
-            <p>I identified three primary user groups with distinct needs and behaviors:</p>
-
-        
-</div> -->
-
-        <div class="case-study-section">
-            <h2>Design Process</h2>
-    
-            <p>For this project I was expected to work on designs for 2 main sections</p>
-            <ul>
-                    <li><strong>Rule Creation Page</strong></li>
-                    <li><strong>Dashboard Restructure</strong></li>
-                    <!-- <li><strong>AI Chat Workflow</strong>...</li> -->
-                    
-                </ul>
-                <br>
-
-                 <h3>Rule Creation Page</h3>
-        
-            <p>The Rule Creation page is an internal DQA tool used by Osprey employees to create AI rules and bundle them into rulesets for customer projects. The original layout lacked structure and scalability, making rule creation and expansion inefficient. </p>
-
-         <p><strong>Original Page</strong></p>
-             <div class="image-grid">
-                <img src="Osprey Work/originalrule.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-            </div>
-          
-            <p><strong>Redesign</strong></p>
-            <p>The redesign of the rules page prioritized intentional spacing and proportional field sizing to assist in minimizing clutter and improve hierarchy. Additionally the rule properties were grouped into defined sections and refined the styling for selection to allow for a clearer and more organized workflow.</p>
-            <img src="Osprey Work/Rules1.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-            <!-- <img src="Osprey Work/Rules2.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);"> -->
-
-
-
-                 <h3>Dashboard Restructure</h3>
-            <p>The Dashboard is a customer-facing DQA tool where Osprey customers can review and manage all analyzed documents. I was tasked with creating concepts for restructured versions with analytics cards at the top for quick insights and rethinking how documents are displayed to improve scanability and usability.</p>
-            <p>Original layout recreated for comparison purposes</p>
-
-                        <img src="Osprey Work/Dashboard- Original.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-
-            <p><strong>Dashboard Concepts</strong></p>
-            <p>I created two versions of the dashboard concepts. </p>
-            <p>One version retained the traditional list layout for documents but reorganized spacing and hierarchy to make information easier to scan and interact with.</p>
-                        <img src="Osprey Work/Dashboard-V1.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-
-            <p>The second version presented documents as individual cards, providing a more visual, modular layout that emphasized key metadata and allowed for quicker recognition of document status.</p>
-
-           
-            <img src="Osprey Work/Dashboard-V2.png" alt="Minimal and geometric style moodboard" style="width: 100%; height: auto; border-radius: 16px; margin: 2rem 0; box-shadow: 0 10px 30px rgba(123, 175, 127, 0.1);">
-           
-
-
-                 <!-- <h3>AI Chat Workflow</h3>
-            <p>The AI Chat Workflow was a conceptual feature designed to provide customers with a more intuitive way to submit and analyze documentation. Through a conversational interface, users could upload files and interact with the AI using guided prompts rather than traditional rule-based setup.</p>
-
-             <div class="image-grid">
-                <div class="image-placeholder">✏️</div>
-                <div class="image-placeholder">🎨</div>
-            </div>
-
-           </div>
-        </div> -->
-
-       
-
-
-        
-        </div>
-
-        <div class="case-study-section">
-            <h2>Reflection</h2>
-            <p>This project strengthened my ability to work in a cross-functional team of developers. It required clarity, consistency, and thoughtful documentation to ensure design decisions translated effectively into implementation. Designing for a data-heavy environment was particularly challenging, balancing the need to include extensive information while maintaining clarity and in consideration of cognitive load.It reinforced the importance of designing not for aesthetics but for efficiency, clarity and implementation</p>
-            
-        </div>
-
-        <div class="case-study-section" style="text-align: center; margin-top: 5rem;">
-            <h2>Explore More</h2>
-            <p style="margin-bottom: 2rem;">Want to see what else is growing in the garden?</p>
-            <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
-                <a href="index.html#work" class="cta-button cta-primary">Back to Garden</a>
-                <a href="index.html#contact" class="cta-button cta-secondary">Let's Connect</a>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-  <div class="footer-content">
-      <img src="images/Gunther.png" alt="Design Garden Illustration" style="width: 90%; height:auto; border-radius:12px;">
-    <div class="footer-text" style="width: 90%">
-      <p class="footer-tagline">Thanks for visiting my Design Garden</p>
-      <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
-      <div class="footer-links">
-        <a href="mailto:sam@cazerdesign.com">Email</a>
-        <a href="https://www.linkedin.com/in/samcazer">LinkedIn</a>
+  <!-- NAV -->
+  <nav>
+    <div class="container">
+      <div class="logo">
+        <a href="index.html">
+          <span class="logo-img-wrap"><img src="images/logo.svg" class="logo-image" alt="logo"></span>
+        </a>
+      </div>
+      <ul id="nav-menu">
+        <li><a href="index.html#work" class="nav-link">Work</a></li>
+        <li><a href="play.html" class="nav-link">Play</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link">Resume</a></li>
+      </ul>
+      <div class="nav-hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">
+        <span></span><span></span><span></span>
       </div>
     </div>
-  </div>
-</footer>
-</body>
+  </nav>
 
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">✕</button>
+    <a href="index.html#work">Work</a>
+    <a href="play.html">Play</a>
+    <a href="about.html">About</a>
+    <a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank">Resume</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="cs-hero">
+    <div class="cs-hero-text">
+      <p class="cs-eyebrow">Case Study · Internship</p>
+      <h1 class="cs-title">DQA<br><span>Redesign.</span></h1>
+      <p class="cs-subtitle">Redesigning enterprise SaaS workflows to improve efficiency, clarity, and usability for the life science industry.</p>
+    </div>
+    <div class="cs-hero-image">
+      <img src="images/dqaredesign.png" alt="DQA Platform Redesign" />
+    </div>
+  </div>
+
+  <!-- META BAR -->
+  <div class="cs-meta-bar">
+    <div class="cs-meta-item">
+      <p class="cs-meta-label">Role</p>
+      <p class="cs-meta-value">UI/UX Designer</p>
+    </div>
+    <div class="cs-meta-item">
+      <p class="cs-meta-label">Timeline</p>
+      <p class="cs-meta-value">June – August 2024</p>
+    </div>
+    <div class="cs-meta-item">
+      <p class="cs-meta-label">Team</p>
+      <p class="cs-meta-value">1 Designer<br>2 Developers</p>
+    </div>
+    <div class="cs-meta-item">
+      <p class="cs-meta-label">Tools</p>
+      <p class="cs-meta-value">Figma</p>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="cs-body">
+
+    <!-- OVERVIEW -->
+    <div class="cs-section">
+      <p class="cs-section-label">01 · Overview</p>
+      <h2>What is DQA?</h2>
+      <p>Data Quality Analyst (DQA) is an AI-powered SaaS platform that automates document review for the life science industry, assisting teams in managing and validating large volumes of regulatory documentation.</p>
+      <p>Osprey Software requested a redesign of key DQA workflows to improve efficiency, clarity, and usability across both customer-facing and employee-facing interfaces.</p>
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <!-- CHALLENGE -->
+    <div class="cs-section">
+      <p class="cs-section-label">02 · The Challenge</p>
+      <h2>What needed to change?</h2>
+      <p>This project gave me hands-on experience working directly with developers in a real product environment. I learned a significant amount about preparing clean design documentation for developer handoff and designer-developer collaboration. Designing for a data-heavy environment meant balancing the need to include extensive information while maintaining clarity and cognitive load.</p>
+
+      <div class="cs-goals">
+        <h3>Project Goals</h3>
+        <ul>
+          <li>Improve information hierarchy and reduce cognitive load</li>
+          <li>Increase workflow efficiency and clarity</li>
+          <li>Maintain consistency with DQA's existing design system</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <!-- DESIGN PROCESS -->
+    <div class="cs-section">
+      <p class="cs-section-label">03 · Design Process</p>
+      <h2>Two areas of focus</h2>
+      <p>I was tasked with redesigning two core sections of the DQA platform, each presenting unique structural challenges.</p>
+
+      <!-- SUBSECTION 1 -->
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">1</div>
+        <h3>Rule Creation Page</h3>
+      </div>
+
+      <p>The Rule Creation page is an internal DQA tool used by Osprey employees to build AI rules and bundle them into rulesets for customer projects. The original layout lacked structure and scalability, making rule creation and expansion inefficient.</p>
+
+      <div class="cs-comparison">
+        <div class="cs-image-block">
+          <span class="cs-image-label label-before">Before</span>
+          <img src="Osprey Work/originalrule.png" alt="Original Rule Creation Page" />
+          <p class="cs-image-caption">The original layout with limited structure and unclear groupings.</p>
+        </div>
+        <div class="cs-image-block">
+          <span class="cs-image-label label-after">Redesign</span>
+          <img src="Osprey Work/Rules1.png" alt="Redesigned Rule Creation Page" />
+          <p class="cs-image-caption">Intentional spacing, grouped properties, and refined selection styling improve hierarchy and workflow clarity.</p>
+        </div>
+      </div>
+
+      <!-- SUBSECTION 2 -->
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">2</div>
+        <h3>Dashboard Restructure</h3>
+      </div>
+
+      <p>The Dashboard is a customer-facing tool where users review and manage analyzed documents. I was tasked with creating concepts that added analytics cards at the top for quick insights and rethought how documents are displayed to improve scanability.</p>
+
+      <div class="cs-image-full">
+        <span class="cs-image-label label-before" style="margin-bottom: 12px; display: inline-flex;">Before</span>
+        <img src="Osprey Work/Dashboard- Original.png" alt="Original Dashboard" />
+        <p class="cs-image-caption" style="margin-top: 12px;">Original layout recreated for comparison purposes.</p>
+      </div>
+
+      <p>I created two redesign concepts, each taking a different approach to document display.</p>
+
+      <div class="cs-comparison">
+        <div class="cs-image-block">
+          <span class="cs-image-label label-after">Concept A · List View</span>
+          <img src="Osprey Work/Dashboard-V1.png" alt="Dashboard V1 List View" />
+          <p class="cs-image-caption">Retains the familiar list layout but with reorganized spacing and hierarchy for improved scanability.</p>
+        </div>
+        <div class="cs-image-block">
+          <span class="cs-image-label label-after">Concept B · Card View</span>
+          <img src="Osprey Work/Dashboard-V2.png" alt="Dashboard V2 Card View" />
+          <p class="cs-image-caption">Documents as individual cards, more visual and modular, emphasizing key metadata and document status at a glance.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- REFLECTION -->
+    <div class="cs-reflection">
+      <p class="cs-section-label" style="color: rgba(26,42,26,.5); margin-bottom: 12px;">04 · Reflection</p>
+      <h2>What I learned</h2>
+      <p>This project strengthened my ability to work in a cross-functional team of developers. It required clarity, consistency, and thoughtful documentation to ensure design decisions translated effectively into implementation. Designing for a data-heavy environment was particularly challenging, balancing the need to include extensive information while maintaining clarity and consideration of cognitive load. It reinforced the importance of designing not for aesthetics but for efficiency, clarity and implementation.</p>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="cs-nav-bottom">
+      <a href="index.html#work" class="cta-button cta-primary">Back to Work</a>
+      <a href="about.html" class="cta-button cta-secondary">Get in Touch</a>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <img src="images/Gunther.png" alt="Design Garden Illustration" style="width: 90%; height:auto; border-radius:12px;">
+      <div class="footer-text" style="width: 90%">
+        <p class="footer-tagline">Thanks for visiting my Design Garden</p>
+        <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
+        <div class="footer-links">
+          <a href="mailto:cazerdesign@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/samcazer026">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cursor cursor-circle" id="cursorCircle"></div>
+  <div class="cursor cursor-dot" id="cursorDot"></div>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    const navEl = document.querySelector('nav');
+    window.addEventListener('scroll', () => { navEl.classList.toggle('scrolled', window.scrollY > 60); });
+
+    const circle = document.getElementById('cursorCircle');
+    const dot = document.getElementById('cursorDot');
+    let mouseX = 0, mouseY = 0, circleX = 0, circleY = 0;
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px'; });
+    function animateCursor() { circleX += (mouseX - circleX) * 0.12; circleY += (mouseY - circleY) * 0.12; circle.style.left = circleX + 'px'; circle.style.top = circleY + 'px'; requestAnimationFrame(animateCursor); }
+    animateCursor();
+    document.querySelectorAll('a, button').forEach(el => { el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover')); el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover')); });
+
+    const trail = [];
+    for (let i = 0; i < 8; i++) { const t = document.createElement('div'); t.style.cssText = `position:fixed;pointer-events:none;z-index:9998;width:${6 - i * 0.5}px;height:${6 - i * 0.5}px;border-radius:50%;background:white;mix-blend-mode:difference;transform:translate(-50%,-50%);opacity:${0.4 - i * 0.04};`; document.body.appendChild(t); trail.push({ el: t, x: 0, y: 0 }); }
+    document.addEventListener('mousemove', e => { trail[0].x = e.clientX; trail[0].y = e.clientY; });
+    function animateTrail() { for (let i = trail.length - 1; i > 0; i--) { trail[i].x += (trail[i-1].x - trail[i].x) * 0.35; trail[i].y += (trail[i-1].y - trail[i].y) * 0.35; trail[i].el.style.left = trail[i].x + 'px'; trail[i].el.style.top = trail[i].y + 'px'; } requestAnimationFrame(animateTrail); }
+    animateTrail();
+  </script>
+</body>
 </html>
