@@ -1,208 +1,456 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vignelli Archive - Sam Cazer</title>
-    <link rel="stylesheet" href="stylesheet.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vignelli Archive - Sam Cazer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="stylesheet.css">
+  <style>
+    * { cursor: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 64px;
+      background: none;
+      border: none;
+      backdrop-filter: none;
+      width: 100%;
+      transition: padding 0.3s;
+    }
+    nav .container { display: contents; }
+    nav ul#nav-menu {
+      display: flex; gap: 36px; list-style: none;
+      background: rgba(255,255,255,0.3); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.5); border-radius: 100px;
+      padding: 12px 28px; align-items: center;
+    }
+    nav ul#nav-menu a {
+      font-size: .78rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: #1a2a1a; text-decoration: none;
+      opacity: .7; transition: opacity .2s; padding: 0;
+    }
+    nav ul#nav-menu a:hover { opacity: 1; }
+    nav ul#nav-menu a::after { display: none; }
+    .logo-image { height: 56px !important; max-height: 56px !important; width: auto !important; }
+    .logo-img-wrap img { filter: invert(52%) sepia(28%) saturate(500%) hue-rotate(90deg) brightness(85%); transition: filter 0.3s; }
+    nav.scrolled { padding: 16px 64px; }
+    nav.scrolled ul#nav-menu { background: rgba(255,255,255,0.3); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.5); }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; padding: 4px; z-index: 30; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #1a2a1a; border-radius: 2px; }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: #C3D4A3; z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 36px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 2rem; font-weight: 700; color: #1a2a1a; text-decoration: none; }
+    .mobile-menu-close { position: absolute; top: 32px; right: 28px; font-size: 1.5rem; cursor: none; color: #1a2a1a; background: none; border: none; }
+
+    /* ── HERO ── */
+    .cs-hero {
+      width: 100%;
+      min-height: 42vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 120px 80px 60px 120px;
+      gap: 64px;
+      position: relative;
+    }
+    .cs-hero-text { position: relative; z-index: 2; }
+    .cs-eyebrow {
+      font-size: .78rem; font-weight: 500; letter-spacing: .2em;
+      text-transform: uppercase; color: #70A58B; margin-bottom: 16px;
+      opacity: 0; transform: translateY(16px); animation: fadeUp .6s .1s forwards;
+    }
+    .cs-title {
+      font-weight: 900; font-size: clamp(3.5rem, 6vw, 6.5rem);
+      line-height: .9; letter-spacing: -.04em; color: #1a2a1a;
+      opacity: 0; transform: translateY(24px); animation: fadeUp .7s .2s forwards;
+      margin-bottom: 24px;
+    }
+    .cs-title span { color: #70A58B; }
+    .cs-subtitle {
+      font-size: 1rem; font-weight: 300; line-height: 1.7;
+      color: #5a6e5a; max-width: 420px;
+      opacity: 0; transform: translateY(16px); animation: fadeUp .6s .35s forwards;
+    }
+    .cs-hero-image {
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp .8s .4s forwards;
+    }
+    .cs-hero-image img {
+      width: 100%; height: auto;
+      border-radius: 20px;
+      box-shadow: 0 24px 60px rgba(26,42,26,.12);
+      border: 1.5px solid rgba(195,212,163,.3);
+    }
+
+    /* ── META BAR ── */
+    .cs-meta-bar {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 28px 5% 40px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-bottom: 1px solid rgba(195,212,163,.4);
+    }
+    .cs-meta-item { padding: 0 24px; border-left: 1px solid rgba(195,212,163,.4); }
+    .cs-meta-item:first-child { border-left: none; padding-left: 0; }
+    .cs-meta-label { font-size: .68rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #70A58B; margin-bottom: 8px; }
+    .cs-meta-value { font-size: .95rem; font-weight: 500; color: #1a2a1a; line-height: 1.5; }
+
+    /* ── CONTENT ── */
+    .cs-body { max-width: 900px; margin: 0 auto; padding: 64px 5% 80px; }
+    .cs-section { margin-bottom: 72px; }
+    .cs-section-label { font-size: .68rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #70A58B; margin-bottom: 16px; }
+    .cs-section h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; letter-spacing: -.03em; color: #1a2a1a; margin-bottom: 20px; line-height: 1.1; }
+    .cs-section p { font-size: 1rem; line-height: 1.8; color: #5a6e5a; font-weight: 300; margin-bottom: 16px; }
+    .cs-section p strong { font-weight: 600; color: #1a2a1a; }
+
+    /* problem list */
+    .cs-problem-list {
+      list-style: none; padding: 0;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; margin: 24px 0;
+    }
+    .cs-problem-list li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: .95rem; color: #1a2a1a; font-weight: 400;
+      background: rgba(195,212,163,.08);
+      border: 1.5px solid rgba(195,212,163,.3);
+      border-radius: 12px; padding: 14px 16px;
+      line-height: 1.4;
+    }
+    .cs-problem-list li::before {
+      content: '↗'; color: #70A58B; font-size: .85rem; flex-shrink: 0; margin-top: 2px;
+    }
+
+    /* goals box */
+    .cs-goals {
+      background: rgba(195,212,163,.12);
+      border-left: 3px solid #70A58B;
+      border-radius: 0 16px 16px 0;
+      padding: 28px 32px;
+      margin: 32px 0;
+    }
+    .cs-goals h3 { font-size: .78rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: #70A58B; margin-bottom: 16px; }
+    .cs-goals p { font-size: .95rem; color: #1a2a1a; font-weight: 400; line-height: 1.6; margin: 0; }
+
+    /* decision callout */
+    .cs-callout {
+      background: #1a2a1a;
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin: 32px 0;
+    }
+    .cs-callout-label { font-size: .68rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #C3D4A3; margin-bottom: 10px; }
+    .cs-callout p { font-size: 1rem; color: rgba(255,255,255,.8); font-weight: 300; line-height: 1.7; margin: 0; }
+    .cs-callout p strong { color: #C3D4A3; font-weight: 600; }
+
+    /* divider */
+    .cs-divider { width: 100%; height: 1px; background: rgba(195,212,163,.35); margin: 56px 0; }
+
+    /* subsection heading */
+    .cs-subsection { display: flex; align-items: center; gap: 16px; margin: 48px 0 24px; }
+    .cs-subsection-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, #C3D4A3, #70A58B);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 900; color: #1a2a1a; flex-shrink: 0;
+    }
+    .cs-subsection h3 { font-size: 1.3rem; font-weight: 800; letter-spacing: -.02em; color: #1a2a1a; }
+
+    /* images */
+    .cs-image-full { margin: 32px 0; }
+    .cs-image-full img {
+      width: 100%; height: auto;
+      border-radius: 16px;
+      border: 1.5px solid rgba(195,212,163,.3);
+      box-shadow: 0 8px 30px rgba(26,42,26,.07);
+      display: block;
+    }
+    .cs-image-caption { font-size: .82rem; color: #5a6e5a; font-weight: 300; line-height: 1.5; font-style: italic; margin-top: 12px; }
+
+    /* outcome pills */
+    .cs-outcomes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 32px 0;
+    }
+    .cs-outcome-card {
+      background: white;
+      border: 1.5px solid rgba(195,212,163,.3);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+    .cs-outcome-icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .cs-outcome-card h4 { font-size: 1rem; font-weight: 700; color: #1a2a1a; margin-bottom: 6px; }
+    .cs-outcome-card p { font-size: .85rem; color: #5a6e5a; line-height: 1.5; margin: 0; font-weight: 300; }
+
+    /* reflection */
+    .cs-reflection {
+      background: linear-gradient(135deg, #C3D4A3, #70A58B);
+      border-radius: 24px;
+      padding: 48px;
+      margin-top: 72px;
+    }
+    .cs-reflection h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; letter-spacing: -.03em; color: #1a2a1a; margin-bottom: 20px; }
+    .cs-reflection p { font-size: 1rem; line-height: 1.8; color: rgba(26,42,26,.75); font-weight: 300; margin-bottom: 16px; }
+    .cs-reflection p:last-child { margin-bottom: 0; }
+
+    /* bottom nav */
+    .cs-nav-bottom { padding: 80px 0 20px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* ── CUSTOM CURSOR ── */
+    .cursor { position: fixed; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
+    .cursor-circle { width: 24px; height: 24px; border-radius: 50%; background: white; transform: translate(-50%, -50%); transition: width 0.3s ease, height 0.3s ease; }
+    .cursor-dot { width: 6px; height: 6px; border-radius: 50%; background: white; transform: translate(-50%, -50%); }
+    body.cursor-hover .cursor-circle { width: 64px; height: 64px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) { .cs-hero { padding: 120px 60px 60px 80px; gap: 40px; } nav { padding: 20px 40px; } }
+    @media (max-width: 768px) {
+      nav ul#nav-menu { display: none; } .nav-hamburger { display: flex; } nav { padding: 20px 24px; }
+      .cs-hero { grid-template-columns: 1fr; padding: 120px 28px 60px; min-height: auto; gap: 40px; }
+      .cs-title { font-size: clamp(3rem, 12vw, 5rem); }
+      .cs-meta-bar { grid-template-columns: 1fr 1fr; gap: 24px; }
+      .cs-meta-item { border-left: none; padding-left: 0; }
+      .cs-problem-list { grid-template-columns: 1fr; }
+      .cs-outcomes { grid-template-columns: 1fr; }
+      .cs-reflection { padding: 32px; }
+    }
+    @media (max-width: 480px) { .cs-meta-bar { grid-template-columns: 1fr; } }
+  </style>
 </head>
-
 <body>
-    <nav>
-        <div class="container">
-            <div class="logo">
-                <a href="index.html"
-                    style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
-                    <img src="images/logo.svg" class="logo-image">
-                    <span class="logo-text">cazerdesign</span>
-                </a>
-            </div>
-            <ul id="nav-menu">
-                <li><a href="index.html" class="nav-link" style="text-decoration: none; color: inherit;">Home</a></li>
-                <li><a href="index.html#work" class="nav-link" style="text-decoration: none; color: inherit;">Work</a>
-                </li>
-                <li><a href="play.html" class="nav-link" style="text-decoration: none; color: inherit;">Play</a></li>
-                <li><a href="about.html" class="nav-link" style="text-decoration: none; color: inherit;">About</a></li>
-                <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link"
-                        style="text-decoration: none; color: inherit;">Resume</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <section style="max-width: 900px; margin: 0 auto; padding: 5rem 5%;">
-        <div class="case-study-header">
-            <h1>Vignelli Archive</h1>
-            <p style="font-size: 1.3rem; color: var(--text-light); margin-top: 1rem;">Planting seeds for better patient
-                care</p>
-            <div class="meta">
-                <div class="meta-item">
-                    <strong>Role</strong>
-                    <span>Product Designer</span>
-                </div>
-                <div class="meta-item">
-                    <strong>Timeline</strong>
-                    <span>6 weeks</span>
-                </div>
-                <div class="meta-item">
-                    <strong>Team</strong>
-                    <span>2 Designers</span>
-                </div>
-            </div>
-        </div>
-
-        <img src="images/VignelliArchives.webp" class="case-study-hero" alt="Cali-ID Project">
-
-        <div class="case-study-section">
-            <h2>Overview</h2>
-            <p>The Vignelli Center for Design Research is looking to redesign its digital archives for Massimo Vignelli and Lella Vignelli’s work. The focus of their archives and site is to educate users by making Vignelli’s designs more accessible to designers and students all over so that they don’t have to visit the archive in person which can cost money and time.</p>
-        </div>
-
-        <div class="case-study-section">
-            <h2>Problems</h2>
-            <p>The current Vignelli Archive website faces several user experience and design challenges. </p>
-           <ul>
-                    <li><strong>Non-intuitive navigation</strong></li>
-                    <li><strong>Absence of back buttons</strong></li>
-                    <li><strong>Redundant information</strong></li>
-                    <li><strong>Ambiguous header imagery</strong></li>
-                    <li><strong>Text Overlapping Image</strong></li>
-                    <li><strong>Incongruence with the Vignelli’s Aesthetic</strong></li>
-                </ul>
-
-            <div class="highlight-box">
-                <h3>Project Goal</h3>
-               <p>Our goal was to redesign the digital archives into an app that is more intuitive and user friendly, and congruent with the aesthetic of Massimo Vignelli. </p>
-               
-            </div>
-        </div>
-
-        <!-- <div class="case-study-section">
-            <h2>Research & Discovery</h2>
-            <h3>Understanding Our Users</h3>
-            <p>I identified three primary user groups with distinct needs and behaviors:</p>
-
-            <div class="user-groups-section">
-    <h2 class="user-groups-title">User Groups</h2>
-    
-    <div class="groups-container">  -->
-      <!-- Group 1  -->
-        <!-- <div class="user-group-card">
-            <div class="card-image-container">
-                <img src="images/User1.png" alt="Curious Learner" class="card-image">
-            </div>
-            <h3 class="group-title">Curious Learners</h3>
-            <p class="age-range">5-17</p>
-            <ul class="characteristics-list">
-                <li>Interested in learning more about the environment</li>
-                <li>Shorter attention span</li>
-                <li>May not know how to read</li>
-                <li>May not have a phone</li>
-            </ul>
-        </div> --> 
-
-        <!-- Group 2 -->
-        <!-- <div class="user-group-card">
-            <div class="card-image-container">
-                <img src="images/User2.png" alt="Environmental Activist" class="card-image">
-            </div>
-            <h3 class="group-title">Environmental Activists</h3>
-            <p class="age-range">18-65</p>
-            <ul class="characteristics-list">
-                <li>Looking for ways to help with the environment</li>
-                <li>Looking for easier and more intuitive ways to learn about the environment</li>
-            </ul>
-        </div> -->
-
-        <!-- Group 3 -->
-        <!-- <div class="user-group-card">
-            <div class="card-image-container">
-                <img src="images/User3.png" alt="Conscious Traveler" class="card-image">
-            </div>
-            <h3 class="group-title">Conscious Travelers</h3>
-            <p class="age-range">18-65</p>
-            <ul class="characteristics-list">
-                <li>Traveling to Rochester</li>
-                <li>Interested in learning how to help the environment</li>
-                <li>Looking for more engaging education and insights to local landmarks</li>
-            </ul>
-        </div>
-    </div>
-</div> -->
-
-        <!-- <div class="case-study-section">
-            <h2>Design Process</h2>
-            <p>I chose to organize the kiosk into different sections that will address different learning goals and styles.</p>
-
-            <h3>Main Sections</h3>
-            <ul>
-                    <li><strong>River Health</strong> Information about the Genesee River Ecosystem</li>
-                    <li><strong>Animals:</strong> Local wildlife profiles and behaviors</li>
-                    <li><strong>Games:</strong> Interactive Learning experiences</li>
-                    <li><strong>How Can I Help?</strong> Actionable resources and colunteer opportunities</li>
-                </ul> -->
-
-            <!-- <div class="image-grid">
-                <div class="image-placeholder">✏️</div>
-                <div class="image-placeholder">🎨</div>
-            </div> -->
-        </div>
-
-        <div class="case-study-section">
-            <h2>Solution</h2>
-            <p>A redesign of the Vignelli Archive app can address its current UX/UI issues. By implementing intuitive navigation with clear pathways and back buttons, users can seamlessly explore the archive. Eliminating redundant content and ensuring text does not overlap images will enhance content clarity and visual appeal. Incorporating distinctive header imagery that aligns with the archive’s purpose, coupled with a design that reflects Vignelli’s iconic style, will create a cohesive and user-friendly experience that honors his design legacy.
-
-</p>
-
-                    <img src="images/vignellifinal.png" class="case-study-hero" alt="Cali-ID Project">
-
-        
-
-
-        
-        </div>
-
-        <!-- <div class="case-study-section">
-            <h2>Impact & Growth</h2>
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-number">45%</div>
-                    <div class="stat-label">Increase in Conversions</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">60%</div>
-                    <div class="stat-label">Faster Task Completion</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">4.8/5</div>
-                    <div class="stat-label">User Satisfaction Score</div>
-                </div>
-            </div>
-        </div> -->
-
-        <div class="case-study-section" style="text-align: center; margin-top: 5rem;">
-            <h2>Explore More</h2>
-            <p style="margin-bottom: 2rem;">Want to see what else is growing in the garden?</p>
-            <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
-                <a href="index.html#work" class="cta-button cta-primary">Back to Garden</a>
-                <a href="index.html#contact" class="cta-button cta-secondary">Let's Connect</a>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-  <div class="footer-content">
-      <img src="images/Gunther.png" alt="Design Garden Illustration" style="width: 90%; height:auto; border-radius:12px;">
-    <div class="footer-text" style="width: 90%">
-      <p class="footer-tagline">Thanks for visiting my Design Garden</p>
-      <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
-      <div class="footer-links">
-        <a href="mailto:sam@cazerdesign.com">Email</a>
-        <a href="https://www.linkedin.com/in/samcazer">LinkedIn</a>
+  <!-- NAV -->
+  <nav>
+    <div class="container">
+      <div class="logo">
+        <a href="index.html">
+          <span class="logo-img-wrap"><img src="images/logo.svg" class="logo-image" alt="logo"></span>
+        </a>
+      </div>
+      <ul id="nav-menu">
+        <li><a href="index.html#work" class="nav-link">Work</a></li>
+        <li><a href="play.html" class="nav-link">Play</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank" class="nav-link">Resume</a></li>
+      </ul>
+      <div class="nav-hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">
+        <span></span><span></span><span></span>
       </div>
     </div>
-  </div>
-</footer>
-</body>
+  </nav>
 
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">✕</button>
+    <a href="index.html#work">Work</a>
+    <a href="play.html">Play</a>
+    <a href="about.html">About</a>
+    <a href="Resume/Sam_Cazer_UIUX_Resume.pdf" target="_blank">Resume</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="cs-hero">
+    <div class="cs-hero-text">
+      <p class="cs-eyebrow">Case Study · Academic Project</p>
+      <h1 class="cs-title">Vignelli<br><span>Archive.</span></h1>
+      <p class="cs-subtitle">Reimagining a design legend's archive as an app that actually feels like his work.</p>
+    </div>
+    <div class="cs-hero-image">
+      <img src="images/VignelliArchives.webp" alt="Vignelli Archive App" />
+    </div>
+  </div>
+
+  <!-- META BAR -->
+  <div class="cs-meta-bar">
+    <div class="cs-meta-item">
+      <p class="cs-meta-label">Role</p>
+      <p class="cs-meta-value">Product Designer</p>
+    </div>
+    <div class="cs-meta-item">
+      <p class="cs-meta-label">Timeline</p>
+      <p class="cs-meta-value">6 Weeks</p>
+    </div>
+    <div class="cs-meta-item">
+      <p class="cs-meta-label">Team</p>
+      <p class="cs-meta-value">2 Designers</p>
+    </div>
+    <div class="cs-meta-item">
+      <p class="cs-meta-label">Tools</p>
+      <p class="cs-meta-value">Figma</p>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="cs-body">
+
+    <!-- OVERVIEW -->
+    <div class="cs-section">
+      <p class="cs-section-label">01 · Overview</p>
+      <h2>Where it started</h2>
+      <p>The Vignelli Center for Design Studies at RIT wanted to redesign their digital archive of Massimo and Lella Vignelli's work. The goal was to make the archive more accessible without requiring a visit to Rochester in person, which can cost both time and money.</p>
+      <p>My partner and I were tasked with tackling this problem. Pretty quickly we realized that a simple website refresh wasn't going to cut it. It was an opportunity to rethink the whole experience.</p>
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <!-- PROBLEMS -->
+    <div class="cs-section">
+      <p class="cs-section-label">02 · The Problems</p>
+      <h2>What was broken</h2>
+      <p>The existing Vignelli Archive site had several UX and design challenges that together made the experience frustrating and hard to navigate.</p>
+
+      <ul class="cs-problem-list">
+        <li>Non-intuitive navigation with no clear pathways</li>
+        <li>No back buttons anywhere in the flow</li>
+        <li>Redundant information cluttering pages</li>
+        <li>Ambiguous header imagery that confused context</li>
+        <li>Text overlapping images throughout</li>
+        <li>Visual style inconsistent with Vignelli's own aesthetic</li>
+      </ul>
+
+      <p>That last point felt especially important. A designer whose entire career was built on precision and clarity had a digital archive that reflected almost none of that.</p>
+
+      <div class="cs-goals">
+        <h3>Project Goal</h3>
+        <p>Redesign the digital archive into an experience that is more intuitive, user friendly, and congruent with the aesthetic of Massimo Vignelli.</p>
+      </div>
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <!-- PROCESS -->
+    <div class="cs-section">
+      <p class="cs-section-label">03 · Design Process</p>
+      <h2>The thinking behind the decisions</h2>
+
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">1</div>
+        <h3>The pivot to a mobile app</h3>
+      </div>
+
+      <p>Early on, my partner and I agreed that the format should change. A mobile app made a lot of sense. It would allow for easier access and more accessibility of the archive, making it something people could explore from anywhere without needing to visit in person. Mobile also pushed us to be more intentional about what information actually needed to be on screen at any given moment, which aligned with Vignelli's own design philosophy.</p>
+
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">2</div>
+        <h3>The landing page debate</h3>
+      </div>
+
+      <p>This is where my partner and I didn't initially agree. The question of what a user sees first shapes everything about how the product feels. My partner leaned toward an editorial landing page that introduced Vignelli as a figure before getting into the archive. It made sense, but when we looked at who would actually be using this, the answer became clearer.</p>
+
+      <div class="cs-callout">
+        <p class="cs-callout-label">The decision</p>
+        <p>Our main user groups are <strong>students, researchers, and people who already know who Vignelli is</strong> and came specifically to look at his work. They don't need an introduction. We landed on bringing users directly into the archived works on launch, with browsing and filtering front and center.</p>
+      </div>
+
+      <p>Working through that disagreement was actually really valuable. It forced us to be explicit about who we were designing for and what their actual goal was when they opened the app. That clarity shaped every decision after it.</p>
+
+      <div class="cs-subsection">
+        <div class="cs-subsection-num">3</div>
+        <h3>Designing in Vignelli's voice</h3>
+      </div>
+
+      <p>Massimo Vignelli was very particular about design. Strong typographic hierarchy, a limited color palette, and the elimination of anything unnecessary. Designing an archive of his work meant those weren't just aesthetic preferences, they were almost requirements.</p>
+      <p>We leaned into his visual language throughout. Clean grids, high contrast, generous white space, and typography doing most of the work. The goal was for someone to open the app and immediately feel like it belonged to Vignelli's world.</p>
+
+      <div class="cs-image-full">
+        <img src="images/vignellifinal.png" alt="Vignelli Archive Final Design" />
+        <p class="cs-image-caption">Final app screens reflecting Vignelli's visual language: disciplined grids, clear hierarchy, and minimal color.</p>
+      </div>
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <!-- OUTCOMES -->
+    <div class="cs-section">
+      <p class="cs-section-label">04 · Outcomes</p>
+      <h2>What it led to</h2>
+      <p>The project went really well. The final product addressed every major issue from the original site. But the outcome that meant the most was what happened after we presented.</p>
+
+      <div class="cs-outcomes">
+        <div class="cs-outcome-card">
+          <div class="cs-outcome-icon">🏛️</div>
+          <h4>Inspired the real redesign</h4>
+          <p>Our work directly influenced the Vignelli Center's actual site redesign process.</p>
+        </div>
+        <div class="cs-outcome-card">
+          <div class="cs-outcome-icon">📱</div>
+          <h4>Validated the mobile approach</h4>
+          <p>The mobile-first framing proved to be the right call for broader accessibility.</p>
+        </div>
+        <div class="cs-outcome-card">
+          <div class="cs-outcome-icon">✏️</div>
+          <h4>Design that felt like its subject</h4>
+          <p>A cohesive visual language that genuinely honored Vignelli's design philosophy.</p>
+        </div>
+      </div>
+
+      <p>Finding out that our work had a real impact on the direction of the actual Vignelli Center redesign was one of the more validating moments I've had as a designer so far.</p>
+    </div>
+
+    <!-- REFLECTION -->
+    <div class="cs-reflection">
+      <p class="cs-section-label" style="color: rgba(26,42,26,.5); margin-bottom: 12px;">05 · Reflection</p>
+      <h2>What I took away</h2>
+      <p>This project taught me a lot about designing for a specific user with a specific intent. The landing page debate was a useful exercise in grounding design decisions in the actual user rather than personal preference. It's easy to go with what feels right aesthetically. It's harder and more valuable to ask who is actually going to use this and what do they need the moment they arrive.</p>
+      <p>Working within Vignelli's visual constraints was also a really interesting challenge. It pushed me to be more deliberate and less decorative, which is something I try to bring into every project since.</p>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="cs-nav-bottom">
+      <a href="index.html#work" class="cta-button cta-primary">Back to Work</a>
+      <a href="about.html" class="cta-button cta-secondary">Get in Touch</a>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <img src="images/Gunther.png" alt="Design Garden Illustration" style="width: 90%; height:auto; border-radius:12px;">
+      <div class="footer-text" style="width: 90%">
+        <p class="footer-tagline">Thanks for visiting my Design Garden</p>
+        <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
+        <div class="footer-links">
+          <a href="mailto:cazerdesign@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/samcazer026">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cursor cursor-circle" id="cursorCircle"></div>
+  <div class="cursor cursor-dot" id="cursorDot"></div>
+
+  <script>
+    const navEl = document.querySelector('nav');
+    window.addEventListener('scroll', () => { navEl.classList.toggle('scrolled', window.scrollY > 60); });
+
+    const circle = document.getElementById('cursorCircle');
+    const dot = document.getElementById('cursorDot');
+    let mouseX = 0, mouseY = 0, circleX = 0, circleY = 0;
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px'; });
+    function animateCursor() { circleX += (mouseX - circleX) * 0.12; circleY += (mouseY - circleY) * 0.12; circle.style.left = circleX + 'px'; circle.style.top = circleY + 'px'; requestAnimationFrame(animateCursor); }
+    animateCursor();
+    document.querySelectorAll('a, button').forEach(el => { el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover')); el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover')); });
+
+    const trail = [];
+    for (let i = 0; i < 8; i++) { const t = document.createElement('div'); t.style.cssText = `position:fixed;pointer-events:none;z-index:9998;width:${6 - i * 0.5}px;height:${6 - i * 0.5}px;border-radius:50%;background:white;mix-blend-mode:difference;transform:translate(-50%,-50%);opacity:${0.4 - i * 0.04};`; document.body.appendChild(t); trail.push({ el: t, x: 0, y: 0 }); }
+    document.addEventListener('mousemove', e => { trail[0].x = e.clientX; trail[0].y = e.clientY; });
+    function animateTrail() { for (let i = trail.length - 1; i > 0; i--) { trail[i].x += (trail[i-1].x - trail[i].x) * 0.35; trail[i].y += (trail[i-1].y - trail[i].y) * 0.35; trail[i].el.style.left = trail[i].x + 'px'; trail[i].el.style.top = trail[i].y + 'px'; } requestAnimationFrame(animateTrail); }
+    animateTrail();
+  </script>
+</body>
 </html>
