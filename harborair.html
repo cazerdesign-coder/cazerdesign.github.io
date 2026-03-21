@@ -200,7 +200,6 @@
     /* prototype links */
     .cs-links { display: flex; gap: 14px; flex-wrap: wrap; margin: 28px 0; }
 
-    /* video embed */
     .cs-video {
       position: relative;
       padding-bottom: 56.25%;
@@ -211,7 +210,7 @@
       border: 1.5px solid rgba(195,212,163,.3);
       margin: 28px 0;
     }
-    .cs-video video {
+    .cs-video video, .cs-video iframe {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
@@ -522,13 +521,17 @@
       <p>The bold gradient system, signature 120px corner radius, and Kanit typography create a modern identity that stands out in the regional airline market.</p>
 
       <div class="cs-video">
-        <video controls>
-          <source src="images/Prototype-Recording.mov" type="video/mp4">
-        </video>
+        <iframe src="https://player.vimeo.com/video/1145509954?badge=0&autopause=0&player_id=0&app_id=58479"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;"
+          title="Flow System Prototype">
+        </iframe>
       </div>
+      <script src="https://player.vimeo.com/api/player.js"></script>
 
       <div class="cs-links">
-        <a href="https://www.figma.com/design/DbUPZTlBIWxuXuOsKMe0Wp/Design?node-id=248-2800&t=PHwi89QRoAndJ7oN-1" target="_blank" class="cta-button cta-primary">View Figma</a>
+        <a href="https://www.figma.com/design/DbUPZTlBIWxuXuOsKMe0Wp/Design?node-id=248-2800&t=PHwi89QRoAndJ7oN-1" target="_blank" class="cta-button cta-primary">View Prototype</a>
         <a href="https://www.figma.com/design/qBJ1u28RukS8mC4kSLMHm8/Flow-System---Harbor-Air-Design-System-Final?node-id=2001-5249&t=PRSscd3AGpk20Rl0-1" target="_blank" class="cta-button cta-secondary">View Design System</a>
       </div>
     </div>
@@ -558,8 +561,8 @@
         <p class="footer-tagline">Thanks for visiting my Design Garden</p>
         <p class="footer-copyright">🌱 Grown with care by Sam Cazer • 2025</p>
         <div class="footer-links">
-          <a href="mailto:cazerdesign@gmail.com">Email</a>
-        <a href="https://www.linkedin.com/in/samcazer026">LinkedIn</a>
+          <a href="/cdn-cgi/l/email-protection#7d1e1c07180f19180e141a133d1a101c1411531e1210">Email</a>
+          <a href="https://www.linkedin.com/in/samcazer">LinkedIn</a>
         </div>
       </div>
     </div>
@@ -568,7 +571,7 @@
   <div class="cursor cursor-circle" id="cursorCircle"></div>
   <div class="cursor cursor-dot" id="cursorDot"></div>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     const navEl = document.querySelector('nav');
     window.addEventListener('scroll', () => { navEl.classList.toggle('scrolled', window.scrollY > 60); });
 
@@ -583,8 +586,4 @@
     const trail = [];
     for (let i = 0; i < 8; i++) { const t = document.createElement('div'); t.style.cssText = `position:fixed;pointer-events:none;z-index:9998;width:${6 - i * 0.5}px;height:${6 - i * 0.5}px;border-radius:50%;background:white;mix-blend-mode:difference;transform:translate(-50%,-50%);opacity:${0.4 - i * 0.04};`; document.body.appendChild(t); trail.push({ el: t, x: 0, y: 0 }); }
     document.addEventListener('mousemove', e => { trail[0].x = e.clientX; trail[0].y = e.clientY; });
-    function animateTrail() { for (let i = trail.length - 1; i > 0; i--) { trail[i].x += (trail[i-1].x - trail[i].x) * 0.35; trail[i].y += (trail[i-1].y - trail[i].y) * 0.35; trail[i].el.style.left = trail[i].x + 'px'; trail[i].el.style.top = trail[i].y + 'px'; } requestAnimationFrame(animateTrail); }
-    animateTrail();
-  </script>
-</body>
-</html>
+    function animateTrail() { for (let i = trail.
