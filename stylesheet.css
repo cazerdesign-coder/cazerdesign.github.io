@@ -60,7 +60,7 @@ section {
 }
 
 h2 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(2rem, 3.5vw, 5rem);
     font-weight: 800;
     letter-spacing: -0.03em;
     color: var(--soil);
@@ -109,7 +109,7 @@ h2 {
 
 .project-image {
     width: 100%;
-    height: clamp(200px, 28vw, 260px);
+    height: clamp(200px, 22vw, 480px);
     overflow: hidden;
     background: linear-gradient(135deg, var(--green-light), var(--green-mid));
     position: relative;
@@ -125,10 +125,10 @@ h2 {
 
 .project-card:hover .project-image img { transform: scale(1.04); }
 
-.project-info { padding: clamp(1.2rem, 2.5vw, 1.8rem); }
+.project-info { padding: clamp(1.2rem, 2vw, 2.4rem); }
 
 .project-info h3 {
-    font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+    font-size: clamp(1.1rem, 1.8vw, 2rem);
     font-weight: 700;
     letter-spacing: -0.01em;
     color: var(--soil);
@@ -136,7 +136,7 @@ h2 {
 }
 
 .project-info p {
-    font-size: clamp(0.88rem, 1.8vw, 0.95rem);
+    font-size: clamp(0.88rem, 1.2vw, 1.1rem);
     color: var(--text-light);
     line-height: 1.6;
     margin-bottom: 1.2rem;
@@ -149,7 +149,7 @@ h2 {
     padding: 0.35rem 0.85rem;
     background: rgba(195, 212, 163, 0.18);
     border-radius: 100px;
-    font-size: clamp(0.68rem, 1.5vw, 0.76rem);
+    font-size: clamp(0.68rem, 0.9vw, 0.9rem);
     font-weight: 600;
     letter-spacing: 0.05em;
     color: var(--green-dark);
@@ -374,4 +374,75 @@ footer {
 @media (max-width: 640px) {
     section { padding: 3rem 5%; }
     .portfolio-grid { grid-template-columns: 1fr; }
+}
+
+/* ── LARGE SCREEN SCALING ── */
+@media (min-width: 1400px) {
+    section {
+        max-width: 1800px;
+        padding: clamp(3rem, 6vw, 6rem) 6%;
+    }
+
+    #work {
+        max-width: 1800px;
+        padding: 5rem 6% !important;
+    }
+
+    .portfolio-grid {
+        gap: 2.5rem;
+    }
+
+    .project-image {
+        height: clamp(280px, 22vw, 380px);
+    }
+
+    .project-info { padding: 2rem 2.2rem; }
+
+    .project-info h3 {
+        font-size: clamp(1.3rem, 1.8vw, 1.7rem);
+    }
+
+    .project-info p {
+        font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    }
+
+    .tag {
+        font-size: clamp(0.76rem, 1vw, 0.86rem);
+        padding: 0.45rem 1rem;
+    }
+}
+
+@media (min-width: 1800px) {
+    section {
+        max-width: 2200px;
+        padding: clamp(3rem, 6vw, 6rem) 8%;
+    }
+
+    #work {
+        max-width: 2200px;
+        padding: 6rem 8% !important;
+    }
+
+    .portfolio-grid {
+        gap: 3rem;
+    }
+
+    .project-image {
+        height: clamp(340px, 24vw, 480px);
+    }
+
+    .project-info { padding: 2.4rem 2.8rem; }
+
+    .project-info h3 {
+        font-size: clamp(1.5rem, 1.8vw, 2rem);
+    }
+
+    .project-info p {
+        font-size: clamp(1rem, 1.2vw, 1.15rem);
+    }
+
+    .tag {
+        font-size: clamp(0.82rem, 1vw, 0.95rem);
+        padding: 0.5rem 1.2rem;
+    }
 }
